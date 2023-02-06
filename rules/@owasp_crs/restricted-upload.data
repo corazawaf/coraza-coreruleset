@@ -1,0 +1,17 @@
+.htaccess
+.htdigest
+.htpasswd
+wp-config.php
+config.yml
+config_dev.yml
+config_prod.yml
+config_test.yml
+parameters.yml
+routing.yml
+security.yml
+services.yml
+default.settings.php
+settings.php
+settings.local.php
+local.xml
+.env
