@@ -19,8 +19,9 @@ import (
 )
 
 func DownloadCRS() error {
-	dstDir := "./rules/@owasp_crs"
-	if err := os.MkdirAll(dstDir, os.ModePerm); err != nil {
+	dstDir := "./rules"
+	rulesDstDir := dstDir + "/@owasp_crs"
+	if err := os.MkdirAll(rulesDstDir, os.ModePerm); err != nil {
 		return err
 	}
 
@@ -45,21 +46,16 @@ func DownloadCRS() error {
 
 	for _, f := range r.File {
 		if f.Name == fmt.Sprintf("coreruleset-%s/LICENSE", crsVersion) {
-			source, err := f.Open()
-			if err != nil {
+			if err := copyFile(f, filepath.Join(dstDir, "LICENSE")); err != nil {
 				return err
 			}
+			continue
+		}
 
-			l, err := io.ReadAll(source)
-			if err != nil {
+		if f.Name == fmt.Sprintf("coreruleset-%s/crs-setup.conf.example", crsVersion) {
+			if err := copyFile(f, filepath.Join(dstDir, "@crs-setup.conf.example")); err != nil {
 				return err
 			}
-			source.Close()
-
-			if err := os.WriteFile(filepath.Join(dstDir, "LICENSE"), l, 0666); err != nil {
-				return err
-			}
-
 			continue
 		}
 
@@ -78,7 +74,7 @@ func DownloadCRS() error {
 			continue
 		}
 
-		fPath := filepath.Join(dstDir, filename)
+		fPath := filepath.Join(rulesDstDir, filename)
 
 		target, err := os.Create(fPath)
 		if err != nil {
@@ -116,5 +112,23 @@ func DownloadCRS() error {
 		target.Close()
 	}
 
+	return nil
+}
+
+func copyFile(f *zip.File, dstPath string) error {
+	source, err := f.Open()
+	if err != nil {
+		return err
+	}
+
+	l, err := io.ReadAll(source)
+	if err != nil {
+		return err
+	}
+	source.Close()
+
+	if err := os.WriteFile(dstPath, l, 0666); err != nil {
+		return err
+	}
 	return nil
 }
