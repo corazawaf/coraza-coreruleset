@@ -1,3 +1,7 @@
+# This list comes from the default IIS error pages
+# To renerate get the files from a default installation and use:
+# grep -h '<title' *.htm
+
 <title>401.1 - Unauthorized: Access is denied due to invalid credentials.</title>
 <title>401.2 - Unauthorized: Access is denied due to server configuration.</title>
 <title>401.3 - Unauthorized: Access is denied due to an ACL set on the requested resource.</title>

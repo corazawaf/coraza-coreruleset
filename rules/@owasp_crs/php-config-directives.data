@@ -1,3 +1,12 @@
+# This list comes mainly from:
+# - https://www.php.net/manual/en/ini.core.php
+# - https://www.php.net/manual/en/ini.list.php
+#
+# There are additional directives defined in some of the modules, that can be parsed from each modules's configuration page:
+# - https://www.php.net/manual/en/$book.configuration.php (book comes from funcref.php)
+#
+# As the source code is in docbook format with many dependencies, the easiest
+# way to get it is using an xpath parser on the ini list and getting all
 allow_url_fopen
 allow_url_include
 apc.coredump_unmap

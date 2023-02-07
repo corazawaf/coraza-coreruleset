@@ -1,5 +1,12 @@
+# Vulnerability scanners, bruteforce password crackers and exploitation tools
+
+# password cracker
+# http://sectools.org/tool/hydra/
 (hydra)
+# vuln scanner
+# http://virtualblueness.net/nasl.html
 .nasl
+# sql injection
 absinthe
 advanced email extractor
 arachni/

@@ -1,3 +1,12 @@
+# This list has generic unix shell variables, shells and commands that affect Unix systems.
+# To generate the list, we get the data from all places first. Strip or add the path to commands so it begins with `bin`.
+# Sort the file content ascending, and remove duplicate lines.
+#
+# Data comes from multiple places, listed below.
+# - Binaries:
+#   - GTFOBins. Update list using `curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/GTFOBins/GTFOBins.github.io/contents/_gtfobins | jq '.[].name' | grep '.md' | tr -d '"' | cut -f1 -d.`
+# - Shell lists:
+#   - https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/etc.html
 ${CDPATH}
 ${DIRSTACK}
 ${HOME}

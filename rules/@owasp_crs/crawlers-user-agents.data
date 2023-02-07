@@ -1,5 +1,12 @@
+# Search engine crawlers and other bots
+# crawler
+# https://80legs.com/
 80legs
+# scraping framework
+# https://ache.readthedocs.io/en/latest/
+# User-Agent: (Mozilla/5.0 (compatible; ACME/VERSION; +OPERATOR_CONTACT_URL; +OPERATOR_CONTACT_EMAIL)
 ACHE/
+# SEO
 AhrefsBot
 black widow
 blackwidow

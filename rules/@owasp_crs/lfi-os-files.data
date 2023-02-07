@@ -1,3 +1,12 @@
+# This list comes from:
+# - https://github.com/danielmiessler/SecLists/tree/master/Fuzzing/LFI
+# - https://raw.githubusercontent.com/DragonJAR/Security-Wordlist/main/LFI-WordList-Linux
+# /proc and /sys entries should be kept in sync with restricted-files.data
+
+# Entries in this list generally use the shortest path that suffices for identifying them as dangerous.
+# .ssh/id_rsa and .ssh/id_dsa for example, are both dangerous paths but are represented in this list as .ssh.
+# The same applies to different log files below /var/log/mysql: var/log/mysql is enough to tell us that the request is suspicious.
+# Additionally, similar paths with different roots are represented as a single entry.
 .addressbook
 .aptitude/config
 .aws/

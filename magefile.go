@@ -41,7 +41,28 @@ func DownloadCRS() error {
 		return err
 	}
 
+	const licenseNumberOfLines = 9
+
 	for _, f := range r.File {
+		if f.Name == fmt.Sprintf("coreruleset-%s/LICENSE", crsVersion) {
+			source, err := f.Open()
+			if err != nil {
+				return err
+			}
+
+			l, err := io.ReadAll(source)
+			if err != nil {
+				return err
+			}
+			source.Close()
+
+			if err := os.WriteFile(filepath.Join(dstDir, "LICENSE"), l, 0666); err != nil {
+				return err
+			}
+
+			continue
+		}
+
 		prefix := fmt.Sprintf("coreruleset-%s/rules/", crsVersion)
 		if !strings.HasPrefix(f.Name, prefix) {
 			continue
@@ -72,7 +93,17 @@ func DownloadCRS() error {
 
 		fileScanner := bufio.NewScanner(source)
 		fileScanner.Split(bufio.ScanLines)
+
+		lineNumber := 0
+
 		for fileScanner.Scan() {
+			lineNumber++
+			if lineNumber <= licenseNumberOfLines {
+				target.Write(fileScanner.Bytes())
+				target.WriteString("\n")
+				continue
+			}
+
 			text := strings.TrimSpace(fileScanner.Text())
 			if len(text) == 0 || text[0] == '#' {
 				continue

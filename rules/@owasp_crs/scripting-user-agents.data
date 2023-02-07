@@ -1,4 +1,12 @@
+# Generic HTTP clients (popular libraries)
+
+# http library
+# https://docs.aiohttp.org/en/stable/
+# User-Agent: Python/VERSION aiohttp/VERSION
 aiohttp/
+
+# http library
+# http://search.cpan.org/~opera/HTTP-DAV/DAV.pm
 dav.pm/v
 Go http package
 Go 1.1 package http

@@ -1,3 +1,9 @@
+# The data in this list comes from
+# https://www.php.net/manual/en/reserved.variables.php
+# https://www.php.net/manual/en/language.variables.superglobals.php
+# https://www.php.net/manual/en/language.constants.predefined.php
+
+#  These superglobal variables are:
 $GLOBALS
 $_COOKIE
 $_ENV

@@ -1,3 +1,12 @@
+# This list contains patterns of various web shells, backdoors and similar
+# software written in PHP language. There is no way how to automatically update
+# this list, so it must be done by hand. Here is a recommended way how to add
+# new malicious software:
+# 1.) As patterns are matched against RESPONSE_BODY, you need to run a malicious
+#     software (ideally in an isolated environment) and catch the output.
+# 2.) In the output, search for static pattern unique enough to match only
+#     the software in question and to not do any FPs. The best pick is usually
+#     a part of HTML code with software name.
 <title>=[ 1n73ct10n privat shell ]=</title>
 >Ajax/PHP Command Shell<
 .:: :[ AK-74 Security Team Web-shell ]: ::.

@@ -1,6 +1,9 @@
+# Apache
+# (no slash; also guards against old.htaccess, old.htpasswd, etc.)
 .htaccess
 .htdigest
 .htpasswd
+# home level dotfiles (keep in sync with lfi-os-files.data)
 .addressbook
 .aptitude/config
 .aws/config

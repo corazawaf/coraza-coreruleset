@@ -1,3 +1,12 @@
+# Sources:
+# - https://gist.githubusercontent.com/jhaddix/78cece26c91c6263653f31ba453e273b/raw/a4869d58a5ce337d1465c2d1b29777b9eecd371f/cloud_metadata.txt
+# - https://book.hacktricks.xyz/pentesting-web/ssrf-server-side-request-forgery/cloud-ssrf
+# - https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Request%20Forgery
+# - https://github.com/assetnote/blind-ssrf-chains
+
+## AWS
+# from http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html#instancedata-data-categories
+#
 http://instance-data/latest/
 http://169.254.169.254/latest/
 http://2852039166/latest/
