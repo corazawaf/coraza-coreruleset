@@ -19,11 +19,13 @@ import (
 )
 
 func DownloadCRS() error {
-	dstDir := "./rules"
-	rulesDstDir := dstDir + "/@owasp_crs"
+	rulesDir := "rules"
+	rulesDstDir := rulesDir + "/@owasp_crs"
 	if err := os.MkdirAll(rulesDstDir, os.ModePerm); err != nil {
 		return err
 	}
+
+	testsDir := "tests"
 
 	uri := fmt.Sprintf("https://github.com/coreruleset/coreruleset/archive/%s.zip", crsVersion)
 
@@ -46,25 +48,41 @@ func DownloadCRS() error {
 
 	for _, f := range r.File {
 		if f.Name == fmt.Sprintf("coreruleset-%s/LICENSE", crsVersion) {
-			if err := copyFile(f, filepath.Join(dstDir, "LICENSE")); err != nil {
+			if err := copyFile(f, filepath.Join(rulesDir, "LICENSE")); err != nil {
 				return err
 			}
 			continue
 		}
 
 		if f.Name == fmt.Sprintf("coreruleset-%s/crs-setup.conf.example", crsVersion) {
-			if err := copyFile(f, filepath.Join(dstDir, "@crs-setup.conf.example")); err != nil {
+			if err := copyFile(f, filepath.Join(rulesDir, "@crs-setup.conf.example")); err != nil {
 				return err
 			}
 			continue
 		}
 
-		prefix := fmt.Sprintf("coreruleset-%s/rules/", crsVersion)
-		if !strings.HasPrefix(f.Name, prefix) {
+		if f.FileInfo().IsDir() {
 			continue
 		}
 
-		if f.FileInfo().IsDir() {
+		testPrefix := fmt.Sprintf("coreruleset-%s/tests/regression/tests", crsVersion)
+		if strings.HasPrefix(f.Name, testPrefix) {
+			if !strings.HasSuffix(f.Name, ".yaml") {
+				continue
+			}
+
+			subdir := strings.TrimPrefix(filepath.Dir(f.Name), testPrefix)
+			dir := filepath.Join(testsDir, subdir)
+
+			if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+				return err
+			}
+
+			copyFile(f, filepath.Join(dir, filepath.Base(f.Name)))
+		}
+
+		prefix := fmt.Sprintf("coreruleset-%s/rules/", crsVersion)
+		if !strings.HasPrefix(f.Name, prefix) {
 			continue
 		}
 
