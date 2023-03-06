@@ -7,5 +7,5 @@
 package main
 
 const (
-	crsVersion = "de93f1d0060dcae259f357808907bb5da99d2c42"
+	crsVersion = "072bb07571183e0ca5c449bac3ea966360aacc54"
 )

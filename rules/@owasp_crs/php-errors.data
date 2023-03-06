@@ -358,7 +358,6 @@ Invalid boundary in multipart/form-data POST data
 Invalid browscap ini file:
 Invalid characters passed for attempted conversion, these have been ignored
 Invalid column index
-Invalid date
 Invalid document encoding
 Invalid finfo object
 Invalid number of threads
@@ -1209,74 +1208,74 @@ wrong number of arguments to
 wrong size for the hashed password
 zend.assertions may be completely enabled or disabled only in php.ini
 zlib window size (logarithm) (
- (breaking at opline
- (inclusive)
- (path:
- (tried to allocate
- - dynamic modules are not supported
- Chunks Wide
- Chunks vertically
- arguments for the fetch mode provided,
- as execution context, not a valid file or symlink
- bytes (Current memory usage is
- bytes exhausted (tried to allocate
- bytes exhausted at
- bytes were written, expected to write
- bytes) (tried to allocate
- bytes. Uncompressing into buffer of
- cannot be instantiated
- cannot be of type array
- cannot be passed by reference
- cannot contain non abstract method
- chunk index entries
- command is disallowed during hard interrupt
- contains a null byte
- could not be converted to bool
- could not be converted to string
- could not compile file
- did not create an Iterator
- died before SIGKILL was sent
- does not have a constructor, cannot pass arguments
- does not match enum backing type
- does not support method calls
- doesn't exist in class
- file is closed
- for stream_metadata
- has no unserializer
- implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary)
- instance wasn't initialized properly
- is greater than \\377
- is inapplicable to this socket type
- is nor an array nor an object
- is not a user defined function, no oplines exist
- is not a user defined method, no oplines exist
- is not a valid backing value for enum "
- is not a valid phar archive
- is not compatible with property
- must be a field name from this result set
- must be greater than or equal to 0
- must be less than the number of fields for this result set
- must be passed by reference, value given
- must not be accessed before initialization
- object is already closed
- object is not fully initialized
- object_id:
- of C function '
- oplines in file
- oplines in function
- oplines in method
- option must have an array value
- overwrites previous argument
- packet. PID=
- points in array with only
- readonly property
- requires PDO API version
- requires Zend Engine API version
- to reference held by property
- used as array
- was built with configuration
- when argument #1 ($search) is
- with an empty name
+(breaking at opline
+(inclusive)
+(path:
+(tried to allocate
+- dynamic modules are not supported
+Chunks Wide
+Chunks vertically
+arguments for the fetch mode provided,
+as execution context, not a valid file or symlink
+bytes (Current memory usage is
+bytes exhausted (tried to allocate
+bytes exhausted at
+bytes were written, expected to write
+bytes) (tried to allocate
+bytes. Uncompressing into buffer of
+cannot be instantiated
+cannot be of type array
+cannot be passed by reference
+cannot contain non abstract method
+chunk index entries
+command is disallowed during hard interrupt
+contains a null byte
+could not be converted to bool
+could not be converted to string
+could not compile file
+did not create an Iterator
+died before SIGKILL was sent
+does not have a constructor, cannot pass arguments
+does not match enum backing type
+does not support method calls
+doesn't exist in class
+file is closed
+for stream_metadata
+has no unserializer
+implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary)
+instance wasn't initialized properly
+is greater than \\377
+is inapplicable to this socket type
+is nor an array nor an object
+is not a user defined function, no oplines exist
+is not a user defined method, no oplines exist
+is not a valid backing value for enum "
+is not a valid phar archive
+is not compatible with property
+must be a field name from this result set
+must be greater than or equal to 0
+must be less than the number of fields for this result set
+must be passed by reference, value given
+must not be accessed before initialization
+object is already closed
+object is not fully initialized
+object_id:
+of C function '
+oplines in file
+oplines in function
+oplines in method
+option must have an array value
+overwrites previous argument
+packet. PID=
+points in array with only
+readonly property
+requires PDO API version
+requires Zend Engine API version
+to reference held by property
+used as array
+was built with configuration
+when argument #1 ($search) is
+with an empty name
 ' (include_path='
 ' (info)\n
 ' (mem)\n
@@ -1677,7 +1676,6 @@ Stuck count for thread id
 The arguments array must contain
 The class requested (
 The expanded parameter requires SQLite3 >= 3.14 and
-The function
 The function requested (
 The magic method
 The requested class (

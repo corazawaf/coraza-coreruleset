@@ -1,5 +1,5 @@
 * text=auto eol=lf
 
-rules/* linguist-generated
-tests/REQUEST-* linguist-generated
-tests/RESPONSE-* linguist-generated
+*.conf linguist-generated
+*.yaml linguist-generated
+*.data linguist-generated
