@@ -2,3 +2,4 @@
 
 *.conf linguist-generated
 *.yaml linguist-generated
+*.data linguist-generated
