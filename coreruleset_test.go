@@ -1,10 +1,12 @@
 package coreruleset
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/stretchr/testify/require"
+)
 
 func TestRules(t *testing.T) {
 	_, err := FS.Open("@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf")
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	require.NoError(t, err)
 }

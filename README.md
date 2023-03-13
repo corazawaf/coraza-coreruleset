@@ -24,7 +24,10 @@ You can also combine both CRS and your local files by combining the filesystems:
 import (
     "github.com/corazawaf/coraza-coreruleset"
     "github.com/corazawaf/coraza-coreruleset/io"
-)
+    "github.com/yalue/merged_fs"
+ )
+
+// ...
 
 func main() {
     // ...

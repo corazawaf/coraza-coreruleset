@@ -11,6 +11,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	"github.com/magefile/mage/sh"
 	"io"
 	"net/http"
 	"os"
@@ -149,4 +150,8 @@ func copyFile(f *zip.File, dstPath string) error {
 		return err
 	}
 	return nil
+}
+
+func Test() error {
+	return sh.RunV("go", "test", "./...")
 }
