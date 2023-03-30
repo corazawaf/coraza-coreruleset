@@ -42,3 +42,9 @@ func main() {
     // ...
 }
 ```
+
+## How to update to a newer CRS version
+
+1. Update the `crsVersion` constant in [`version.go`](/version.go) with the wished [CRS](https://github.com/coreruleset/coreruleset) commit SHA. 
+2. Run `mage downloadCRS`. 
+3. Commit your changes.

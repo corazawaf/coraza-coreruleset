@@ -1,6 +1,6 @@
 # This list comes from:
-# - https://github.com/danielmiessler/SecLists/tree/master/Fuzzing/LFI
-# - https://raw.githubusercontent.com/DragonJAR/Security-Wordlist/main/LFI-WordList-Linux
+# - https://github.com/lightos/Panoptic
+# - https://github.com/danielmiessler/SecLists
 # /proc and /sys entries should be kept in sync with restricted-files.data
 
 # Entries in this list generally use the shortest path that suffices for identifying them as dangerous.
@@ -8,28 +8,38 @@
 # The same applies to different log files below /var/log/mysql: var/log/mysql is enough to tell us that the request is suspicious.
 # Additionally, similar paths with different roots are represented as a single entry.
 .addressbook
+.anydesk/
 .aptitude/config
+.atom/
 .aws/
 .azure/
 .bash_
 .bashrc
+.boto
 .cache/notify-osd.log
 .config/
 .cshrc
+.cups/
+.dbus/
 .docker
 .drush/
 .env
 .eslintignore
 .fbcindex
 .forward
+.gem/
 .gitattributes
 .gitconfig
+.gnonme/
 .gnupg/
+.gsutil/
 .hplip/hplip.conf
 .htaccess
 .htdigest
 .htpasswd
+.java/
 .ksh_history
+.kube/
 .lesshst
 .lftp/
 .lhistory
@@ -37,12 +47,16 @@
 .lldb-history
 .local/share/mc/
 .lynx_cookies
+.minikube/
 .my.cnf
 .mysql_history
 .nano_history
+.netrc
 .node_repl_history
+.npm/
 .nsconfig
 .nsr
+.nvm/
 .oh-my-
 .password-store
 .pearrc
@@ -64,11 +78,13 @@
 .subversion/
 .tconn/
 .tcshrc
+.thunderbird/
 .tor/
 .vidalia/
 .vim/
 .viminfo
 .vimrc
+.vmware/
 .www_acl
 .wwwacl
 .xauthority
