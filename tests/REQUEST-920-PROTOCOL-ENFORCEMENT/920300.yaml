@@ -17,7 +17,7 @@ tests:
               Host: localhost
               Keep-Alive: '300'
               Proxy-Connection: keep-alive
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               # Test needs a missing 'Accept' header
             method: GET
             port: 80
@@ -34,7 +34,7 @@ tests:
             dest_addr: "127.0.0.1"
             headers:
               Host: "localhost"
-              User-Agent: "OWASP ModSecurity Core Rule Set"
+              User-Agent: "OWASP CRS test agent"
               # Test needs a missing 'Accept' header
             method: "OPTIONS"
             uri: "*"
@@ -50,7 +50,7 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: "OWASP ModSecurity Core Rule Set"
+              User-Agent: "OWASP CRS test agent"
               Proxy-Connection: "Keep-Alive"
               # Test needs a missing 'Accept' header
             method: "CONNECT"

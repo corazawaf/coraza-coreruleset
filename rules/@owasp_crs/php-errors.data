@@ -1669,7 +1669,6 @@ RestartC:
 Session callback must have a return value of type bool,
 SoapHeader::__construct(): "
 SoapServer::addFunction(): Function "
-Static function
 Struct/union can't contain an instance of itself at line
 Stuck count for pid
 Stuck count for thread id
