@@ -23,8 +23,8 @@ You can also combine both CRS and your local files by combining the filesystems:
 ```go
 import (
     "github.com/corazawaf/coraza-coreruleset"
-    "github.com/corazawaf/coraza-coreruleset/io"
-    "github.com/yalue/merged_fs"
+    "github.com/jcchavezs/mergefs"
+    "github.com/jcchavezs/mergefs/io"
  )
 
 // ...
@@ -37,7 +37,7 @@ func main() {
                 Include @owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf
                 Include my/local/rule.conf
             `).
-            WithRootFS(merged_fs.NewMergedFS(coreruleset.FS, io.OSFS)),
+            WithRootFS(mergefs.Merge(coreruleset.FS, io.OSFS)),
     )
     // ...
 }
@@ -45,6 +45,6 @@ func main() {
 
 ## How to update to a newer CRS version
 
-1. Update the `crsVersion` constant in [`version.go`](/version.go) with the wished [CRS](https://github.com/coreruleset/coreruleset) commit SHA. 
-2. Run `mage downloadCRS`. 
+1. Update the `crsVersion` constant in [`version.go`](/version.go) with the wished [CRS](https://github.com/coreruleset/coreruleset) commit SHA.
+2. Run `mage downloadCRS`.
 3. Commit your changes.
