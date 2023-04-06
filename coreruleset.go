@@ -8,7 +8,7 @@ import (
 )
 
 // subFS is the interface that contains the methods that are used by
-// fs.subFS
+// `fs.subFS`
 type subFS interface {
 	Open(name string) (fs.File, error)
 	ReadDir(name string) ([]fs.DirEntry, error)
@@ -28,30 +28,29 @@ func init() {
 	FS = wrapFS{rulesFS.(subFS)}
 }
 
-// wrapFS is a wrapper around a subFS that removes the prefix from the
-// name argument to the methods. The rationale is that the coraza parser
-// will try to resolve an absolute path seeking for the trailing / but
-// the coreruleset files are invoked as @owasp_crs and are supposed to
-// be ubiqutous as long as you include the coreruleset filesystem.
+// wrapFS is a wrapper around a subFS that removes the absolute path prefix
+// from the `name` argument in the ReadFile method.
+// The rationale is that the coraza parser when asked to load the files
+// invoked by `Include` will prepend the dir path of the parent file.
+// For example if you aim to load directives from `my-file.conf which contains`:
+//
+//	`Include @owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf`
+//
+// the way the parser will load the REQUEST-911-METHOD-ENFORCEMENT.conf file
+// will depend on how the config was passed on the `WithDirectivesFromFile` method:
+//   - `my-file.conf`: the dir is "" and hence it will call the RootFS to load
+//     `@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf`
+//   - `../my-file.conf`: the dir is `..` and hence it will call the RootFS to load
+//     `../@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf` which can't be resolved
+//     because CRS filesyste only holds references to `@owasp_crs“.
+//   - `/abs-path/my-file.conf`: the dir is `/abs-path` and hence it will call the RootFS
+//     to load `/abs-path/@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf` which can't
+//     be resolved because CRS filesystem only holds references to `@owasp_crs`.
+//
+// The `@owasp_crs` folder is supposed to be ubiqutous as long as you include the coreruleset
+// in the same way absolute path is.
 type wrapFS struct {
-	delegate subFS
-}
-
-func (wfs wrapFS) Open(name string) (fs.File, error) {
-	idx := strings.Index(name, "@")
-	if idx != -1 {
-		name = name[idx:]
-	}
-
-	return wfs.delegate.Open(name)
-}
-
-func (wfs wrapFS) ReadDir(name string) ([]fs.DirEntry, error) {
-	idx := strings.Index(name, "@")
-	if idx != -1 {
-		name = name[idx:]
-	}
-	return wfs.delegate.ReadDir(name)
+	subFS
 }
 
 func (wfs wrapFS) ReadFile(name string) ([]byte, error) {
@@ -60,9 +59,5 @@ func (wfs wrapFS) ReadFile(name string) ([]byte, error) {
 		name = name[idx:]
 	}
 
-	return wfs.delegate.ReadFile(name)
-}
-
-func (wfs wrapFS) Glob(pattern string) ([]string, error) {
-	return wfs.delegate.Glob(pattern)
+	return wfs.subFS.ReadFile(name)
 }

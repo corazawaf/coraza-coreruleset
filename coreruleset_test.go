@@ -7,6 +7,10 @@ import (
 )
 
 func TestRules(t *testing.T) {
-	_, err := FS.Open("@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf")
+	f, err := FS.Open("@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf")
+	require.NoError(t, err)
+	f.Close()
+
+	_, err = FS.(subFS).ReadFile("/usr/src/github.com/myorg/myrepo/@crs-setup.conf.example")
 	require.NoError(t, err)
 }
