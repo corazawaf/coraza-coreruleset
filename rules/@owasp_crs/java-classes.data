@@ -27,6 +27,7 @@ java.io.FilterOutputStream
 java.io.FilterReader
 java.io.InputStream
 java.io.InputStreamReader
+java.io.IOException
 java.io.LineNumberReader
 java.io.ObjectOutputStream
 java.io.OutputStream
@@ -47,6 +48,7 @@ java.lang.Runtime
 java.lang.String
 java.lang.StringBuilder
 java.lang.System
+java.net.Socket
 javassist
 javax.script.ScriptEngineManager
 org.apache.commons
