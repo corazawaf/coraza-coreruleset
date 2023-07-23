@@ -1,99 +1,45 @@
-# Vulnerability scanners, bruteforce password crackers and exploitation tools
+# This file lists what we think the most widely used
+# security scanners identifyable via their user agents.
+#
+# The list is curated by hand. Attempts to machine-generate
+# a larger list leads to a lot of false positives and edge
+# cases where certain scanners / bots are welcome in certain
+# situations. We consider this a baseline of unwanted scanners.
 
-# password cracker
-# http://sectools.org/tool/hydra/
-(hydra)
-# vuln scanner
-# http://virtualblueness.net/nasl.html
-.nasl
-# sql injection
-absinthe
-advanced email extractor
-arachni/
-autogetcontent
-bilbo
+
+arachni
+betabot
+bewica-security-scan
 BFAC
-brutus
-brutus/aet
-bsqlbf
-burpcollaborator
-cgichk
-cisco-torch
 commix
-core-project/1.0
-crimscanner/
-datacha0s
 Detectify
 dirbuster
-domino hunter
-dotdotpwn
-ecairn-grabber
-email extractor
-fhscan core 1.
-floodgate
-Fuzz Faster U Fool
-F-Secure Radar
-get-minimal
+fimap
+fuzz faster
 gobuster
-gootkit auto-rooter scanner
-grabber
-grendel-scan
 havij
-httpx - Open-source project
-inspath
-internet ninja
-jaascois
-Jorgee
+hexometer
+jbrofuzz
+jorgee
+libwhisker
 masscan
-metis
-morfeus fucking scanner
-mysqloit
-n-stealth
+morfeus
 nessus
+netlab360
 netsparker
 nikto
-nmap nse
-nmap scripting engine
-nmap-nse
-nsauditor
-Nuclei
+nmap
+nuclei
 openvas
-pangolin
-paros
-pmafind
-prog.customcrawler
-QQGameHall
-qualys was
-s.t.a.l.k.e.r.
-security scan
-springenwerk
-sql power injector
+sitelockspider
 sqlmap
-sqlninja
-struts-pwn
 sysscan
-TBI-WebScanner
-teh forest lobster
-this is an exploit
-toata dragostea
-toata dragostea mea pentru diavola
-uil2pn
-user-agent:
-vega/
-voideye
-w3af.sf.net
-w3af.sourceforge.net
 w3af.org
 webbandit
-webinspect
 webshag
-webtrends security analyzer
-webvulnscan
-Wfuzz
+wfuzz
 whatweb
-whcc/
-wordpress hash grabber
-WPScan
-xmlrpc exploit
+wprecon
+wpscan
 zgrab
 zmeu

@@ -23,6 +23,7 @@
 .gitattributes
 .gitconfig
 .gnupg/
+.google_authenticator
 .hplip/hplip.conf
 .htaccess
 .htdigest
@@ -78,6 +79,7 @@
 /.hg/
 /.hgignore
 /.svn/
+/auth.json
 wp-config.php
 wp-config.bak
 wp-config.old
@@ -95,7 +97,9 @@ wp-config.txt
 /sites/default/default.settings.php
 /sites/default/settings.php
 /sites/default/settings.local.php
+/config/config.php
 /config/settings.inc.php
+/app/config/parameters.php
 /app/etc/local.xml
 /sftp-config.json
 /Web.config
