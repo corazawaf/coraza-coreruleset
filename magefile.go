@@ -11,12 +11,13 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"github.com/magefile/mage/sh"
 	"io"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/magefile/mage/sh"
 )
 
 func DownloadCRS() error {
@@ -35,6 +36,11 @@ func DownloadCRS() error {
 		return err
 	}
 	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		return fmt.Errorf("unexpected status code: %d", res.StatusCode)
+	}
+
 	crsZip, err := io.ReadAll(res.Body)
 	if err != nil {
 		return err
@@ -102,7 +108,7 @@ func DownloadCRS() error {
 
 		source, err := f.Open()
 		if err != nil {
-			defer os.Remove(fPath)
+			os.Remove(fPath)
 			return err
 		}
 

@@ -16,6 +16,7 @@ ${OLDPWD}
 ${OSTYPE}
 ${PATH}
 ${PWD}
+${SHELL}
 $CDPATH
 $DIRSTACK
 $HOME
@@ -25,11 +26,13 @@ $OLDPWD
 $OSTYPE
 $PATH
 $PWD
+$SHELL
 bin/7z
 bin/7za
 bin/7zr
 bin/7zx
 bin/ab
+bin/addgroup
 bin/adduser
 bin/agetty
 bin/alias
@@ -37,6 +40,7 @@ bin/alpine
 bin/ansible-playbook
 bin/apt
 bin/apt-get
+bin/aptitude
 bin/ar
 bin/arch
 bin/aria2c
@@ -50,12 +54,15 @@ bin/aspell
 bin/at
 bin/atobm
 bin/awk
+bin/axel
 bin/aws
 bin/base32
 bin/base64
+bin/basename
 bin/basenc
 bin/bash
 bin/batch
+bin/blkid
 bin/bpftrace
 bin/breaksw
 bin/bridge
@@ -68,6 +75,7 @@ bin/bunzip2
 bin/busctl
 bin/busybox
 bin/byebug
+bin/byobu
 bin/bzcat
 bin/bzcmp
 bin/bzdiff
@@ -97,10 +105,14 @@ bin/check_raid
 bin/check_ssl_cert
 bin/check_statusfile
 bin/chflags
+bin/chgrp
 bin/chmod
 bin/choom
 bin/chown
+bin/chpass
+bin/chgpasswd
 bin/chroot
+bin/chsh
 bin/clang
 bin/clang++
 bin/cmp
@@ -119,6 +131,7 @@ bin/cpan
 bin/cpio
 bin/cpulimit
 bin/crash
+bin/cron
 bin/crontab
 bin/csh
 bin/csplit
@@ -128,11 +141,13 @@ bin/curl
 bin/cut
 bin/dash
 bin/date
+bin/df
 bin/dd
 bin/dhclient
 bin/dialog
 bin/diff
 bin/dig
+bin/dir
 bin/dmesg
 bin/dmidecode
 bin/dmsetup
@@ -144,6 +159,7 @@ bin/dosbox
 bin/dpkg
 bin/du
 bin/dvips
+bin/e2fsck
 bin/easy_install
 bin/eb
 bin/echo
@@ -170,6 +186,7 @@ bin/expr
 bin/facter
 bin/fc
 bin/fetch
+bin/fg
 bin/fgrep
 bin/fi
 bin/file
@@ -194,6 +211,8 @@ bin/gem
 bin/genie
 bin/genisoimage
 bin/GET
+bin/HEAD
+bin/POST
 bin/getfacl
 bin/ghc
 bin/ghci
@@ -201,13 +220,16 @@ bin/gimp
 bin/ginsh
 bin/git
 bin/go
+bin/gpg
 bin/grc
 bin/grep
+bin/groupmod
 bin/gtester
 bin/gunzip
 bin/gzcat
 bin/gzexe
 bin/gzip
+bin/hash
 bin/hd
 bin/head
 bin/hexdump
@@ -217,6 +239,7 @@ bin/hostid
 bin/hostname
 bin/hping3
 bin/htdigest
+bin/htop
 bin/htpasswd
 bin/hup
 bin/iconv
@@ -266,6 +289,7 @@ bin/loginctl
 bin/logname
 bin/logsave
 bin/look
+bin/losetup
 bin/lp
 bin/ls
 bin/ls-F
@@ -309,6 +333,7 @@ bin/mawk
 bin/mkdir
 bin/mkfifo
 bin/mknod
+bin/mktemp
 bin/mlocate
 bin/more
 bin/mosquitto
@@ -339,6 +364,7 @@ bin/neofetch
 bin/net
 bin/netcat
 bin/netkit-ftp
+bin/netplan
 bin/netstat
 bin/nice
 bin/nl
@@ -359,6 +385,8 @@ bin/openssl
 bin/openvpn
 bin/openvt
 bin/opkg
+bin/pacman
+bin/parted
 bin/passwd
 bin/paste
 bin/patch
@@ -406,6 +434,7 @@ bin/ptargrep
 bin/ptx
 bin/puppet
 bin/pushd
+bin/pwd
 bin/pxz
 bin/python
 bin/python2
@@ -530,6 +559,7 @@ bin/unshare
 bin/unxz
 bin/unzip
 bin/unzstd
+bin/up2date
 bin/update-alternatives
 bin/useradd
 bin/userdel
@@ -545,6 +575,7 @@ bin/vimdiff
 bin/vipw
 bin/virsh
 bin/volatility
+bin/w
 bin/w3m
 bin/wall
 bin/watch
