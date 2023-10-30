@@ -2,7 +2,10 @@ module github.com/corazawaf/coraza-coreruleset
 
 go 1.18
 
-require github.com/stretchr/testify v1.8.2
+require (
+	github.com/magefile/mage v1.14.0
+	github.com/stretchr/testify v1.8.2
+)
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

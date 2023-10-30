@@ -1,8 +1,11 @@
-module github.com/jcchavezs/coraza-coreruleset/example
+module github.com/corazawaf/coraza-coreruleset/example
 
 go 1.18
 
-require github.com/corazawaf/coraza/v3 v3.0.0-20230203191834-6a4986af664c
+require (
+	github.com/corazawaf/coraza-coreruleset v0.0.0-20230330101229-43b851256042
+	github.com/corazawaf/coraza/v3 v3.0.0-20230203191834-6a4986af664c
+)
 
 require (
 	github.com/corazawaf/libinjection-go v0.1.2 // indirect
