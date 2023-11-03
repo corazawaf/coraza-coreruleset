@@ -173,7 +173,9 @@ func cleanupOldCRS(rulesDstDir, testsDir string) error {
 		if err != nil {
 			return err
 		}
-		if strings.HasPrefix(d.Name(), "REQUEST-") || strings.HasPrefix(d.Name(), "RESPONSE-") {
+
+		// tests folder contains go files related to the coraza-coreruleset repo that we don't want to remove
+		if filepath.Ext(d.Name()) != ".go" && path != testsDir {
 			if err := os.RemoveAll(path); err != nil {
 				return err
 			}
