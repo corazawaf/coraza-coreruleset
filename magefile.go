@@ -23,11 +23,18 @@ import (
 func DownloadCRS() error {
 	rulesDir := "rules"
 	rulesDstDir := rulesDir + "/@owasp_crs"
-	if err := os.MkdirAll(rulesDstDir, os.ModePerm); err != nil {
+	testsDir := "tests"
+
+	// Before downloading, we need to remove:
+	// - old rules under rules/@owasp_crs
+	// - all the related tests
+	if err := cleanupOldCRS(rulesDstDir, testsDir); err != nil {
 		return err
 	}
 
-	testsDir := "tests"
+	if err := os.MkdirAll(rulesDstDir, os.ModePerm); err != nil {
+		return err
+	}
 
 	uri := fmt.Sprintf("https://github.com/coreruleset/coreruleset/archive/%s.zip", crsVersion)
 
@@ -153,6 +160,29 @@ func copyFile(f *zip.File, dstPath string) error {
 	source.Close()
 
 	if err := os.WriteFile(dstPath, l, 0666); err != nil {
+		return err
+	}
+	return nil
+}
+
+func cleanupOldCRS(rulesDstDir, testsDir string) error {
+	if err := os.RemoveAll(rulesDstDir); err != nil {
+		return err
+	}
+	if err := filepath.WalkDir(testsDir, func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+
+		// tests folder contains go files related to the coraza-coreruleset repo that we don't want to remove
+		if d.Name() != "tests.go" && d.Name() != "tests_test.go" && path != testsDir {
+			if err := os.RemoveAll(path); err != nil {
+				return err
+			}
+			return filepath.SkipDir
+		}
+		return nil
+	}); err != nil {
 		return err
 	}
 	return nil
