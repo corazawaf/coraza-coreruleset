@@ -34,6 +34,7 @@ openvas
 sitelockspider
 sqlmap
 sysscan
+TsunamiSecurityScanner
 w3af.org
 webbandit
 webshag
