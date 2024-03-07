@@ -5,7 +5,7 @@
 In order to use CRS, you need to load the coreruleset FileSystem:
 
 ```go
-import "github.com/corazawaf/coraza-coreruleset"
+import "github.com/corazawaf/coraza-coreruleset/v4"
 
 func main() {
     // ...
@@ -22,7 +22,7 @@ You can also combine both CRS and your local files by combining the filesystems:
 
 ```go
 import (
-    "github.com/corazawaf/coraza-coreruleset"
+    "github.com/corazawaf/coraza-coreruleset/v4"
     "github.com/jcchavezs/mergefs"
     "github.com/jcchavezs/mergefs/io"
  )
