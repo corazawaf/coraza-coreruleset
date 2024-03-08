@@ -3,7 +3,7 @@ module github.com/corazawaf/coraza-coreruleset/v4/example
 go 1.18
 
 require (
-	github.com/corazawaf/coraza-coreruleset v0.0.0-20240226094324-415b1017abdc
+	github.com/corazawaf/coraza-coreruleset/v4 v4.0.0
 	github.com/corazawaf/coraza/v3 v3.1.0
 )
 
