@@ -29,3 +29,25 @@ jobs:
           cache: true
       - name: Tests
         run: go run mage.go test
+
+  check_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.20.x
+      - name: Download Coraza config
+        run: go run mage.go downloadCorazaConfig
+      - name: Download CRS
+        run: go run mage.go downloadCRS
+      - name: Check if there are changes
+        id: changes
+        uses: UnicornGlobal/has-changes-action@v1.0.11
+      - name: Process changes
+        if: steps.changes.outputs.changed == 1
+        run: |
+          echo "Uncommited changes detected. Please commit and push the changes."
+          exit 1

@@ -20,10 +20,36 @@ import (
 	"github.com/magefile/mage/sh"
 )
 
+const (
+	rulesDir = "rules"
+	testsDir = "tests"
+)
+
+// DownloadCorazaConfig downloads the recommended Coraza configuration file from the OWASP Coraza repository
+func DownloadCorazaConfig() error {
+	uri := fmt.Sprintf("https://raw.githubusercontent.com/corazawaf/coraza/%s/coraza.conf-recommended", corazaVersion)
+	corazaConfig, err := getDataFromURL(uri)
+	if err != nil {
+		return err
+	}
+
+	out, err := os.Create(filepath.Join(rulesDir, "@coraza.conf-recommended"))
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+
+	_, err = out.Write(corazaConfig)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// DownloadCRS downloads the OWASP CRS from the CRS repository
 func DownloadCRS() error {
-	rulesDir := "rules"
 	rulesDstDir := rulesDir + "/@owasp_crs"
-	testsDir := "tests"
 
 	// Before downloading, we need to remove:
 	// - old rules under rules/@owasp_crs
@@ -38,17 +64,7 @@ func DownloadCRS() error {
 
 	uri := fmt.Sprintf("https://github.com/coreruleset/coreruleset/archive/%s.zip", crsVersion)
 
-	res, err := http.Get(uri)
-	if err != nil {
-		return err
-	}
-	defer res.Body.Close()
-
-	if res.StatusCode != http.StatusOK {
-		return fmt.Errorf("unexpected status code: %d", res.StatusCode)
-	}
-
-	crsZip, err := io.ReadAll(res.Body)
+	crsZip, err := getDataFromURL(uri)
 	if err != nil {
 		return err
 	}
@@ -147,6 +163,25 @@ func DownloadCRS() error {
 	return nil
 }
 
+func getDataFromURL(uri string) ([]byte, error) {
+	resp, err := http.Get(uri)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+
+	bodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return bodyBytes, nil
+}
+
 func copyFile(f *zip.File, dstPath string) error {
 	source, err := f.Open()
 	if err != nil {
@@ -188,6 +223,7 @@ func cleanupOldCRS(rulesDstDir, testsDir string) error {
 	return nil
 }
 
+// Test runs the tests
 func Test() error {
 	return sh.RunV("go", "test", "./...")
 }

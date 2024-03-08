@@ -48,3 +48,9 @@ func main() {
 1. Update the `crsVersion` constant in [`version.go`](/version.go) with the wished [CRS](https://github.com/coreruleset/coreruleset) commit SHA.
 2. Run `mage downloadCRS`.
 3. Commit your changes.
+
+## How to update to a newer Coraza config version
+
+1. Update the `corazaVersion` constant in [`version.go`](/version.go) with the wished [Coraza](https://github.com/corazawaf/coraza) commit SHA or tag.
+2. Run `mage downloadCorazaConfig`.
+3. Commit your changes.
