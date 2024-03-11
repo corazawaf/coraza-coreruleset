@@ -47,4 +47,5 @@ func main() {
 
 1. Update the `crsVersion` and `corazaVersion` constants in [`version.go`](/version.go) with the wished [CRS](https://github.com/coreruleset/coreruleset) and [Coraza](https://github.com/corazawaf/coraza) commit SHA or tags.
 2. Run `go run mage.go downloadDeps`.
+3. Double check the changes made under the `/rules` and `/tests` directories.
 3. Commit your changes.
