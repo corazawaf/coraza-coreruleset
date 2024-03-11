@@ -231,7 +231,7 @@ SecAuditLogParts ABIJDEFHZ
 SecAuditLogType Serial
 
 
-# -- Miscellaneous -----------------------------------------------------------
+# -- Miscellaneous ------------------------------------------------------------
 
 # Use the most commonly used application/x-www-form-urlencoded parameter
 # separator. There's probably only one application somewhere that uses
