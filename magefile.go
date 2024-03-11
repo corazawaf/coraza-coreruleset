@@ -25,8 +25,21 @@ const (
 	testsDir = "tests"
 )
 
-// DownloadCorazaConfig downloads the recommended Coraza configuration file from the OWASP Coraza repository
-func DownloadCorazaConfig() error {
+// DownloadDeps downloads the OWASP CRS and the recommended OWASP Coraza configuration file
+func DownloadDeps() error {
+	if err := downloadCRS(); err != nil {
+		return err
+	}
+
+	if err := downloadCorazaConfig(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// downloadCorazaConfig downloads the recommended Coraza configuration file from the OWASP Coraza repository
+func downloadCorazaConfig() error {
 	uri := fmt.Sprintf("https://raw.githubusercontent.com/corazawaf/coraza/%s/coraza.conf-recommended", corazaVersion)
 	corazaConfig, err := getDataFromURL(uri)
 	if err != nil {
@@ -47,8 +60,8 @@ func DownloadCorazaConfig() error {
 	return nil
 }
 
-// DownloadCRS downloads the OWASP CRS from the CRS repository
-func DownloadCRS() error {
+// downloadCRS downloads the OWASP CRS from the CRS repository
+func downloadCRS() error {
 	rulesDstDir := rulesDir + "/@owasp_crs"
 
 	// Before downloading, we need to remove:
@@ -74,17 +87,19 @@ func DownloadCRS() error {
 		return err
 	}
 
+	crsVersionStripped := strings.TrimPrefix(crsVersion, "v")
+
 	const licenseNumberOfLines = 9
 
 	for _, f := range r.File {
-		if f.Name == fmt.Sprintf("coreruleset-%s/LICENSE", crsVersion) {
+		if f.Name == fmt.Sprintf("coreruleset-%s/LICENSE", crsVersionStripped) {
 			if err := copyFile(f, filepath.Join(rulesDir, "LICENSE")); err != nil {
 				return err
 			}
 			continue
 		}
 
-		if f.Name == fmt.Sprintf("coreruleset-%s/crs-setup.conf.example", crsVersion) {
+		if f.Name == fmt.Sprintf("coreruleset-%s/crs-setup.conf.example", crsVersionStripped) {
 			if err := copyFile(f, filepath.Join(rulesDir, "@crs-setup.conf.example")); err != nil {
 				return err
 			}
@@ -95,7 +110,7 @@ func DownloadCRS() error {
 			continue
 		}
 
-		testPrefix := fmt.Sprintf("coreruleset-%s/tests/regression/tests", crsVersion)
+		testPrefix := fmt.Sprintf("coreruleset-%s/tests/regression/tests", crsVersionStripped)
 		if strings.HasPrefix(f.Name, testPrefix) {
 			if !strings.HasSuffix(f.Name, ".yaml") {
 				continue
@@ -111,7 +126,7 @@ func DownloadCRS() error {
 			copyFile(f, filepath.Join(dir, filepath.Base(f.Name)))
 		}
 
-		prefix := fmt.Sprintf("coreruleset-%s/rules/", crsVersion)
+		prefix := fmt.Sprintf("coreruleset-%s/rules/", crsVersionStripped)
 		if !strings.HasPrefix(f.Name, prefix) {
 			continue
 		}

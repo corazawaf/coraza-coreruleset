@@ -39,15 +39,13 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: 1.20.x
-      - name: Download Coraza config
-        run: go run mage.go downloadCorazaConfig
-      - name: Download CRS
-        run: go run mage.go downloadCRS
+      - name: Download CRS and Coraza config
+        run: go run mage.go downloadDeps
       - name: Check if there are changes
         id: changes
         uses: UnicornGlobal/has-changes-action@v1.0.11
       - name: Process changes
         if: steps.changes.outputs.changed == 1
         run: |
-          echo "Uncommited changes detected. Please commit and push the changes."
+          echo 'Uncommited changes detected. Run `go run mage.go downloadDeps` to check the changes and commit them.'
           exit 1
