@@ -43,8 +43,9 @@ func main() {
 }
 ```
 
-## How to update to a newer CRS version
+## How to update to a newer CRS and Coraza config version
 
-1. Update the `crsVersion` constant in [`version.go`](/version.go) with the wished [CRS](https://github.com/coreruleset/coreruleset) commit SHA.
-2. Run `mage downloadCRS`.
+1. Update the `crsVersion` and `corazaVersion` constants in [`version.go`](/version.go) with the wished [CRS](https://github.com/coreruleset/coreruleset) and [Coraza](https://github.com/corazawaf/coraza) commit SHA or tags.
+2. Run `go run mage.go downloadDeps`.
+3. Double check the changes made under the `/rules` and `/tests` directories.
 3. Commit your changes.

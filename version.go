@@ -7,5 +7,6 @@
 package main
 
 const (
-	crsVersion = "1d95422bb31983a5290720b7fb662ce3dd51f753"
+	crsVersion    = "v4.0.0"
+	corazaVersion = "v3.1.0"
 )
