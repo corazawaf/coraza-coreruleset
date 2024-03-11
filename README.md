@@ -1,5 +1,5 @@
 # Coraza Coreruleset
-
+Coraza Coreruleset is a Go package meant to provide the [OWASP CRS](https://github.com/coreruleset/coreruleset) in an easy and consumable way to be embedded in a Go application. Alongside the unmodified CRS, the [Coraza configuration file](https://github.com/corazawaf/coraza/blob/main/coraza.conf-recommended) is also provided.
 ## Usage
 
 In order to use CRS, you need to load the coreruleset FileSystem:

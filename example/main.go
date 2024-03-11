@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	coreruleset "github.com/corazawaf/coraza-coreruleset"
+	coreruleset "github.com/corazawaf/coraza-coreruleset/v4"
 	"github.com/corazawaf/coraza/v3"
 )
 
