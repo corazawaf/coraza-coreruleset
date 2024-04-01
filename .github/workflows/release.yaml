@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      crs_version:
+        description: "coreruleset version"
+        required: false
+        type: string
+      coraza_version:
+        description: "coraza version"
+        required: false
+        type: string
+
+env:
+  GO_VERSION: "1.21.x"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.21.x
+
+      - name: Download CRS and Coraza config
+        run: go run mage.go setDepsVersion
+        env:
+          CRS_VERSION: ${{ github.event.inputs.crs_version }}
+          CORAZA_VERSION: ${{ github.event.inputs.coraza_version }}
+
+      - name: Download CRS and Coraza config
+        run: go run mage.go downloadDeps
+
+      - name: Tests
+        run: go run mage.go test
+
+      # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
+      - name: Check if there is any change
+        id: get_changes
+        # deprecated. see https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
+        #run: echo "::set-output name=changed::$(git status --porcelain | wc -l)"
+        run: echo "changed=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        if: steps.get_changes.outputs.changed != 0
+        with:
+          add_options: "-a"
+          branch: main
+          commit_message: "chore: updates dependencies.\n$(go run mage.go depsVersion)"
