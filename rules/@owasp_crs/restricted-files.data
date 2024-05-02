@@ -151,6 +151,9 @@ php_errors.log
 WEB-INF/
 sslvpn_websession
 BlockCypher.log
+config.inc.php
+config.sample.php
+defaults.inc.php
 proc/0
 proc/1
 proc/2

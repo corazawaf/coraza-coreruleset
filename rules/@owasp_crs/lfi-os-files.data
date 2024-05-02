@@ -128,6 +128,7 @@ boot/grub/grub.cfg
 boot/grub/menu.lst
 config_dev.yml
 config_prod.yml
+config.sample.php
 config_test.yml
 config.inc.php
 config.php
@@ -139,6 +140,7 @@ configuration.php
 cpanel/logs
 data/elasticsearch
 data/kafka
+defaults.inc.php
 etc/.java
 etc/acpi
 etc/adduser.conf
