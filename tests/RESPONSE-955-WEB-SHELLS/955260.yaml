@@ -1,12 +1,12 @@
 ---
 meta:
   author: "azurit"
-  enabled: true
-  name: "951150.yaml"
-  description: "Regression tests for rule 951150"
+  enabled: false
+  name: "955260.yaml"
+  description: "Regression tests for rule 955260"
 tests:
-  - test_title: 951150-1
-    desc: "Matching firebird SQL Information Leakage"
+  - test_title: 955260-1
+    desc: "Matching web shell Ru24PostWebShell. Our test infrastructure, currently, cannot run this test properly because of multiline output, so it's disabled."
     stages:
       - stage:
           input:
@@ -19,9 +19,12 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "POST"
-            version: "HTTP/1.0"
-            uri: "/post"
-            data: "[match sql-errors.data]the used select statements have different number of columns[/match]: Dynamic SQL Error"
+            method: "GET"
+            version: "HTTP/1.1"
+            uri: "/get"
+            data: |
+              <html>
+              <head>
+              <title>Ru24PostWebShell -
           output:
-            log_contains: "id \"951150\""
+            log_contains: "id \"955260\""

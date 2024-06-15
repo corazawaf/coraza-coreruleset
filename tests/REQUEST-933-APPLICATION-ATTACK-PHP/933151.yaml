@@ -1,64 +1,63 @@
 ---
 meta:
-  author: lifeforms
+  author: "lifeforms, ssigwart, azurit"
   description: None
   enabled: true
   name: 933151.yaml
 tests:
   - test_title: 933151-1
-    desc: pmf + chain; must run test in PL2!
+    desc: "pmf + chain"
     stages:
       - stage:
           input:
-            data: x=Print_r%28%20%29
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
+            method: GET
             port: 80
-            uri: /array_diff%20foo%20%28
+            uri: "/get/array_diff%20%28"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933151"
   - test_title: 933151-2
-    desc: pmf + chain; must run test in PL2!
+    desc: "pmf + chain"
     stages:
       - stage:
           input:
-            data: x=Print_r%28%20%29
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
+            method: GET
             port: 80
-            uri: /?date_ADD%28%29
+            uri: "/get?date_ADD%28%29"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933151"
   - test_title: 933151-3
-    desc: non-dangerous PHP functions, removed to reduce FP
+    desc: "non-dangerous PHP functions, removed to reduce FP"
     stages:
       - stage:
           input:
-            data: x=Print_r%28%20%29
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
+            method: GET
             port: 80
-            uri: /?foo=filemtime%28%24foo%29
+            uri: "/get?foo=filemtime%28%24foo%29"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933151"
   - test_title: 933151-4
-    desc: pmf + chain; must run test in PL2!
+    desc: "pmf + chain"
     stages:
       - stage:
           input:
-            data: gethostbynamE(
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
@@ -66,11 +65,13 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /gethost
+            uri: "/post"
+            data: "gethostbynamE("
+            version: "HTTP/1.1"
           output:
             log_contains: id "933151"
   - test_title: 933151-5
-    desc: No peren after keyword
+    desc: "No parenthesis after keyword"
     stages:
       - stage:
           input:
@@ -79,41 +80,42 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
+            method: GET
             port: 80
-            uri: /?foo=array_diff
+            uri: "/get?foo=array_diff"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933151"
   - test_title: 933151-6
-    desc: "Test correct logging"
+    desc: "rule should not trigger when there are other words before parenthesis"
     stages:
       - stage:
           input:
-            data: x=Print_r%28%20%29
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
+            method: GET
             port: 80
-            uri: /array_diff%20foo%20%28
+            uri: "/get?a=ceiling%20height(9ft)"
+            version: "HTTP/1.1"
           output:
-            no_log_contains: \( found within
+            no_log_contains: id "933151"
   - test_title: 933151-7
     desc: "snippets of Eng words (like prev) should not be matched, requiring regex match with word boundaries (e.g. 933160)"
     stages:
       - stage:
           input:
-            data: x=dummydata
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
+            method: GET
             port: 80
-            uri: /?a=preview
+            uri: "/get?a=preview"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933151"
   - test_title: 933151-8
@@ -121,14 +123,14 @@ tests:
     stages:
       - stage:
           input:
-            data: x=dummydata
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
+            method: GET
             port: 80
-            uri: /?a=exploration
+            uri: "/get?a=exploration"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933151"

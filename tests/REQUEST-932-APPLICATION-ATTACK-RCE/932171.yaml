@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler"
+  author: "Franziska Bühler, azurit"
   description: "Remote Command Execution: Shellshock (CVE-2014-6271)"
   enabled: true
   name: 932171.yaml
@@ -16,10 +16,9 @@ tests:
               Host: localhost
               Proxy-Connection: keep-alive
               User-Agent: "OWASP CRS test agent"
-              Test: () {
             method: GET
             port: 80
-            uri: /?%28%29%20%7B
+            uri: "/get?%28%29%20%7B"
             version: HTTP/1.0
           output:
             log_contains: id "932171"
@@ -36,7 +35,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?arg=%28%29%20%7B
+            uri: "/get?arg=%28%29%20%7B"
             version: HTTP/1.0
           output:
             log_contains: id "932171"
