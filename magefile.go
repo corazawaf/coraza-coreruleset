@@ -1,4 +1,4 @@
-// Copyright 2023 The OWASP Coraza contributors
+// Copyright 2024 The OWASP Coraza contributors
 // SPDX-License-Identifier: Apache-2.0
 
 //go:build mage
@@ -16,6 +16,9 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"text/template"
+
+	_ "embed"
 
 	"github.com/magefile/mage/sh"
 )
@@ -241,4 +244,46 @@ func cleanupOldCRS(rulesDstDir, testsDir string) error {
 // Test runs the tests
 func Test() error {
 	return sh.RunV("go", "test", "./...")
+}
+
+//go:embed version.go.tmpl
+var versionTempl string
+
+func SetDepsVersion() error {
+	type version struct {
+		CRSVersion    string
+		CorazaVersion string
+	}
+
+	v := version{
+		CRSVersion:    crsVersion,
+		CorazaVersion: corazaVersion,
+	}
+
+	if os.Getenv("CRS_VERSION") != "" {
+		v.CRSVersion = os.Getenv("CRS_VERSION")
+	}
+
+	if os.Getenv("CORAZA_VERSION") != "" {
+		v.CorazaVersion = os.Getenv("CORAZA_VERSION")
+	}
+
+	verFile, err := os.OpenFile("version.go", os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer verFile.Close()
+
+	tmpl, err := template.New("version").Parse(versionTempl)
+	if err != nil {
+		return err
+	}
+
+	return tmpl.Execute(verFile, v)
+}
+
+func DepsVersion() error {
+	fmt.Printf("CRS Version: %s\nCoraza Version: %s\n", crsVersion, corazaVersion)
+
+	return nil
 }
