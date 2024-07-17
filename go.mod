@@ -1,6 +1,6 @@
 module github.com/corazawaf/coraza-coreruleset/v4
 
-go 1.18
+go 1.20
 
 require (
 	github.com/magefile/mage v1.14.0
