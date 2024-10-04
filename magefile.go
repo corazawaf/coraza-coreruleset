@@ -30,10 +30,12 @@ func DownloadDeps() error {
 	if err := downloadCRS(); err != nil {
 		return err
 	}
+	fmt.Printf("Updated CRS to version %q\n", crsVersion)
 
 	if err := downloadCorazaConfig(); err != nil {
 		return err
 	}
+	fmt.Printf("Updated Coraza config to version %q\n", corazaVersion)
 
 	return nil
 }
