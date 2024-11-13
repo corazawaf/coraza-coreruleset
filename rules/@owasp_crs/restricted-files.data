@@ -154,6 +154,7 @@ BlockCypher.log
 config.inc.php
 config.sample.php
 defaults.inc.php
+sendgrid.env
 proc/0
 proc/1
 proc/2
