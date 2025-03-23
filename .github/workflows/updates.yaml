@@ -1,0 +1,41 @@
+name: Updates automation
+
+on:
+  pull_request:
+    paths:
+      - "version.go"
+
+jobs:
+  download_deps:
+    if: ${{ github.actor == 'renovate[bot]' }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        # In a pull request trigger, ref is required as GitHub Actions checks out in detached HEAD mode,
+        # meaning it doesn’t check out your branch by default.
+        # Ref: https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-to-a-pr-using-the-built-in-token
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.23.x
+      - name: Download CRS and Coraza config
+        run: go run mage.go downloadDeps
+      # Ref: https://gist.github.com/somidad/3ce6e8a7b7d77ac8fa7fad583003d6f5
+      - name: Run Dependency Update
+        id: changes
+        run: echo "changed=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
+      - name: create a commit with the changes
+        if: steps.changes.outputs.changed != 0 
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: update dependencies after Renovate version bump"
+          git push
