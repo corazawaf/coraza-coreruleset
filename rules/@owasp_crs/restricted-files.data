@@ -3,8 +3,9 @@
 .htaccess
 .htdigest
 .htpasswd
-# home level dotfiles (keep in sync with lfi-os-files.data)
-# grep -E '^\.' lfi-os-files.data
+# home level dotfiles (keep in sync with lfi-os-files.data).
+# Also include commented values (e.g., `# .env`), but not comments.
+# grep -E '^(?:#\s*)?\.[^\s]+$' lfi-os-files.data | sed 's/^#\s*//'
 .addressbook
 .aptitude/config
 .aws/
@@ -155,6 +156,14 @@ config.inc.php
 config.sample.php
 defaults.inc.php
 sendgrid.env
+.fish
+fish_variables
+ldap-authentication-report.csv
+user_secrets.yml
+secrets.json
+compose.yml
+compose.yaml
+cloud-config.yml
 proc/0
 proc/1
 proc/2

@@ -23,7 +23,6 @@
 .dbus/
 .docker
 .drush/
-.env
 .eslintignore
 .fbcindex
 .forward
