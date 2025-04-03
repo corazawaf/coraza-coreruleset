@@ -3,7 +3,7 @@ module github.com/corazawaf/coraza-coreruleset/v4
 go 1.23
 
 require (
-	github.com/magefile/mage v1.14.0
+	github.com/magefile/mage v1.15.0
 	github.com/stretchr/testify v1.10.0
 )
 
