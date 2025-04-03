@@ -157,6 +157,7 @@ defaults.inc.php
 sendgrid.env
 .fish
 fish_variables
+ldap-authentication-report.csv
 proc/0
 proc/1
 proc/2
