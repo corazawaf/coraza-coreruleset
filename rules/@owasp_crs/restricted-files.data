@@ -155,6 +155,8 @@ config.inc.php
 config.sample.php
 defaults.inc.php
 sendgrid.env
+.fish
+fish_variables
 proc/0
 proc/1
 proc/2
