@@ -5,7 +5,7 @@
 		  "customType": "regex",
 		  "fileMatch": ["version.go"],
 		  "matchStrings": [
-			"crsVersion\\s+=\\s+\"(?<currentValue>v[^\"]+)\""
+			"Version\\s+=\\s+\"(?<currentValue>v[^\"]+)\""
 		  ],
 		  "datasourceTemplate": "github-releases",
 		  "depNameTemplate": "coreruleset/coreruleset"

@@ -30,7 +30,7 @@ func DownloadDeps() error {
 	if err := downloadCRS(); err != nil {
 		return err
 	}
-	fmt.Printf("Updated CRS to version %q\n", crsVersion)
+	fmt.Printf("Updated CRS to version %q\n", Version)
 
 	if err := downloadCorazaConfig(); err != nil {
 		return err
@@ -77,7 +77,7 @@ func downloadCRS() error {
 		return err
 	}
 
-	uri := fmt.Sprintf("https://github.com/coreruleset/coreruleset/archive/%s.zip", crsVersion)
+	uri := fmt.Sprintf("https://github.com/coreruleset/coreruleset/archive/%s.zip", Version)
 
 	crsZip, err := getDataFromURL(uri)
 	if err != nil {
@@ -89,7 +89,7 @@ func downloadCRS() error {
 		return err
 	}
 
-	crsVersionStripped := strings.TrimPrefix(crsVersion, "v")
+	crsVersionStripped := strings.TrimPrefix(Version, "v")
 
 	const licenseNumberOfLines = 9
 
