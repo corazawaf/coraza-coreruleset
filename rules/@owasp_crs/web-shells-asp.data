@@ -1,0 +1,12 @@
+# This list contains patterns of various web shells, backdoors and similar
+# software written in ASP language. There is no way how to automatically update
+# this list, so it must be done by hand. Here is a recommended way how to add
+# new malicious software:
+# 1.) As patterns are matched against RESPONSE_BODY, you need to run a malicious
+#     software (ideally in an isolated environment) and catch the output.
+# 2.) In the output, search for static pattern unique enough to match only
+#     the software in question and to not do any FPs. The best pick is usually
+#     a part of HTML code with software name.
+<title>Webshell Akmal archtte id</title>
+<html><title>ASPYDrvsInfo</title>
+<html><head><title>RHTOOLS
