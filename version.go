@@ -7,8 +7,8 @@
 package main
 
 const (
-	corazaVersion = "v3.3.3"
 	crsVersion    = "v4.14.0"
+	corazaVersion = "v3.3.3"
 )
 
 var crsPlugins = map[string]string{
