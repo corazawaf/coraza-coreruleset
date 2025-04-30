@@ -1,0 +1,71 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+  enabled: true
+  name: 9507900.yaml
+tests:
+  - test_title: 9507900-1
+    desc: Disable 932236 for ARGS:load[chunk_0]
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-admin/load-scripts.php?load[chunk_0]=jquery-core,jquery-migrate,utils
+          output:
+            no_log_contains: id "932236"
+  - test_title: 9507900-2
+    desc: Disable 932236 for ARGS:load[chunk_1]
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-admin/load-scripts.php?load[chunk_1]=jquery-core,jquery-migrate,utils
+          output:
+            no_log_contains: id "932236"
+  - test_title: 9507900-3
+    desc: Disable 932236 for ARGS:load[chunk_0]
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-admin/load-styles.php?load[chunk_0]=jquery-core,jquery-migrate,utils
+          output:
+            no_log_contains: id "932236"
+  - test_title: 9507900-4
+    desc: Disable 932236 for ARGS:load[chunk_1]
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-admin/load-styles.php?load[chunk_1]=jquery-core,jquery-migrate,utils
+          output:
+            no_log_contains: id "932236"

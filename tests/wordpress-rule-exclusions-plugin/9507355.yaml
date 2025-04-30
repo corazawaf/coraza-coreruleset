@@ -1,0 +1,45 @@
+---
+meta:
+  author: "Max Leske"
+  description: "Wordpress Rule Exclusions Plugin"
+  enabled: true
+  name: 9507355.yaml
+tests:
+  - test_title: 9507355-1
+    desc: Create new post with classic editor (`referredby`)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/x-www-form-urlencoded
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /wp-admin/post.php
+            data: referredby=https%3A%2F%2Fwebsite.xyz%2Fwp-admin%2Fedit.php%3Fs%3Duser%26post_status%3Dall%26post_type%3Dpost%26action%3D-1%26m%3D0%26cat%3D0%26post_format%26paged%3D1%26action2%3D-1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932235"|id "932236"|id "942120"|id "942430"|id "942431"|id "942432"
+  - test_title: 9507355-2
+    desc: Create new post with classic editor (`_wp_original_http_referer`)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/x-www-form-urlencoded
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /wp-admin/post.php
+            data: _wp_original_http_referer=https%3A%2F%2Fwebsite.xyz%2Fwp-admin%2Fedit.php%3Fs%3Duser%26post_status%3Dall%26post_type%3Dpost%26action%3D-1%26m%3D0%26cat%3D0%26post_format%26paged%3D1%26action2%3D-1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932235"|id "932236"|id "942120"|id "942430"|id "942431"|id "942432"

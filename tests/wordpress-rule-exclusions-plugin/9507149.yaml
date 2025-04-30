@@ -1,0 +1,23 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+  enabled: true
+  name: 9507149.yaml
+tests:
+  - test_title: 9507149-1
+    desc: Disable 931130 for ARGS:url if ARGS:rest_route=/wp-block-editor/v1/url-details
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            version: "HTTP/1.1"
+            uri: /get/index.php?rest_route=%2Fwp-block-editor%2Fv1%2Furl-details&url=https%3A%2F%2Fexample.com%
+          output:
+            no_log_contains: id "931130"

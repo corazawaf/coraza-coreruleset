@@ -1,0 +1,26 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+  enabled: true
+  name: 9507121.yaml
+tests:
+  - test_title: 9507121-1
+    desc: Logging into WordPress
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-admin/admin-ajax.php
+            data: |
+              log=test&pwd=%3Cscript%3E&redirect_to=https%3A%2F%2Fexample.com%2Fwp-admin%2F&testcookie=1
+            no_log_contains: |-
+              id "932236"|id "941110"

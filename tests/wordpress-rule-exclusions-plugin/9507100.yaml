@@ -1,0 +1,41 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+  enabled: true
+  name: 9507100.yaml
+tests:
+  - test_title: 9507100-1
+    desc: Disable OWASP CRS for password and 932236 for ARGS_NAMES:pwd
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-login.php?pwd=<script>
+          output:
+            no_log_contains: |-
+              id "932236"|id "941110"
+  - test_title: 9507100-2
+    desc: ARGS:redirect_to tends to contain multiple special characters since it'll include the redirect URL
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-login.php?redirect_to=;;;;;;;;;;;;
+          output:
+            no_log_contains: |-
+              id "942430"|id "942431"|id "942432"

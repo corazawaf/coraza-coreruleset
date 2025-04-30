@@ -21,16 +21,47 @@ import (
 )
 
 const (
-	rulesDir = "rules"
-	testsDir = "tests"
+	rulesDir             = "rules"
+	testsDir             = "tests"
+	crsDir               = rulesDir + "/@owasp_crs"
+	crsPluginsDir        = rulesDir + "/@owasp_crs_plugins"
+	licenseNumberOfLines = 9
 )
 
-// DownloadDeps downloads the OWASP CRS and the recommended OWASP Coraza configuration file
+// DownloadDeps downloads the OWASP CRS, OWASP CRS Plugins and the recommended OWASP Coraza configuration file
 func DownloadDeps() error {
+	// cleanup rules in rules/@owasp_crs directory
+	if err := cleanupOldCRSRules(crsDir); err != nil {
+		return err
+	}
+	if err := os.MkdirAll(crsDir, os.ModePerm); err != nil {
+		return err
+	}
+
+	// cleanup rules in rules/@owasp_crs_plugins directory
+	if err := cleanupOldCRSRules(crsPluginsDir); err != nil {
+		return err
+	}
+	if err := os.MkdirAll(crsPluginsDir, os.ModePerm); err != nil {
+		return err
+	}
+
+	// cleanup tests in tests/ directory
+	if err := cleanupOldCRSTests(testsDir); err != nil {
+		return err
+	}
+
 	if err := downloadCRS(); err != nil {
 		return err
 	}
 	fmt.Printf("Updated CRS to version %q\n", crsVersion)
+
+	for plugin, version := range crsPlugins {
+		if err := downloadCRSPlugin(plugin, version); err != nil {
+			return err
+		}
+		fmt.Printf("Updated CRS plugin %q to version %q\n", plugin, version)
+	}
 
 	if err := downloadCorazaConfig(); err != nil {
 		return err
@@ -64,19 +95,6 @@ func downloadCorazaConfig() error {
 
 // downloadCRS downloads the OWASP CRS from the CRS repository
 func downloadCRS() error {
-	rulesDstDir := rulesDir + "/@owasp_crs"
-
-	// Before downloading, we need to remove:
-	// - old rules under rules/@owasp_crs
-	// - all the related tests
-	if err := cleanupOldCRS(rulesDstDir, testsDir); err != nil {
-		return err
-	}
-
-	if err := os.MkdirAll(rulesDstDir, os.ModePerm); err != nil {
-		return err
-	}
-
 	uri := fmt.Sprintf("https://github.com/coreruleset/coreruleset/archive/%s.zip", crsVersion)
 
 	crsZip, err := getDataFromURL(uri)
@@ -90,8 +108,6 @@ func downloadCRS() error {
 	}
 
 	crsVersionStripped := strings.TrimPrefix(crsVersion, "v")
-
-	const licenseNumberOfLines = 9
 
 	for _, f := range r.File {
 		if f.Name == fmt.Sprintf("coreruleset-%s/LICENSE", crsVersionStripped) {
@@ -139,7 +155,96 @@ func downloadCRS() error {
 			continue
 		}
 
-		fPath := filepath.Join(rulesDstDir, filename)
+		fPath := filepath.Join(crsDir, filename)
+
+		target, err := os.Create(fPath)
+		if err != nil {
+			return err
+		}
+
+		source, err := f.Open()
+		if err != nil {
+			os.Remove(fPath)
+			return err
+		}
+
+		fileScanner := bufio.NewScanner(source)
+		fileScanner.Split(bufio.ScanLines)
+
+		lineNumber := 0
+
+		for fileScanner.Scan() {
+			lineNumber++
+			if lineNumber <= licenseNumberOfLines {
+				target.Write(fileScanner.Bytes())
+				target.WriteString("\n")
+				continue
+			}
+
+			text := strings.TrimSpace(fileScanner.Text())
+			if len(text) == 0 || text[0] == '#' {
+				continue
+			}
+			target.Write(fileScanner.Bytes())
+			target.WriteString("\n")
+		}
+		source.Close()
+
+		target.Close()
+	}
+
+	return nil
+}
+
+// downloadCRSPlugin downloads the OWASP CRS Plugin from CRS Plugin repository
+func downloadCRSPlugin(crsPlugin, crsVersion string) error {
+	uri := fmt.Sprintf("https://github.com/coreruleset/%s/archive/%s.zip", crsPlugin, crsVersion)
+
+	crsPluginZip, err := getDataFromURL(uri)
+	if err != nil {
+		return err
+	}
+
+	r, err := zip.NewReader(bytes.NewReader(crsPluginZip), int64(len(crsPluginZip)))
+	if err != nil {
+		return err
+	}
+
+	crsPluginVersionStripped := strings.TrimPrefix(crsVersion, "v")
+
+	for _, f := range r.File {
+		if f.FileInfo().IsDir() {
+			continue
+		}
+
+		testPrefix := fmt.Sprintf("%s-%s/tests/regression/", crsPlugin, crsPluginVersionStripped)
+		if strings.HasPrefix(f.Name, testPrefix) {
+			if !strings.HasSuffix(f.Name, ".yaml") {
+				continue
+			}
+
+			subdir := strings.TrimPrefix(filepath.Dir(f.Name), testPrefix)
+			dir := filepath.Join(testsDir, subdir)
+
+			if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+				return err
+			}
+
+			copyFile(f, filepath.Join(dir, filepath.Base(f.Name)))
+		}
+
+		prefix := fmt.Sprintf("%s-%s/plugins/", crsPlugin, crsPluginVersionStripped)
+		if !strings.HasPrefix(f.Name, prefix) {
+			continue
+		}
+
+		filename := f.Name[len(prefix):]
+
+		if strings.HasSuffix(filename, ".example") {
+			continue
+		}
+
+		fPath := filepath.Join(crsPluginsDir, filename)
 
 		target, err := os.Create(fPath)
 		if err != nil {
@@ -217,15 +322,18 @@ func copyFile(f *zip.File, dstPath string) error {
 	return nil
 }
 
-func cleanupOldCRS(rulesDstDir, testsDir string) error {
-	if err := os.RemoveAll(rulesDstDir); err != nil {
+func cleanupOldCRSRules(rulesDir string) error {
+	if err := os.RemoveAll(rulesDir); err != nil {
 		return err
 	}
+	return nil
+}
+
+func cleanupOldCRSTests(testsDir string) error {
 	if err := filepath.WalkDir(testsDir, func(path string, d os.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
-
 		// tests folder contains go files related to the coraza-coreruleset repo that we don't want to remove
 		if d.Name() != "tests.go" && d.Name() != "tests_test.go" && path != testsDir {
 			if err := os.RemoveAll(path); err != nil {
