@@ -240,7 +240,7 @@ func downloadCRSPlugin(crsPlugin, crsVersion string) error {
 
 		filename := f.Name[len(prefix):]
 
-		if strings.HasSuffix(filename, ".example") {
+		if strings.HasSuffix(filename, "config.conf") {
 			continue
 		}
 
