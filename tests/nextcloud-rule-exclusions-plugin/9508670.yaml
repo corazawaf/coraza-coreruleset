@@ -1,0 +1,55 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508670.yaml
+tests:
+  - test_title: 9508670-1
+    desc: Displaying discover page in the app store
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            uri: /settings/api/apps/media?fileName=https%3A%2F%2Fnextcloud.com%2Fc%2Fuploads%2F2024%2F04%2Fhub8-release-featured-image-1024x576.jpg
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "931130"
+  - test_title: 9508670-2
+    desc: Displaying discover page in the app store
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            uri: /settings/api/apps/media?fileName=https%3A%2F%2Fgithub.com%2Fnextcloud%2Ffirstrunwizard%2Fraw%2Fmaster%2Fimg%2FNextcloud.webm
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "931130"
+  - test_title: 9508670-3
+    desc: Displaying discover page in the app store
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            uri: /settings/api/apps/media?fileName=https%3A%2F%2Fraw.githubusercontent.com%2Fnextcloud%2Ffirstrunwizard%2Fstable30%2Fimg%2FnextcloudHub.mp4
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "931130"

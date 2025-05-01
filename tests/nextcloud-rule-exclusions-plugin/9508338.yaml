@@ -1,0 +1,42 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508338.yaml
+tests:
+  - test_title: 9508338-1
+    desc: Editing 9508338 task notes
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: text/calendar; charset=UTF-8; component=vtodo; charset=UTF-8
+            port: 80
+            method: PUT
+            uri: /remote.php/dav/calendars/esadc/test/0123-456-789-ABC-DEF.ics
+            data: |-
+              BEGIN:VCALENDAR
+              VERSION:2.0
+              PRODID:+//IDN bitfire.at//ical4android (org.tasks)
+              BEGIN:VTODO
+              DTSTAMP:20241220T140431Z
+              UID:abc-def-123-456-7890
+              SEQUENCE:1
+              CREATED:20241217T140720Z
+              LAST-MODIFIED:20241220T140431Z
+              SUMMARY:test
+              PRIORITY:7
+              STATUS:IN-PROCESS
+              PERCENT-COMPLETE:42
+              DESCRIPTION:Test
+              END:VTODO
+              END:VCALENDAR
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920420"|id "920530"

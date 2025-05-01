@@ -1,0 +1,47 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Mail: Changing settings"
+  enabled: true
+  name: 9508981.yaml
+tests:
+  - test_title: 9508981-1
+    desc: Collapsing/uncollapsing mailbox (Nextcloud 25 and older)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/preferences/account-settings
+            data: |-
+              {"key":"account-settings","value":"[{\"accountId\":1,\"collapsed\":false},{\"accountId\":2,\"collapsed\":true}]"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "932240"|id "942200"|id "942260"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508981-2
+    desc: Setting reply to text to top
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/preferences/reply-mode
+            data: |-
+              {"key":"reply-mode","value":"top"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "932240"|id "942200"|id "942260"|id "942430"|id "942431"|id "942432"

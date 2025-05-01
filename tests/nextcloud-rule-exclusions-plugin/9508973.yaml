@@ -1,0 +1,24 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508973.yaml
+tests:
+  - test_title: 9508973-1
+    desc: Loading a remote image in Nextcloud Mail
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            uri: /apps/mail/proxy?src=https://go.netacad.com/rs/059-VFZ-834/images/ezgif.com-animated-gif-maker%281%29.gif
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920230"|id "920273"|id "931130"|id "942421"|id "942430"|id "942431"|id "942432"

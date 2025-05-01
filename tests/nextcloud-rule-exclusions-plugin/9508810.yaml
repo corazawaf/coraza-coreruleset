@@ -1,0 +1,90 @@
+---
+meta:
+  author: "Jean-Kevin Kpadey, Esad Cetiner"
+  description: "Nextcloud Deck"
+  enabled: true
+  name: 9508810.yaml
+tests:
+  - test_title: 9508810-1
+    desc: |
+      Moving cards on Deck apps.
+      Target: description
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/deck/cards/1/reorder
+            data: |-
+              {"description:": "This is a description.
+
+              Use this [link](https://github.com/microsoft/vscode/issues?page=3&q=is%3Aissue+is%3Aopen)."}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "932200"|id "933210"|id "941110"|id "942200"|id "942260"|id "942370"|id "942430"|id "942440"
+  - test_title: 9508810-2
+    desc: Unassigning a user from a card.
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/deck/cards/1/unassign
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "932200"|id "933210"|id "941110"|id "942200"|id "942260"|id "942370"|id "942430"|id "942440"
+  - test_title: 9508810-3
+    desc: |
+      Setting a due date on a card.
+      Target: json.data
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/deck/cards/1
+            data: |-
+              {"data":{"id":16,"title":"Title","description":"","stackId":11,"type":"plain","lastModified":1708032296,"lastEditor":null,"createdAt":1708013998,"labels":[{"id":9,"title":"Terminé","color":"31CC7C","boardId":3,"cardId":null,"lastModified":0,"ETag":"cfcd208495d565ef66e7dff9f98764da"}],"owner":{"primaryKey":"mivek","uid":"mivek","displayname":"mivek","type":0},"order":2,"duedate":"2024-02-15T23:00:00.000Z","deletedAt":0,"boardId":3}}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "932200"|id "933210"|id "941110"|id "942200"|id "942260"|id "942370"|id "942430"|id "942440"
+  - test_title: 9508810-4
+    desc: Creating a new card
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /apps/deck/cards
+            data: |-
+              {"boardId":1,"stackId":1,"title":"test","description":"<script>","duedate":null,"labels":[3],"users":[{"id":"esadc","type":0}]}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "932200"|id "933210"|id "941110"|id "942200"|id "942260"|id "942370"|id "942430"|id "942440"

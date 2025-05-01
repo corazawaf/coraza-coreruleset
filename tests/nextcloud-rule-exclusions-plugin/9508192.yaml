@@ -1,0 +1,114 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508192.yaml
+tests:
+  - test_title: 9508192-1
+    desc: Getting Calendar inbox
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: text/plain;charset=UTF-8
+            port: 80
+            method: PROPFIND
+            uri: /remote.php/dav/calendars/test/inbox
+            data: |-
+              <?xml version="1.0"?>
+                <x0:propfind xmlns:x0="DAV:">
+                  <x0:prop>
+                    <x1:calendar-availability xmlns:x1="urn:ietf:params:xml:ns:caldav"/>
+                  </x0:prop>
+                </x0:propfind>
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "920420"
+  - test_title: 9508192-2
+    desc: Getting files/folders stored on the server
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: text/plain;charset=UTF-8
+            port: 80
+            method: PROPFIND
+            uri: /remote.php/dav/files/user/
+            data: |-
+              <?xml version="1.0"?>
+                <d:propfind xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns" xmlns:oc="http://owncloud.org/ns" xmlns:ocs="http://open-collaboration-services.org/ns">
+                  <d:prop>
+                    <d:getcontentlength/>
+                    <d:getcontenttype/>
+                    <d:getetag/>
+                    <d:getlastmodified/>
+                    <d:quota-available-bytes/>
+                    <d:resourcetype/>
+                    <nc:has-preview/>
+                    <nc:is-encrypted/>
+                    <nc:mount-type/>
+                    <nc:share-attributes/>
+                    <oc:comments-unread/>
+                    <oc:favorite/>
+                    <oc:fileid/>
+                    <oc:owner-display-name/>
+                    <oc:owner-id/>
+                    <oc:permissions/>
+                    <oc:share-types/>
+                    <oc:size/>
+                    <ocs:share-permissions/>
+                  </d:prop>
+                </d:propfind>
+          version: HTTP/1.1
+          output:
+            no_log_contains: id "920420"
+  - test_title: 9508192-3
+    desc: Opening an image from a public share
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: text/plain;charset=UTF-8
+            port: 80
+            method: PROPFIND
+            uri: /public.php/webdav/example.jpg
+            data: |-
+              <?xml version="1.0"?>
+              <d:propfind  xmlns:d="DAV:"xmlns:oc="http://owncloud.org/ns"xmlns:nc="http://nextcloud.org/ns"xmlns:ocs="http://open-collaboration-services.org/ns">
+                <d:prop>
+              	  <d:getlastmodified/>
+              	  <d:getcontenttype/>
+              	  <d:resourcetype/>
+              	  <d:getetag/>
+              	  <oc:fileid/>
+              	  <oc:permissions/>
+              	  <oc:size/>
+              	  <d:getcontentlength/>
+              	  <nc:has-preview/>
+              	  <nc:mount-type/>
+              	  <nc:is-encrypted/>
+              	  <ocs:share-permissions/>
+              	  <oc:tags/>
+              	  <oc:favorite/>
+              	  <oc:comments-unread/>
+              	  <oc:owner-id/>
+              	  <oc:owner-display-name/>
+              	  <oc:share-types/>
+                </d:prop>
+              </d:propfind>
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "920420"

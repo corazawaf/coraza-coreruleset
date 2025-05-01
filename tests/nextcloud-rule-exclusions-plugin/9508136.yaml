@@ -1,0 +1,23 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Files: Downloading all files in a share as an zip file"
+  enabled: true
+  name: 9508136.yaml
+tests:
+  - test_title: 9508136-1
+    desc: Creating a new share for a file/folder
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            uri: /public.php/dav/files/share-id/?accept=zip
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "932236"

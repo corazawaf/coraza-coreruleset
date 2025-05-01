@@ -1,0 +1,123 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Office: Built in CODE Server"
+  enabled: true
+  name: 9508540.yaml
+tests:
+  - test_title: 9508540-1
+    desc: Checking document state with built in collabora CODE Server
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: text/plain;charset=UTF-8
+            port: 80
+            method: POST
+            uri: /apps/richdocumentscode/proxy.php?req=/cool/https%3A%2F%2Fexample.com%2Findex.php%2Fapps%2Frichdocuments%2Fwopi%2Ffiles%2F1372194_randomgd%3Faccess_token%3DVrandomtoken%26access_token_ttl%3D0/ws?WOPISrc=https%3A%2F%2Fexample.com%2Findex.php%2Fapps%2Frichdocuments%2Fwopi%2Ffiles%2F1372194_randomqgd&compat=/ws/1234567890abcdef/write/2
+            data: |-
+              B0x0
+              0x2f
+              coolclient 0.1 1731805901045 130.60000002384186
+              B0x1
+              0xe9
+              load url=https%3A%2F%2Fexample.com%2Findex.php%2Fapps%2Frichdocuments%2Fwopi%2Ffiles%2F1372194_random lang=en deviceFormFactor=desktop timezone=Australia/Sydney darkTheme=true darkBackground=true accessibilityState=false
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "921150"|id "932240"|id "942200"|id "942330"|id "942340"|id "942370"|id "942430"|id "942431"|id "942432"|id "942450"
+  - test_title: 9508540-2
+    desc: Checking document state with built in collabora CODE Server
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: text/plain;charset=UTF-8
+            port: 80
+            method: POST
+            uri: /apps/richdocumentscode/proxy.php?req=/cool/https%3A%2F%2Fexample.com%2Findex.php%2Fapps%2Frichdocuments%2Fwopi%2Ffiles%2F1372194_randomgd%3Faccess_token%3DtHkDrandomtokenL%26access_token_ttl%3D0%26permission%3Dedit/ws?WOPISrc=https%3A%2F%2Fexample.com%2Findex.php%2Fapps%2Frichdocuments%2Fwopi%2Ffiles%2F1372194_randomgd&compat=/ws/1234567890abcdef/write/22
+            data: |-
+              B0x4
+              0x42
+              uno .uno:ChangeTheme {"NewTheme":{"type":"string","value":"Dark"}}
+              B0x5
+              0x47
+              uno .uno:InvertBackground {"NewTheme":{"type":"string","value":"Dark"}}
+              B0x6
+              0x28
+              uno .uno:ToolbarMode?Mode:string=Default
+              B0x7
+              0x36
+              uno .uno:ToolbarMode?Mode:string=notebookbar_online.ui
+              B0x8
+              0x14
+              uno .uno:SidebarShow
+              B0x9
+              0x14
+              uno .uno:SidebarHide
+              B0xa
+              0x28
+              uno .uno:ToolbarMode?Mode:string=Default
+              B0xb
+              0x36
+              uno .uno:ToolbarMode?Mode:string=notebookbar_online.ui
+              B0xc
+              0x29
+              commandvalues command=.uno:LanguageStatus
+              B0xd
+              0x2a
+              commandvalues command=.uno:ViewAnnotations
+              B0xe
+              0x25
+              commandvalues command=.uno:StyleApply
+              B0xf
+              0x27
+              commandvalues command=.uno:CharFontName
+              B0x10
+              0x28
+              uno .uno:ToolbarMode?Mode:string=Default
+              B0x11
+              0x36
+              uno .uno:ToolbarMode?Mode:string=notebookbar_online.ui
+              B0x12
+              0x29
+              commandvalues command=.uno:LanguageStatus
+              B0xd
+              0x2a
+              commandvalues command=.uno:ViewAnnotations
+              B0xe
+              0x25
+              commandvalues command=.uno:StyleApply
+              B0xf
+              0x27
+              commandvalues command=.uno:CharFontName
+              B0x10
+              0x28
+              uno .uno:ToolbarMode?Mode:string=Default
+              B0x11
+              0x36
+              uno .uno:ToolbarMode?Mode:string=notebookbar_online.ui
+              B0x12
+              0x29
+              commandvalues command=.uno:LanguageStatus
+              B0x13
+              0x2a
+              commandvalues command=.uno:ViewAnnotations
+              B0x14
+              0x25
+              commandvalues command=.uno:StyleApply
+              B0x15
+              0x27
+              commandvalues command=.uno:CharFontName
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "920420"|id "921150"|id "932240"|id "942200"|id "942330"|id "942340"|id "942370"|id "942430"|id "942431"|id "942432"|id "942450"

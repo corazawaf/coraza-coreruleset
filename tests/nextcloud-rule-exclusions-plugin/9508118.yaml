@@ -1,0 +1,239 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508118.yaml
+tests:
+  - test_title: 9508118-1
+    desc: WebDAV client searching for files
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: text/xml
+            port: 80
+            method: SEARCH
+            uri: /remote.php/dav
+            data: |-
+              <?xml version="1.0" encoding="UTF-8"?>
+                <d:searchrequest xmlns:d="DAV:"
+                  xmlns:oc="http://owncloud.org/ns"
+                  xmlns:nc="http://nextcloud.org/ns"
+                  xmlns:ns="https://github.com/icewind1991/SearchDAV/ns"
+                  xmlns:ocs="http://open-collaboration-services.org/ns">
+                  <d:basicsearch>
+                    <d:select>
+                    <d:prop>
+                    <d:getcontentlength/>
+                    <d:getcontenttype/>
+                    <d:getetag/>
+                    <d:getlastmodified/>
+                    <d:resourcetype/>
+                    <nc:face-detections/>
+                    <nc:face-preview-image/>
+                    <nc:metadata-photos-size/>
+                    <nc:metadata-photos-original_date_time/>
+                    <nc:metadata-files-live-photo/>
+                    <nc:metadata-blurhash/>
+                    <nc:has-preview/>
+                    <nc:realpath/>
+                    <nc:hidden/>
+                    <oc:favorite/>
+                    <oc:fileid/>
+                    <oc:permissions/>
+                    <nc:nbItems/>
+                    </d:prop>
+                    </d:select>
+                    <d:from>
+                    <d:scope>
+                    <d:href>/files/esadc/Pictures</d:href>
+                    <d:depth>infinity</d:depth>
+                    </d:scope>
+                    <d:scope>
+                    <d:href>/files/esadc/InstantUpload</d:href>
+                    <d:depth>infinity</d:depth>
+                    </d:scope>
+                    </d:from>
+                    <d:where>
+                    <d:and>
+                    <d:or>
+                    <d:eq>
+                    <d:prop>
+                    <d:getcontenttype/>
+                    </d:prop>
+                    <d:literal>image/png</d:literal>
+                    </d:eq>
+                    <d:eq>
+                    <d:prop>
+                    <d:getcontenttype/>
+                    </d:prop>
+                    <d:literal>image/jpeg</d:literal>
+                    </d:eq>
+                    <d:eq>
+                    <d:prop>
+                    <d:getcontenttype/>
+                    </d:prop>
+                    <d:literal>image/heic</d:literal>
+                    </d:eq>
+                    <d:eq>
+                    <d:prop>
+                    <d:getcontenttype/>
+                    </d:prop>
+                    <d:literal>image/webp</d:literal>
+                    </d:eq>
+                    <d:eq>
+                    <d:prop>
+                    <d:getcontenttype/>
+                    </d:prop>
+                    <d:literal>video/mp4</d:literal>
+                    </d:eq>
+                    <d:eq>
+                    <d:prop>
+                    <d:getcontenttype/>
+                    </d:prop>
+                    <d:literal>video/quicktime</d:literal>
+                    </d:eq>
+                    </d:or>
+                    </d:and>
+                    </d:where>
+                    <d:orderby>
+                    <d:order>
+                    <d:prop><nc:metadata-photos-original_date_time/></d:prop>
+                    <d:descending/>
+                    </d:order>
+                    <d:order>
+                    <d:prop><d:getlastmodified/></d:prop>
+                    <d:descending/>
+                    </d:order>
+                    </d:orderby>
+                    <d:limit>
+                    <d:nresults>200</d:nresults>
+                    <ns:firstresult>200</ns:firstresult>
+                    </d:limit>
+                  </d:basicsearch>
+                </d:searchrequest>
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508118-2
+    desc: WebDAV client searching for files
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: text/xml
+            port: 80
+            method: SEARCH
+            uri: /remote.php/dav/
+            data: |-
+              <?xml version="1.0" encoding="UTF-8"?>
+                <d:searchrequest xmlns:d="DAV:"
+                  xmlns:oc="http://owncloud.org/ns"
+                  xmlns:nc="http://nextcloud.org/ns"
+                  xmlns:ns="https://github.com/icewind1991/SearchDAV/ns"
+                  xmlns:ocs="http://open-collaboration-services.org/ns">
+                  <d:basicsearch>
+                    <d:select>
+                    <d:prop>
+                    <d:getcontentlength/>
+                    <d:getcontenttype/>
+                    <d:getetag/>
+                    <d:getlastmodified/>
+                    <d:resourcetype/>
+                    <nc:face-detections/>
+                    <nc:face-preview-image/>
+                    <nc:metadata-photos-size/>
+                    <nc:metadata-photos-original_date_time/>
+                    <nc:metadata-files-live-photo/>
+                    <nc:metadata-blurhash/>
+                    <nc:has-preview/>
+                    <nc:realpath/>
+                    <nc:hidden/>
+                    <oc:favorite/>
+                    <oc:fileid/>
+                    <oc:permissions/>
+                    <nc:nbItems/>
+                    </d:prop>
+                    </d:select>
+                    <d:from>
+                    <d:scope>
+                    <d:href>/files/esadc/Pictures</d:href>
+                    <d:depth>infinity</d:depth>
+                    </d:scope>
+                    <d:scope>
+                    <d:href>/files/esadc/InstantUpload</d:href>
+                    <d:depth>infinity</d:depth>
+                    </d:scope>
+                    </d:from>
+                    <d:where>
+                    <d:and>
+                    <d:or>
+                    <d:eq>
+                    <d:prop>
+                    <d:getcontenttype/>
+                    </d:prop>
+                    <d:literal>image/png</d:literal>
+                    </d:eq>
+                    <d:eq>
+                    <d:prop>
+                    <d:getcontenttype/>
+                    </d:prop>
+                    <d:literal>image/jpeg</d:literal>
+                    </d:eq>
+                    <d:eq>
+                    <d:prop>
+                    <d:getcontenttype/>
+                    </d:prop>
+                    <d:literal>image/heic</d:literal>
+                    </d:eq>
+                    <d:eq>
+                    <d:prop>
+                    <d:getcontenttype/>
+                    </d:prop>
+                    <d:literal>image/webp</d:literal>
+                    </d:eq>
+                    <d:eq>
+                    <d:prop>
+                    <d:getcontenttype/>
+                    </d:prop>
+                    <d:literal>video/mp4</d:literal>
+                    </d:eq>
+                    <d:eq>
+                    <d:prop>
+                    <d:getcontenttype/>
+                    </d:prop>
+                    <d:literal>video/quicktime</d:literal>
+                    </d:eq>
+                    </d:or>
+                    </d:and>
+                    </d:where>
+                    <d:orderby>
+                    <d:order>
+                    <d:prop><nc:metadata-photos-original_date_time/></d:prop>
+                    <d:descending/>
+                    </d:order>
+                    <d:order>
+                    <d:prop><d:getlastmodified/></d:prop>
+                    <d:descending/>
+                    </d:order>
+                    </d:orderby>
+                    <d:limit>
+                    <d:nresults>200</d:nresults>
+                    <ns:firstresult>200</ns:firstresult>
+                    </d:limit>
+                  </d:basicsearch>
+                </d:searchrequest>
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "942430"|id "942431"|id "942432"

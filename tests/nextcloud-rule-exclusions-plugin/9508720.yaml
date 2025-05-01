@@ -1,0 +1,119 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Cookbook"
+  enabled: true
+  name: 9508720.yaml
+tests:
+  - test_title: 9508720-1
+    desc: |
+      Creating recipes
+      Sample recipe taken from: https://www.taste.com.au/recipes/pumpkin-soup/e54ab2b5-7d19-4e4b-b383-781292dc4bfb?r=quickeasy/biccuul7
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /apps/cookbook/webapp/recipes
+            data: >-
+              {"id":0,"name":"Easy pumpkin soup recipie","description":"The beauty of a creamy pumpkin soup (and this classic pumpkin soup recipe in particular) is that it’s so versatile and forgiving.
+              It’s one of the easiest meals to make with just a handful of ingredients, and it’s almost impossible to mess up. We love easy soup recipes, and know our community of home cooks do too.\n\n
+              What makes this our best easy pumpkin soup recipe?\nThe recipe author, Valli Little, originally created this creamy pumpkin soup recipe way back in 2004 and it was passed on to us here at taste.com.au
+              as one of the first pumpkin soup recipes we ever published online. Since then, it’s become one of the most popular creamy pumpkin soup recipes in Australia, with more than 350 rave reviews to date.\n\n
+              It’s creamy without being heavy, delicately spiced without being spicy, and hearty without being too rich. Pretty much everything we look for in a pumpkin soup (and we’ve tried
+              a lot of pumpkin soup recipes over the years!).\n\nServe this pumpkin soup with a satisfyingly crusty piece of bread. If you like, you can sprinkle your soup with chilli flakes (or cayenne pepper)
+              or a pinch of smoked paprika. \n\nIf you're not sure how best to cut and prep your pumpkin (be it butternut squash or another type of pumpkin) for your soup, check out our video guide at the bottom
+              of the method steps.\n\nWe also have a flavourful vegan pumpkin soup recipe for those who prefer a dairy-free soup. Looking for more easy soup recipe ideas? Try our 15-minute chicken and corn noodle
+              soup. You could also make pumpkin soup in a slow cooker.","url":"https://www.taste.com.au/recipes/pumpkin-soup/e54ab2b5-7d19-4e4b-b383-781292dc4bfb?r=quickeasy/biccuul7",
+              "image":"/best-easy-pumpkin-soup-recipe-185570-1.jpg","prepTime":"PT00H10M00S","cookTime":"PT00H40M00S","totalTime":"PT00H50M00S","recipeCategory":["Soup","Easy"],
+              "keywords":"Pumpkin,Soup,Easy","recipeYield":6,"tool":[],"recipeIngredient":["","1L Massel chicken style liquid stock or vegetable liquid stock","1 large potato, peeled, diced",
+              "1kg peeled pumpkin, diced","1/2 tsp freshly grated nutmeg","1 tsp ground cumin","1/2 tsp ground coriander","1 garlic clove, crushed","1 leek, white part only, finely sliced","1 onion, finely chopped",
+              "2 tbsp Coles Classic Olive Oil"],"recipeInstructions":["Heat oil in a large saucepan over low heat, add onion and leek and cook for 2-3 minutes, until softened but not coloured.\n",
+              "Add garlic, coriander, cumin, and nutmeg and cook, stirring, for 30 seconds. Add pumpkin, potato and stock and bring to the boil. Turn heat to low, cover and simmer for 30 minutes.
+              Allow to cool slightly, then blend in batches.\n","Return soup to pan, stir through cream and reheat gently. Season and add a little more nutmeg if desired.\n"],
+              "nutrition":{"calories":"206cal","proteinContent":"3.1g","fatContent":"12.9g","saturatedFatContent":"5.0g","carbohydrateContent":"21.9g","sugarContent":"5.8g","sodiumContent":"563.8mg"},
+              "valueInit":{"id":0,"name":"","description":"","url":"","image":"","prepTime":"","cookTime":"","totalTime":"","recipeCategory":"","keywords":"","recipeYield":"","tool":[],"recipeIngredient":[],
+              "recipeInstructions":[],"nutrition":{}}}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920272"|id "920273"|id "931130"|id "932190"|id "932200"|id "932236"|id "932380"|id "942200"|id "942430"|id "942431"|id "942432"|id "942460"
+  - test_title: 9508720-2
+    desc: |
+      Editing a recipe
+      Sample recipe taken from: https://www.taste.com.au/recipes/pumpkin-soup/e54ab2b5-7d19-4e4b-b383-781292dc4bfb?r=quickeasy/biccuul7
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/cookbook/webapp/recipes/1
+            data: >-
+              {"id":"1245809","name":"Easy pumpkin soup recipie test","description":"The beauty of a creamy pumpkin soup (and this classic pumpkin soup recipe in particular) is that it’s so versatile and forgiving.
+              It’s one of the easiest meals to make with just a handful of ingredients, and it’s almost impossible to mess up. We love easy soup recipes, and know our community of home cooks do too.\n\nWhat
+              makes this our best easy pumpkin soup recipe?\nThe recipe author, Valli Little, originally created this creamy pumpkin soup recipe way back in 2004 and it was passed on to us here at taste.com.au
+              as one of the first pumpkin soup recipes we ever published online. Since then, it’s become one of the most popular creamy pumpkin soup recipes in Australia, with more than 350 rave reviews to date.\n\n
+              It’s creamy without being heavy, delicately spiced without being spicy, and hearty without being too rich. Pretty much everything we look for in a pumpkin soup (and we’ve tried a lot of pumpkin soup
+              recipes over the years!).\n\nServe this pumpkin soup with a satisfyingly crusty piece of bread. If you like, you can sprinkle your soup with chilli flakes (or cayenne pepper) or a pinch of smoked
+              paprika.\n\nIf you're not sure how best to cut and prep your pumpkin (be it butternut squash or another type of pumpkin) for your soup, check out our video guide at the bottom of the method steps.\n\n
+              We also have a flavourful vegan pumpkin soup recipe for those who prefer a dairy-free soup. Looking for more easy soup recipe ideas? Try our 15-minute chicken and corn noodle soup.
+              You could also make pumpkin soup in a slow cooker.","url":"https://www.taste.com.au/recipes/pumpkin-soup/e54ab2b5-7d19-4e4b-b383-781292dc4bfb?r=quickeasy/biccuul7",
+              "image":"/best-easy-pumpkin-soup-recipe-185570-1.jpg","prepTime":"PT0H10M0S","cookTime":"PT0H40M0S","totalTime":"PT0H50M0S","recipeCategory":"Soup","keywords":"Pumpkin,Soup,Easy","recipeYield":6,
+              "tool":[],"recipeIngredient":["1L Massel chicken style liquid stock or vegetable liquid stock","1 large potato, peeled, diced","1kg peeled pumpkin, diced","1/2 tsp freshly grated nutmeg",
+              "1 tsp ground cumin","1/2 tsp ground coriander","1 garlic clove, crushed","1 leek, white part only, finely sliced","1 onion, finely chopped","2 tbsp Coles Classic Olive Oil"],
+              "recipeInstructions":["Heat oil in a large saucepan over low heat, add onion and leek and cook for 2-3 minutes, until softened but not coloured.","Add garlic, coriander, cumin, and nutmeg and cook,
+              stirring, for 30 seconds. Add pumpkin, potato and stock and bring to the boil. Turn heat to low, cover and simmer for 30 minutes. Allow to cool slightly, then blend in batches.",
+              "Return soup to pan, stir through cream and reheat gently. Season and add a little more nutmeg if desired."],"nutrition":{"calories":"206cal","proteinContent":"3.1g","fatContent":"12.9g",
+              "saturatedFatContent":"5.0g","carbohydrateContent":"21.9g","sugarContent":"5.8g","sodiumContent":"563.8mg","@type":"NutritionInformation"},"valueInit":{"id":"1245809",
+              "name":"Easy pumpkin soup recipie","description":"The beauty of a creamy pumpkin soup (and this classic pumpkin soup recipe in particular) is that it’s so versatile and forgiving.
+              It’s one of the easiest meals to make with just a handful of ingredients, and it’s almost impossible to mess up. We love easy soup recipes, and know our community of home cooks do too.\n\n
+              What makes this our best easy pumpkin soup recipe?\nThe recipe author, Valli Little, originally created this creamy pumpkin soup recipe way back in 2004 and it was passed on to us here at taste.com.au
+              as one of the first pumpkin soup recipes we ever published online. Since then, it’s become one of the most popular creamy pumpkin soup recipes in Australia, with more than 350 rave reviews to date.
+              \n\nIt’s creamy without being heavy, delicately spiced without being spicy, and hearty without being too rich. Pretty much everything we look for in a pumpkin soup (and we’ve tried a lot of pumpkin
+              soup recipes over the years!).\n\nServe this pumpkin soup with a satisfyingly crusty piece of bread. If you like, you can sprinkle your soup with chilli flakes (or cayenne pepper) or a pinch
+              of smoked paprika.\n\nIf you're not sure how best to cut and prep your pumpkin (be it butternut squash or another type of pumpkin) for your soup, check out our video guide at the bottom of
+              the method steps.\n\nWe also have a flavourful vegan pumpkin soup recipe for those who prefer a dairy-free soup. Looking for more easy soup recipe ideas? Try our 15-minute chicken and corn noodle soup.
+              You could also make pumpkin soup in a slow cooker.","url":"https://www.taste.com.au/recipes/pumpkin-soup/e54ab2b5-7d19-4e4b-b383-781292dc4bfb?r=quickeasy/biccuul7",
+              "image":"/best-easy-pumpkin-soup-recipe-185570-1.jpg","prepTime":"PT0H10M0S","cookTime":"PT0H40M0S","totalTime":"PT0H50M0S","recipeCategory":"Soup","keywords":"Pumpkin,Soup,Easy","recipeYield":6,
+              "tool":[],"recipeIngredient":["1L Massel chicken style liquid stock or vegetable liquid stock","1 large potato, peeled, diced","1kg peeled pumpkin, diced","1/2 tsp freshly grated nutmeg",
+              "1 tsp ground cumin","1/2 tsp ground coriander","1 garlic clove, crushed","1 leek, white part only, finely sliced","1 onion, finely chopped","2 tbsp Coles Classic Olive Oil"],
+              "recipeInstructions":["Heat oil in a large saucepan over low heat, add onion and leek and cook for 2-3 minutes, until softened but not coloured.","Add garlic, coriander, cumin, and nutmeg and cook,
+              stirring, for 30 seconds. Add pumpkin, potato and stock and bring to the boil. Turn heat to low, cover and simmer for 30 minutes. Allow to cool slightly, then blend in batches.",
+              "Return soup to pan, stir through cream and reheat gently. Season and add a little more nutmeg if desired."],"nutrition":{"calories":"206cal","proteinContent":"3.1g","fatContent":"12.9g",
+              "saturatedFatContent":"5.0g","carbohydrateContent":"21.9g","sugarContent":"5.8g","sodiumContent":"563.8mg","@type":"NutritionInformation"},"valueInit":{"id":0,"name":"","description":"","url":"",
+              "image":"","prepTime":"","cookTime":"","totalTime":"","recipeCategory":"","keywords":"","recipeYield":"","tool":[],"recipeIngredient":[],"recipeInstructions":[],"nutrition":[]},
+              "@context":"http://schema.org","@type":"Recipe","dateCreated":"2024-07-22T12:29:24+00:00","dateModified":"2024-07-22T12:29:24+00:00","datePublished":null,"printImage":true,
+              "imageUrl":"/apps/cookbook/webapp/recipes/1245809/image?size=full"},"@context":"http://schema.org","@type":"Recipe","dateCreated":"2024-07-22T12:29:24+00:00",
+              "dateModified":"2024-07-22T12:29:24+00:00","datePublished":null,"printImage":true,"imageUrl":"/apps/cookbook/webapp/recipes/1245809/image?size=full"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920272"|id "920273"|id "931130"|id "932190"|id "932200"|id "932236"|id "932380"|id "942200"|id "942430"|id "942431"|id "942432"|id "942460"
+  - test_title: 9508720-3
+    desc: Deleting a recipe
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/cookbook/webapp/recipes/1
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"

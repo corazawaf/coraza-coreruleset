@@ -1,0 +1,380 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Mail: Sending/drafting an email message"
+  enabled: true
+  name: 9508991.yaml
+tests:
+  - test_title: 9508991-1
+    desc: |-
+      Drafting an email, content could be anything.
+      Draft ID set: yes
+      Formatting option: disabled
+      Target: json.body
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/drafts/4
+            data: |-
+              {"account":3,"accountId":3,"aliasId":null,"to":[{"email":"test@example.com","label":"test@example.com"}],"cc":[],"bcc":[],"subject":"<script>","body":"<p style=\"margin:0;\">&lt;/script&gt;</p>","attachments":[],"isHtml":true,"requestMdn":false,"sendAt":1739797589,"smimeSign":false,"smimeEncrypt":false,"force":false,"id":4,"editorBody":"<p style=\"margin:0;\">&lt;/script&gt;</p>"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-2
+    desc: |
+      Drafting an email, content could be anything.
+      Draft ID set: yes
+      Formatting option: disabled
+      Target: json.data.body.value
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/drafts/1
+            data: |-
+              {"data":{"body":{"value": "<script>"}}}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-3
+    desc: |
+      Drafting an email, content could be anything.
+      Draft ID set: yes
+      Formatting option: enabled
+      Target: json.data.editorBody
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/drafts/1
+            data: |-
+              {"data":{"editorBody": "<script>"}}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-4
+    desc: |
+      Drafting an email, content could be anything.
+      Draft ID set: no
+      Formatting option: disabled
+      Target: json.body
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/drafts/{id}
+            data: |-
+              {"body": "<script>"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-5
+    desc: |
+      Drafting an email, content could be anything.
+      Draft ID set: no
+      Formatting option: disabled
+      Target: json.data.body.value
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/drafts/{id}
+            data: |-
+              {"data":{"body":{"value": "<script>"}}}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-6
+    desc: |
+      Drafting an email, content could be anything.
+      Draft ID set: no
+      Formatting option: enabled
+      Target: json.data.editorBody
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/drafts/{id}
+            data: |-
+              {"data":{"editorBody": "<script>"}}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-7
+    desc: |
+      Drafting an email, content could be anything.
+      Draft ID set: no
+      Formatting option: enabled
+      Target: json.editorBody
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/drafts/{id}
+            data: |-
+              {"editorBody": "<script>"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-8
+    desc: |
+      Drafting an email, subject could be anything.
+      Draft ID set: no
+      Target: json.subject
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/drafts/{id}
+            data: |-
+              {"subject": "<script>"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-9
+    desc: |
+      Writing a draft email
+      Formatting Enabled/disabled
+      Nextcloud 26
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /apps/mail/api/drafts
+            data: |-
+              {"account":3,"accountId":3,"aliasId":null,"to":[{"email":"test@example.com","label":"test@example.com"}],"cc":[],"bcc":[],"subject":"<script>","body":"<p style=\"margin:0;\">&lt;/script&gt;</p>","attachments":[],"isHtml":true,"requestMdn":false,"smimeSign":false,"smimeEncrypt":false,"editorBody":"<p style=\"margin:0;\">&lt;/script&gt;</p>"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-10
+    desc: |
+      Drafting an email, subject could be anything.
+      Nextcloud 31 and newer
+      Formatting option: enabled
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /apps/mail/api/drafts
+            data: |-
+              {"account":1,"accountId":1,"aliasId":null,"to":[{"email":"test@example.com","label":"test@example.com"}],"cc":[],"bcc":[],"subject":"<script>","body":{"format":"html","value":"<p style=\"margin:0;\">&lt;/script&gt;</p>"},"attachments":[],"isHtml":true,"requestMdn":false,"smimeSign":false,"smimeEncrypt":false,"isPgpMime":false,"editorBody":"<p style=\"margin:0;\">&lt;/script&gt;</p>","bodyHtml":"<p style=\"margin:0;\">&lt;/script&gt;</p>"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-11
+    desc: |
+      Drafting an email, subject could be anything.
+      Nextcloud 31 and newer
+      Formatting option: disabled
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /apps/mail/api/drafts
+            data: |-
+              {"account":1,"accountId":1,"aliasId":null,"to":[{"email":"test@example.com","label":"test@example.com"}],"cc":[],"bcc":[],"subject":"<script>","body":{"format":"html","value":"<p>&lt;/script&gt;<br>unformatted</p>"},"attachments":[],"isHtml":false,"requestMdn":false,"smimeSign":false,"smimeEncrypt":false,"isPgpMime":false,"editorBody":"<p>&lt;/script&gt;<br>unformatted</p>","bodyPlain":"</script>\nunformatted"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-12
+    desc: |
+      Editing email from outbox with/without pretty formatting
+      Nextcloud 25
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/outbox/1
+            data: |-
+              {"id":1,"type":0,"accountId":1,"aliasId":null,"updatedAt":null,"subject":"<script>","body":"<script> unformatted","editorBody":"<p>&lt;script&gt; unformatted</p>","isHtml":false,"inReplyToMessageId":null,"attachments":[],"from":[],"to":[{"id":10,"messageId":null,"localMessageId":1,"type":1,"label":"test@example.com","email":"test@example.com"}],"cc":[],"bcc":[],"failed":false}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-13
+    desc: |
+      Sending an formatted/unformatted email
+      Nextcloud 26
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /apps/mail/api/outbox/from-draft/4
+            data: |-
+              {"account":3,"accountId":3,"aliasId":null,"to":[{"email":"test@example.com","label":"test@example.com"}],"cc":[],"bcc":[],"subject":"<script>","body":"<p style=\"margin:0;\">&lt;/script&gt;</p>","attachments":[],"isHtml":true,"requestMdn":false,"sendAt":1739797679,"smimeSign":false,"smimeEncrypt":false,"force":false,"id":4,"editorBody":"<p style=\"margin:0;\">&lt;/script&gt;</p>"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-14
+    desc: |
+      Writing an draft email with/without pretty formatting
+      Nextcloud 25
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /apps/mail/api/accounts/1/draft
+            data: |-
+              {"accountId":1,"subject":"<script>","body":"<p style=\"margin:0;\">&lt;/script&gt;</p>","editorBody":"<p style=\"margin:0;\">&lt;/script&gt;</p>","isHtml":true,"to":"test@example.com","cc":"","bcc":"","attachments":[],"aliasId":null}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-15
+    desc: |
+      Sending an email with/without pretty format
+      Nextcloud 25
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /apps/mail/api/outbox
+            data: |-
+              {"accountId":1,"subject":"<script>","body":"<script> unformatted","editorBody":"<p>&lt;script&gt; unformatted</p>","isHtml":false,"to":[{"label":"test@example.com","email":"test@example.com"}],"cc":[],"bcc":[],"attachments":[],"aliasId":null,"sendAt":1739730272}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508991-16
+    desc: |
+      Writing an email to multiple email addresses
+      Nextcloud 30
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /apps/mail/api/drafts
+            data: >-
+              {"account":1,"accountId":1,"aliasId":null,"to":[{"email":"user1@example.com user2@example.com user3@example.com user4@example.com user5@example.com
+               user6@example.com user7@example.com user8@example.com user9@example.com user10@example.com user11@example.com user12@example.com","label":"user1@example.com user2@example.com
+               user3@example.com user4@example.com user5@example.com user6@example.com user7@example.com user8@example.com user9@example.com user10@example.com user11@example.com user12@example.com"}],
+              "cc":[],"bcc":[],"subject":"<script>","body":{"format":"html","value":"<p>&lt;script&gt;</p>"},"attachments":[],"isHtml":false,"requestMdn":false,"smimeSign":false,"smimeEncrypt":false,"isPgpMime":false,"editorBody":"<p>&lt;script&gt;</p>","bodyPlain":"<script>"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "932236"|id "941100"|id "942430"|id "942431"|id "942432"

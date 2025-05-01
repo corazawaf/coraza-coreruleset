@@ -1,0 +1,52 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Photos"
+  enabled: true
+  name: 9508953.yaml
+tests:
+  - test_title: 9508953-1
+    desc: Renaming tagged faces
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: text/plain;charset=UTF-8
+            port: 80
+            method: PROPFIND
+            uri: /remote.php/dav/recognize/esadc/faces/Joe/
+            data: |-
+              <?xml version="1.0"?>
+                <d:propfind xmlns:d="DAV:"
+                  xmlns:oc="http://owncloud.org/ns"
+                  xmlns:nc="http://nextcloud.org/ns"
+                  xmlns:ocs="http://open-collaboration-services.org/ns">
+                  <d:prop>
+                    <d:getcontentlength />
+                    <d:getcontenttype />
+                    <d:getetag />
+                    <d:getlastmodified />
+                    <d:resourcetype />
+                    <nc:face-detections />
+                    <nc:face-preview-image />
+                    <nc:metadata-photos-size />
+                    <nc:metadata-photos-original_date_time />
+                    <nc:metadata-files-live-photo />
+                    <nc:metadata-blurhash/>
+                    <nc:has-preview />
+                    <nc:realpath />
+                    <nc:hidden />
+                    <oc:favorite />
+                    <oc:fileid />
+                    <oc:permissions />
+                    <nc:nbItems />
+                  </d:prop>
+                </d:propfind>
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920420"|id "921110"
