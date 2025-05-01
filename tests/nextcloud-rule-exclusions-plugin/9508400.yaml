@@ -1,0 +1,43 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "FPs during login/reauthentication"
+  enabled: true
+  name: 9508400.yaml
+tests:
+  - test_title: 9508400-1
+    desc: Logging in to Nextcloud
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            uri: /login
+            data: "password=<script>"
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "941100"
+  - test_title: 9508400-2
+    desc: Reauthentication when performing an sensitive action (i.e changing personal settings or an admin installing a new app)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /login/confirm
+            data: |-
+              {"password": "<script>"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "941100"

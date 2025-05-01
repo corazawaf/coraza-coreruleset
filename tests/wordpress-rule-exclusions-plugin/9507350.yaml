@@ -1,0 +1,181 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+  enabled: true
+  name: 9507350.yaml
+tests:
+  - test_title: 9507350-1
+    desc: Creating a new user account
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            version: "HTTP/1.1"
+            uri: /get/wp-admin/user-edit.php?user_id=9&wp_http_referer=%2Fwp-admin%2Fusers.php%3Fupdate%3Dadd%26id%3D9
+          output:
+            no_log_contains: |-
+              id "920230"|id "932235"|id "932236"|id "942430"|id "942431"|id "942432"|id "942450"
+  - test_title: 9507350-2
+    desc: Deleteing a user account
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/x-www-form-urlencoded
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-admin/users.php?s=&_wpnonce=random&_wp_http_referer=%2Fwp-admin%2Fusers.php&action=delete&new_role=&paged=1&users%5B0%5D=9&action2=delete&new_role2=
+          output:
+            no_log_contains: |-
+              id "920230"|id "932235"|id "932236"|id "942430"|id "942431"|id "942432"|id "942450"
+  - test_title: 9507350-3
+    desc: Disable 932236 for randomly generated nonce
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-admin/users.php?s=&_wpnonce=lsrandom&_wp_http_referer=%2Fwp-admin%2Fusers.php&action=delete&new_role=&paged=1&users%5B0%5D=9&action2=delete&new_role2=
+          output:
+            no_log_contains: |-
+              id "920230"|id "932235"|id "932236"|id "942430"|id "942431"|id "942432"|id "942450"
+  - test_title: 9507350-4
+    desc: Disable 942450 for randomly generated nonce
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-admin/users.php?s=&_wpnonce=0x0800random&_wp_http_referer=%2Fwp-admin%2Fusers.php&action=delete&new_role=&paged=1&users%5B0%5D=9&action2=delete&new_role2=
+          output:
+            no_log_contains: |-
+              id "920230"|id "932235"|id "932236"|id "942430"|id "942431"|id "942432"|id "942450"
+  - test_title: 9507350-5
+    desc: Disable 932236 for randomly generated nonce
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost test agent
+              User-Agent: OWASP CRS
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-admin/users.php?s=&nonce=lsrandom
+          output:
+            no_log_contains: |-
+              id "920230"|id "932235"|id "932236"|id "942430"|id "942431"|id "942432"|id "942450"
+  - test_title: 9507350-6
+    desc: Disable 942450 for randomly generated nonce
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-admin/users.php?s=&nonce=0x0800random
+          output:
+            no_log_contains: |-
+              id "920230"|id "932235"|id "932236"|id "942430"|id "942431"|id "942432"|id "942450"
+  - test_title: 9507350-7
+    desc: Requesting a static file with randomly generated version
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            version: "HTTP/1.1"
+            uri: /get/example.js?ver=lsrandom
+          output:
+            no_log_contains: |-
+              id "920230"|id "932235"|id "932236"|id "942430"|id "942431"|id "942432"|id "942450"
+  - test_title: 9507350-8
+    desc: Requesting a static file with randomly generated version
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            version: "HTTP/1.1"
+            uri: /get/example.js?ver=0x0000
+          output:
+            no_log_contains: |-
+              id "920230"|id "932235"|id "932236"|id "942430"|id "942431"|id "942432"|id "942450"
+  - test_title: 9507350-9
+    desc: Editing tags
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/x-www-form-urlencoded
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-admin/edit-tags.php
+            data: |
+              _wp_http_referer=/wp-admin/term.php?taxonomy=post_tag&tag_ID=12&post_type=post&wp_http_referer=%2Fwp-admin%2Fedit-tags.php%3Ftaxonomy%3Dpost_tag
+          output:
+            no_log_contains: |-
+              id "920230"|id "932235"|id "932236"|id "942430"|id "942431"|id "942432"|id "942450"
+  - test_title: 9507350-10
+    desc: Editing a post after filtering post entries
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            version: "HTTP/1.1"
+            uri: /get/wp-admin/edit.php?s=&post_status=all&post_type=post&_wpnonce=1234567890abcdef&_wp_http_referer=%2Fwp-admin%2Fedit.php%3Fs%26post_status%3Dall%26post_type%3Dpost%26action%3D-1%26m%3D0%26cat%3D0%26filter_action%3DFilter%26paged%3D1%26action2%3D-1&action=-1&m=0&cat=0&filter_action=Filter&paged=1&action2=-1
+          output:
+            no_log_contains: |-
+              id "920230"|id "932235"|id "932236"|id "942120"|id "942430"|id "942431"|id "942432"|id "942450"

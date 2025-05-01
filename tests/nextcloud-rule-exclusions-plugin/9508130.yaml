@@ -1,0 +1,41 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508130.yaml
+tests:
+  - test_title: 9508130-1
+    desc: Restoring a file to an previous/newer version
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: text/plain;charset=UTF-8
+            port: 80
+            method: PROPFIND
+            uri: /remote.php/dav/versions/username/versions/1371159/
+            data: |-
+              <?xml version="1.0"?>
+                <d:propfind xmlns:d="DAV:"
+                  xmlns:oc="http://owncloud.org/ns"
+                  xmlns:nc="http://nextcloud.org/ns"
+                  xmlns:ocs="http://open-collaboration-services.org/ns">
+                  <d:prop>
+                    <d:getcontentlength/>
+                    <d:getcontenttype/>
+                    <d:getlastmodified/>
+                    <d:getetag/>
+                    <nc:version-label/>
+                    <nc:version-author/>
+                    <nc:has-preview/>
+                  </d:prop>
+              </d:propfind>
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "920272"|id "920273"|id "920420"|id "921110"
