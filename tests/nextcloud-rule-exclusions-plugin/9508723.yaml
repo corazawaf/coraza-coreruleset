@@ -1,0 +1,27 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508723.yaml
+tests:
+  - test_title: 9508723-1
+    desc: Editing a recipe category
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/x-www-form-urlencoded
+            port: 80
+            method: POST
+            uri: /apps/cookbook/webapp/import
+            data: |-
+              url=https://www.allrecipes.com/recipe/274367/chicken-noodle-salad/
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "927273"|id "931130"|id "932190"|id "942432"

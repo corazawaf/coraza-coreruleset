@@ -1,0 +1,24 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508330.yaml
+tests:
+  - test_title: 9508330-1
+    desc: Creating/modifying an calendar from iPhone
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: text/calendar
+            port: 80
+            method: PUT
+            uri: /remote.php/caldav/calendars/username/stuff/stuff.ics
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "920420"

@@ -1,0 +1,22 @@
+---
+meta:
+  author: "Felipe Zipitria"
+  description: "Drupal Plugin"
+  enabled: true
+  name: 9506122.yaml
+tests:
+  - test_title: 9506122-1
+    desc: Check exclusion for config
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS
+              Accept: "*/*"
+            port: 80
+            method: GET
+            uri: /admin/config/test
+          output:
+            no_log_contains: id "942430"
