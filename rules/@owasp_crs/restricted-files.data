@@ -195,6 +195,7 @@ bower.json
 .jshintrc
 .gitlab-ci.yml
 .travis.yml
+database.yaml
 database.yml
 Dockerfile
 .php_cs.dist
