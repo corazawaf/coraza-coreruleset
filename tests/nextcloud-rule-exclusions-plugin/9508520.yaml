@@ -1,0 +1,64 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Setting up a fresh Nextcloud server"
+  enabled: true
+  name: 9508520.yaml
+tests:
+  - test_title: 9508520-1
+    desc: SQLite database selected
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/x-www-form-urlencoded
+            port: 80
+            method: POST
+            uri: /index.php
+            data: |-
+              install=true&adminlogin=test&adminpass=%3Cscript%3E&directory=%2Fvar%2Fwww%2Fnextcloud%2Fdata&dbtype=sqlite&dbuser=&dbpass=&dbpass-clone=&dbname=&dbhost=localhost
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "941100"
+  - test_title: 9508520-2
+    desc: MySQL database selected
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/x-www-form-urlencoded
+            port: 80
+            method: POST
+            uri: /randomendpoint
+            data: |-
+              install=true&adminlogin=test&adminpass=%3Cscript%3E&directory=%2Fvar%2Fwww%2Fnextcloud%2Fdata&dbtype=mysql&dbuser=test&dbpass=%3Cscript%3E&dbpass-clone=%3Cscript%3E&dbname=test&dbhost=localhost
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "941100"
+  - test_title: 9508520-3
+    desc: PostgreSQL database selected
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/x-www-form-urlencoded
+            port: 80
+            method: POST
+            uri: /
+            data: |-
+              install=true&adminlogin=test&adminpass=%3Cscript%3E&directory=%2Fvar%2Fwww%2Fnextcloud%2Fdata&dbtype=pgsql&dbuser=test&dbpass=%3Cscript%3E&dbpass-clone=%3Cscript%3E&dbname=test&dbhost=localhost
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "941100"

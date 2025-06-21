@@ -1,0 +1,27 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508324.yaml
+tests:
+  - test_title: 9508324-1
+    desc: Syncing contacts via a dav client
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/xml; charset=utf-8
+            port: 80
+            method: REPORT
+            uri: /remote.php/dav/addressbooks/users/esadc/z-app-generated--contactsinteraction--recent/
+            data: |-
+              <?xml version='1.0' encoding='UTF-8' ?><CARD:addressbook-multiget xmlns="DAV:" xmlns:CARD="urn:ietf:params:xml:ns:carddav"><prop><getcontenttype /><getetag /><CARD:address-data content-type="text/vcard" version="4.0" /></prop><href>/remote.php/dav/addressbooks/users/esadc/z-app-generated--contactsinteraction--recent/53</href></CARD:addressbook-multiget>
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "921110"|id "942430"|id "942431"|id "942432"|id "942440"

@@ -1,0 +1,23 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+  enabled: true
+  name: 9507148.yaml
+tests:
+  - test_title: 9507148-1
+    desc: Disable 932236 if ARGS:orderby contains id
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            version: "HTTP/1.1"
+            uri: /get/index.php?orderby=id
+          output:
+            no_log_contains: id "932236"

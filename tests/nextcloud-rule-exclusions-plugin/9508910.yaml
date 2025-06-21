@@ -1,0 +1,27 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Notes: Classic editor mobile app"
+  enabled: true
+  name: 9508910.yaml
+tests:
+  - test_title: 9508920-1
+    desc: Editing a markdown note
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json; charset=UTF-8
+            port: 80
+            method: PUT
+            uri: /index.php/apps/notes/api/v1/notes/1467144
+            data: |-
+              {"category":"","content":"\u003cscript\u003e","etag":"4a6fb3b5024ba1c22a37817620511603","favorite":false,"modified":1737548641,"id":1467144,"title":"New note"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "941100"
