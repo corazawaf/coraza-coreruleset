@@ -1,0 +1,48 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508642.yaml
+tests:
+  - test_title: 9508642-1
+    desc: Configuring Nextcloud Office Templates
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/x-www-form-urlencoded
+            port: 80
+            method: POST
+            uri: /browser/dist/admin/adminIntegratorSettings.html
+            data: >-
+              access_token=random&access_token_ttl=1234567890&wopi_setting_base_url=https%3A%2F%2Fexample.com%2Fapps%2Frichdocuments%2Fwopi%2Fsettings&iframe_type=user
+              &css_variables=--co-primary-text%3D%23ffffff%3B--co-primary-element%3D%2300679e%3B--co-text-accent%3D%2300679e%3B--co-primary-light%3D%23e5eff5%3B--co-primary-element-light%3D%23e5eff5%3B--
+              co-color-error%3D%23DB0606%3B--co-color-warning%3D%23A37200%3B--co-color-success%3D%232d7b41%3B--co-border-radius%3D4px%3B--co-border-radius-large%3D8px%3B--co-loading-light%3D%23cccccc%3B--
+              co-loading-dark%3D%23444444%3B--co-box-shadow%3Drgba%2877%2C77%2C77%2C+0.5%29%3B--co-border%3D%23ededed%3B--co-border-dark%3D%23dbdbdb%3B--co-border-radius-pill%3D100px%3B--
+              nc-light-color-main-background%3D%23ffffff%3B--nc-dark-color-main-background%3D%23171717%3B--nc-light-color-main-background-rgb%3D255%2C255%2C255%3B--nc-dark-color-main-background-
+              rgb%3D23%2C23%2C23%3B--nc-light-color-main-background-translucent%3Drgba%28255%2C255%2C255%2C+.97%29%3B--nc-dark-color-main-background-translucent%3Drgba%2823%2C23%2C23%2C+.97%29%3B--
+              nc-light-color-main-background-blur%3Drgba%28255%2C255%2C255%2C+.8%29%3B--nc-dark-color-main-background-blur%3Drgba%2823%2C23%2C23%2C+.85%29%3B--nc-light-color-main-text%3D%23222222%3B--
+              nc-dark-color-main-text%3D%23EBEBEB%3B--nc-light-color-text-maxcontrast%3D%236b6b6b%3B--nc-dark-color-text-maxcontrast%3D%23999999%3B--nc-light-color-box-shadow%3Drgba%2877%2C77%2C77%2C+0.5%29%3B--
+              nc-dark-color-box-shadow%3D%23000000%3B--nc-light-color-box-shadow-rgb%3D77%2C77%2C77%3B--nc-dark-color-box-shadow-rgb%3D0%2C0%2C0%3B--nc-light-default-font-size%3D15px%3B--nc-dark-default-font-
+              size%3D15px%3B--nc-light-border-radius%3D4px%3B--nc-dark-border-radius%3D4px%3B--nc-light-border-radius-large%3D8px%3B--nc-dark-border-radius-large%3D8px%3B--nc-light-border-
+              radius-rounded%3D28px%3B--nc-dark-border-radius-rounded%3D28px%3B--nc-light-border-radius-pill%3D100px%3B--nc-dark-border-radius-pill%3D100px%3B--nc-light-default-clickable-area%3D34px%3B--
+              nc-dark-default-clickable-area%3D34px%3B--nc-light-default-line-height%3D1.5%3B--nc-dark-default-line-height%3D1.5%3B--nc-light-default-grid-baseline%3D4px%3B--nc-dark-default-grid-baseline%3D4px%3B--
+              nc-light-color-primary%3D%2300679e%3B--nc-dark-color-primary%3D%2300679e%3B--nc-light-color-primary-text%3D%23ffffff%3B--nc-dark-color-primary-text%3D%23ffffff%3B--
+              nc-light-color-primary-hover%3D%233285b1%3B--nc-dark-color-primary-hover%3D%23045783%3B--nc-light-color-primary-light%3D%23e5eff5%3B--nc-dark-color-primary-light%3D%2314232c%3B--
+              nc-light-color-primary-light-text%3D%2300293f%3B--nc-dark-color-primary-light-text%3D%2399c2d8%3B--nc-light-color-primary-light-hover%3D%23dbe4ea%3B--nc-dark-color-primary-light-hover%3D%231e2d35%3B--
+              nc-light-color-primary-element%3D%2300679e%3B--nc-dark-color-primary-element%3D%230091f2%3B--nc-light-color-primary-element-hover%3D%23005a8a%3B--nc-dark-color-primary-element-hover%3D%23079cff%3B--nc-
+              light-color-primary-element-text%3D%23ffffff%3B--nc-dark-color-primary-element-text%3D%23000000%3B--nc-light-color-primary-element-light%3D%23e5eff5%3B--nc-dark-color-primary-element-
+              light%3D%2314232c%3B--nc-light-color-primary-element-light-hover%3D%23dbe4ea%3B--nc-dark-color-primary-element-light-hover%3D%231e2d35%3B--nc-light-color-primary-element-light-
+              text%3D%2300293f%3B--nc-dark-color-primary-element-light-text%3D%2399d3f9%3B--nc-light-color-primary-element-text-dark%3D%23f5f5f5%3B--nc-dark-color-primary-element-text-dark%3D%230a0a0a%3B--
+              nc-light-primary-invert-if-bright%3Dno%3B--nc-dark-primary-invert-if-bright%3Dinvert%28100%25%29%3B--nc-light-primary-invert-if-dark%3Dinvert%281%29%3B--nc-dark-primary-invert-if-dark%3Dinvert%281%29%3B--
+              nc-light-background-invert-if-bright%3Dinvert%28100%25%29%3B--nc-dark-background-invert-if-bright%3Dno%3B--nc-light-background-invert-if-dark%3Dno%3B--nc-dark-background-invert-if-
+              dark%3Dinvert%28100%25%29%3B--nc-logo-background%3Dtransparent%3B
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920272"|id "920273"|id "931130"|id "942430"|id "942431"|id "942432"|id "942440"|id "942460"
