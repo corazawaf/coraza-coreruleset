@@ -1,0 +1,45 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "FPs during password reset"
+  enabled: true
+  name: 9508411.yaml
+tests:
+  - test_title: 9508411-1
+    desc: Resetting a password with pretty URLs
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /lostpassword/set/random/username
+            data: |-
+              {"password": "<script>"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "941100"
+  - test_title: 9508411-2
+    desc: Resetting a password without pretty URLs
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /index.php/lostpassword/set/random/username
+            data: |-
+              {"password": "<script>"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "941100"

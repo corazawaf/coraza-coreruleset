@@ -1,0 +1,37 @@
+---
+meta:
+  author: "azurit"
+  description: "Google OAuth2 Plugin"
+  enabled: true
+  name: 9505130.yaml
+tests:
+  - test_title: 9505130-1
+    desc: "Check that plugin is excluding rule 930120 for 'scope' parameter for valid Google OAuth2 callback"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            uri: /?state=test&code=test&scope=email+profile+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email
+          output:
+            no_log_contains: id "930120"
+  - test_title: 9505130-2
+    desc: "Check that plugin is NOT passing invalid Google OAuth2 callback"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            uri: /?state=test&code=test&scope=email+profile+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email&inject=data
+          output:
+            log_contains: id "930120"

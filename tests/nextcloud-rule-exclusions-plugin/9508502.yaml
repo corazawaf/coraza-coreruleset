@@ -1,0 +1,55 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Being redirected to login page"
+  enabled: true
+  name: 9508502.yaml
+tests:
+  - test_title: 9508502-1
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            uri: /login?redirect_url=/login/v2/grant?direct%3D0%26stateToken%3D1Jfl6ZC3UJsomethingGZpPrandomjEqraexampleRPx2TftokenCs%26user%3DEsad%2520Cetiner
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920230"|id "932200"|id "932190"|id "942431"|id "942432"
+  - test_title: 9508502-2
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            uri: /login/selectchallenge?redirect_url=/login/v2/grant?direct%3D0%26stateToken%3D1Jfl6ZC3UJsomethingGZpPrandomjEqraexampleRPx2TftokenCs%26user%3DEsad%2520Cetiner
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920230"|id "932200"|id "932190"|id "942431"|id "942432"
+  - test_title: 9508502-3
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            uri: /login/challenge/totp?redirect_url=/login/v2/grant?direct%3D0%26stateToken%3D1Jfl6ZC3UJsomethingGZpPrandomjEqraexampleRPx2TftokenCs%26user%3DEsad%2520Cetiner
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920230"|id "932200"|id "932190"|id "942431"|id "942432"

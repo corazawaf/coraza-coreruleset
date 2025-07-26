@@ -1,0 +1,82 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508336.yaml
+tests:
+  - test_title: 9508336-1
+    desc: Creating a new calendar
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/xml
+            port: 80
+            method: MKCOL
+            uri: /remote.php/dav/calendars/username/newcalendarname
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "920272"|id "920273"|id "932236"|id "942430"|id "942431"|id "942432"|id "942440"
+  - test_title: 9508336-2
+    desc: Signing into CalDav iPhone
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: text/xml
+            port: 80
+            method: MKCALENDAR
+            uri: /remote.php/dav/calendars/testuser/random/
+            data: |-
+              <?xml version="1.0" encoding="UTF-8"?>
+                <B:mkcalendar xmlns:B="urn:ietf:params:xml:ns:caldav">
+                  <A:set xmlns:A="DAV:">
+                    <A:prop>
+                      <D:calendar-color xmlns:D="http://apple.com/ns/ical/" symbolic-color="custom">#007AFF</D:calendar-color>
+                      <D:calendar-order xmlns:D="http://apple.com/ns/ical/">1</D:calendar-order>
+                      <B:supported-calendar-component-set>
+                      <B:comp name="VTODO"/>
+                      </B:supported-calendar-component-set>
+                      <A:displayname>DEFAULT_TASK_CALENDAR_NAME</A:displayname>
+                      <B:schedule-calendar-transp>
+                      <B:transparent/>
+                      </B:schedule-calendar-transp>
+                      <B:calendar-timezone>BEGIN:VCALENDAR&#13;
+                        VERSION:2.0&#13;
+                        CALSCALE:GREGORIAN&#13;
+                        BEGIN:VTIMEZONE&#13;
+                        TZID:Australia/Melbourne&#13;
+                        BEGIN:STANDARD&#13;
+                        TZOFFSETFROM:+1100&#13;
+                        RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU&#13;
+                        DTSTART:20080406T030000&#13;
+                        TZNAME:GMT+10&#13;
+                        TZOFFSETTO:+1000&#13;
+                        END:STANDARD&#13;
+                        BEGIN:DAYLIGHT&#13;
+                        TZOFFSETFROM:+1000&#13;
+                        RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU&#13;
+                        DTSTART:20081005T020000&#13;
+                        TZNAME:GMT+11&#13;
+                        TZOFFSETTO:+1100&#13;
+                        END:DAYLIGHT&#13;
+                        END:VTIMEZONE&#13;
+                        END:VCALENDAR&#13;
+                      </B:calendar-timezone>
+                    </A:prop>
+                  </A:set>
+                </B:mkcalendar>
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "942430"|id "942431"|id "942432"|id "942440"

@@ -1,0 +1,27 @@
+---
+meta:
+  author: "Max Leske"
+  description: "Wordpress Rule Exclusions Plugin"
+  enabled: true
+  name: 9507145.yaml
+tests:
+  - test_title: 9507145-1
+    desc: Disable SQL injection checks for full site editor
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/index.php?rest_route=%2Fwp%2Fv2%2Fglobal-styles%2F50&_locale=user
+            # stripped down version of the full payload
+            data: |
+              {"id":50,"styles":{"blocks":{"core/comment-author-name":{"elements":{"link":{":active":{"color":{"text":"var(--wp--preset--color--tertiary)"}}}}}},"color":{"gradient":"var(--wp--preset--gradient--dots)"},"elements":{"button":{":active":{"color":{"background":"var(--wp--preset--color--secondary)","gradient":"none"}},":focus":{"color":{"gradient":"var(--wp--preset--gradient--secondary-primary)"}},":hover":{"color":{"gradient":"var(--wp--preset--gradient--secondary-primary)"}},":visited":{"color":{"text":"var(--wp--preset--color--base)"}},"border":{"radius":"5px"},"color":{"gradient":"var(--wp--preset--gradient--primary-secondary)","text":"var(--wp--preset--color--base)"}}}},"settings":{"color":{"duotone":{"theme":[{"colors":["#222828","#9EF9FD"],"slug":"default-filter","name":"Default filter"}]}}}}
+          output:
+            no_log_contains: id "942100"

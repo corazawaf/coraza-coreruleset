@@ -1,0 +1,43 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+  enabled: true
+  name: 9507974.yaml
+tests:
+  - test_title: 9507974-1
+    desc: Installing a plugin via zip file upload
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundarylBwlewqbn4fBRA7B"
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-admin/update.php?action=upload-plugin
+            data: |
+              ------WebKitFormBoundarylBwlewqbn4fBRA7B
+              Content-Disposition: form-data; name="_wpnonce"
+
+              7347be877b
+              ------WebKitFormBoundarylBwlewqbn4fBRA7B
+              Content-Disposition: form-data; name="_wp_http_referer"
+
+              /wp-admin/plugin-install.php
+              ------WebKitFormBoundarylBwlewqbn4fBRA7B
+              Content-Disposition: form-data; name="pluginzip"; filename="akismet.5.3.3.zip"
+              Content-Type: application/x-zip-compressed
+              <Plugin data goes here>
+
+              ------WebKitFormBoundarylBwlewqbn4fBRA7B
+              Content-Disposition: form-data; name="install-plugin-submit"
+
+              Install Now
+              ------WebKitFormBoundarylBwlewqbn4fBRA7B--
+          output:
+            no_log_contains: id "932236"

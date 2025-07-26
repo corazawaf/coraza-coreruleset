@@ -1,0 +1,28 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508614.yaml
+tests:
+  - test_title: 9508614-1
+    desc: Changing the ordering of apps in the menu
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /ocs/v2.php/apps/provisioning_api/api/v1/config/users/core/apporder
+            # Payload is actually sent like this, with some characters escape
+            data: |-
+              {"configValue":"{\"dashboard\":{\"order\":0,\"app\":\"dashboard\"},\"files\":{\"order\":1,\"app\":\"files\"},\"photos\":{\"order\":2,\"app\":\"photos\"},\"mail\":{\"order\":3,\"app\":\"mail\"},\"activity\":{\"order\":4,\"app\":\"activity\"},\"contacts\":{\"order\":5,\"app\":\"contacts\"},\"calendar\":{\"order\":6,\"app\":\"calendar\"},\"notes\":{\"order\":7,\"app\":\"notes\"},\"music\":{\"order\":8,\"app\":\"music\"},\"tasks\":{\"order\":9,\"app\":\"tasks\"},\"news\":{\"order\":10,\"app\":\"news\"}}"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "932240"|id "942200"|id "942430"|id "942431"|id "942432"|id "942340"|id "942370"
