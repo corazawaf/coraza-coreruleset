@@ -1,0 +1,25 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508111.yaml
+tests:
+  - test_title: 9508111-1
+    desc: Moving a chuncked uploaded file to user's files directory
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/octet-stream
+              Destination: /remote.php/dav/files/esadc/ubuntu-24.04.1-desktop-amd64.iso
+            port: 80
+            method: MOVE
+            uri: /remote.php/dav/uploads/esadc/3400313959/.file
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "920420"
