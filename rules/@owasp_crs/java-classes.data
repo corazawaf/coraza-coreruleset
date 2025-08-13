@@ -9,6 +9,8 @@
 # CVE-2018-11776 (2018.06.05) https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-11776
 com.opensymphony.xwork2
 com.sun.org.apache
+classLoader
+declaredClass
 freemarker.core
 freemarker.template
 freemarker.ext.rhino
@@ -26,7 +28,6 @@ java.io.FilterInputStream
 java.io.FilterOutputStream
 java.io.FilterReader
 java.io.InputStream
-java.io.InputStreamReader
 java.io.IOException
 java.io.LineNumberReader
 java.io.ObjectInputStream
@@ -39,6 +40,7 @@ java.io.PushbackInputStream
 java.io.Reader
 java.io.StringReader
 java.lang.Class
+java.lang.Enum
 java.lang.Integer
 java.lang.Number
 java.lang.Object
@@ -47,9 +49,11 @@ java.lang.ProcessBuilder
 java.lang.reflect
 java.lang.Runtime
 java.lang.String
-java.lang.StringBuilder
 java.lang.System
 java.net.HttpURLConnection
+java.net.JarURLConnection
+java.net.DatagramSocket
+java.net.MulticastSocket
 java.net.ServerSocket
 java.net.Socket
 java.net.URL
@@ -58,6 +62,8 @@ javax.naming.InitialContext
 javax.script.ScriptEngineManager
 javax.xml.parsers
 javax.xml.stream
+OgnlContext
+OgnlUtil
 org.apache.commons
 org.apache.struts
 org.apache.struts2
@@ -65,6 +71,7 @@ org.dom4j.io.SAXReader
 org.jdom2.input.SAXBuilder
 org.omg.CORBA
 org.xml.sax
+PropertyUtilsBean
 java.beans.XMLDecode
 java.nio.file
 sun.reflect

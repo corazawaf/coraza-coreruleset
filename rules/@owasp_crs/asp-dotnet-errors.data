@@ -1,0 +1,66 @@
+# This file contains a list of common errors and exceptions encountered in ASP.NET applications.
+#
+### Core .NET Exceptions
+# - System.Exception Types: https://learn.microsoft.com/en-us/dotnet/api/system.exception?view=netframework-4.8#derived
+# - System Namespace: https://learn.microsoft.com/en-us/dotnet/api/system?view=netframework-4.8
+#
+### ASP.NET Specific Errors
+# - ASP.NET Error Handling: https://learn.microsoft.com/en-us/aspnet/web-forms/overview/older-versions-getting-started/aspnet-ajax/understanding-asp-net-ajax-debugging-capabilities
+# - HttpException Class: https://learn.microsoft.com/en-us/dotnet/api/system.web.httpexception?view=netframework-4.8
+System.NullReferenceException
+System.ArgumentException
+System.InvalidOperationException
+System.IndexOutOfRangeException
+System.IO.IOException
+System.Net.WebException
+System.OutOfMemoryException
+System.StackOverflowException
+System.FormatException
+System.DivideByZeroException
+System.ArgumentNullException
+System.ArgumentOutOfRangeException
+System.NotImplementedException
+System.NotSupportedException
+System.Data.SqlClient.SqlException
+System.UnauthorizedAccessException
+System.Security.SecurityException
+System.Web.HttpException
+HttpException
+ViewStateException
+HttpRequestValidationException
+HttpCompileException
+HttpParseException
+HttpUnhandledException
+HttpRequestWrapper
+HttpResponseWrapper
+HttpServerUtilityWrapper
+HttpSessionStateWrapper
+HttpStaticObjectsCollectionWrapper
+System.Web.Mvc.HttpAntiForgeryException
+System.Web.Mvc.Controller
+System.Web.Mvc.ActionResult
+System.Web.Mvc.ViewResult
+System.Web.Mvc.RedirectResult
+System.Web.Mvc.RedirectToRouteResult
+System.Web.Mvc.JsonResult
+System.Web.Mvc.ContentResult
+System.Web.Mvc.HttpStatusCodeResult
+System.Web.Mvc.FileResult
+System.Web.Mvc.View
+System.Web.Mvc.PartialViewResult
+System.Data.Entity.Core.EntityException
+System.Data.Entity.Infrastructure.DbUpdateException
+System.Data.Entity.Validation.DbEntityValidationException
+System.Data.Entity.Core.OptimisticConcurrencyException
+System.Data.Entity.Infrastructure.DbUpdateConcurrencyException
+Microsoft.AspNet.Identity.IdentityResult
+Microsoft.AspNet.Identity.UserManager
+Microsoft.AspNet.Identity.SignInManager
+Microsoft.AspNet.Identity.RoleManager
+Microsoft.AspNet.Identity.Owin
+Microsoft.Owin.Security
+Microsoft.Owin.Security.DataProtection
+System.Web.Http.HttpResponseException
+System.Web.Http.HttpRequestException
+System.Web.Http.HttpError
+System.Web.Http.HttpRouteCollection
