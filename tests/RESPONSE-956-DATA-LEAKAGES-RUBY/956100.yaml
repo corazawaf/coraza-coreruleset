@@ -1,10 +1,10 @@
 ---
 meta:
-  author: "Xhoenix, Esad Cetiner"
-rule_id: 952110
+  author: "Xhoenix"
+rule_id: 956100
 tests:
   - test_id: 1
-    desc: "javax.servlet.ServletException"
+    desc: "Ruby SyntaxError"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -20,12 +20,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "javax.servlet.ServletException: Error occurred during request processing"}
+            {"body": "SyntaxError (/path/to/your/app/controllers/reflects_controller.rb:10: syntax error, unexpected keyword_end)"}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [956100]
   - test_id: 2
-    desc: "org.springframework.web.client.HttpClientErrorException"
+    desc: "Ruby NameError"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -41,12 +41,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "org.springframework.web.client.HttpClientErrorException: 400 Bad Request"}
+            {"body": "NameError (undefined local variable or method `unexistent_variable' for #&lt;PostsController:0x00007f...>"}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [956100]
   - test_id: 3
-    desc: "org.hibernate.exception.ConstraintViolationException"
+    desc: "Ruby ActiveRecord::RecordNotFound"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -62,12 +62,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "org.hibernate.exception.ConstraintViolationException: could not execute statement"}
+            {"body": "ActiveRecord::RecordNotFound (Couldn't find Post with 'id'=999)"}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [956100]
   - test_id: 4
-    desc: "java.net.SocketTimeoutException"
+    desc: "Ruby ActionView::Template::Error"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -83,12 +83,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "java.net.SocketTimeoutException: Read timed out"}
+            {"body": "ActionView::Template::Error (undefined method 'name' for nil:NilClass)"}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [956100]
   - test_id: 5
-    desc: "org.springframework.security.access.AccessDeniedException"
+    desc: "Ruby TypeError"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -104,12 +104,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "org.springframework.security.access.AccessDeniedException: Access is denied"}
+            {"body": "TypeError: no implicit conversion of String into Integer"}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [956100]
   - test_id: 6
-    desc: "java.lang.NullPointerException"
+    desc: "Ruby NoMethodError"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -125,12 +125,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "java.lang.NullPointerException"}
+            {"body": "NoMethodError: undefined method 'author_name' for #<User:0x00007f...>"}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [956100]
   - test_id: 7
-    desc: "com.fasterxml.jackson.databind.JsonMappingException"
+    desc: "Ruby ArgumentError"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -146,12 +146,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "com.fasterxml.jackson.databind.JsonMappingException: Unexpected character ('}' (code 125)): was expecting double-quote to start field name"}
+            {"body": "ArgumentError: wrong number of arguments (given 0, expected 1)"}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [956100]
   - test_id: 8
-    desc: "org.apache.jasper.JasperException"
+    desc: "Ruby ActionController::RoutingError"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -167,12 +167,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "org.apache.jasper.JasperException: Unable to compile class for JSP"}
+            {"body": "ActionController::RoutingError: No route matches [GET] "}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [956100]
   - test_id: 9
-    desc: "org.apache.catalina.LifecycleException"
+    desc: "Ruby ActionController::ParameterMissing"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -188,28 +188,7 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "org.apache.catalina.LifecycleException: Failed to start component [StandardEngine[Catalina]]"}
+            {"body": "ActionController::ParameterMissing: param is missing or the value is empty: comment"}
         output:
           log:
-            expect_ids: [952110]
-  - test_id: 10
-    desc: "False Positive matching 'at com'"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          headers:
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            Accept-Encoding: "gzip,deflate"
-            Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "application/json"
-          method: "POST"
-          version: "HTTP/1.1"
-          uri: "/reflect"
-          data: |-
-            {"body": "Clicking on the date/time link will take you to that comment on your live site."}
-        output:
-          log:
-            no_expect_ids: [952110]
+            expect_ids: [956100]
