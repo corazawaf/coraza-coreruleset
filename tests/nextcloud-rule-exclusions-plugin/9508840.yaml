@@ -1,0 +1,64 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud News"
+  enabled: true
+  name: 9508840.yaml
+tests:
+  - test_title: 9508840-1
+    desc: Subscribing to an RSS feed via mobile app
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            uri: /index.php/apps/news/api/v1-2/feeds?url=https%3A%2F%2Fnextcloud.com%2Fpodcast-feed.rss&folderId=0
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920230"|id "920272"|id "920273"|id "931130"|id "932200"|id "932380"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508840-2
+    desc: Subscribing to an RSS feed via Web GUI
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json;charset=UTF-8
+            port: 80
+            method: POST
+            uri: /apps/news/feeds
+            data: |-
+              {"url":"https://nextcloud.com/podcast-feed.rss","parentFolderId":0,"user":null,"password":null,"fullDiscover":true}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920230"|id "920272"|id "920273"|id "931130"|id "932200"|id "932380"|id "942430"|id "942431"|id "942432"
+  - test_title: 9508840-3
+    desc: Subscribing to an RSS feed via Web GUI with password
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json;charset=UTF-8
+            port: 80
+            method: POST
+            uri: /apps/news/feeds
+            data: |-
+              {"url":"https://nextcloud.com/podcast-feed.rss","parentFolderId":0,"title":null,"user":"test","password":"<script>","fullDiscover":true}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920230"|id "920272"|id "920273"|id "931130"|id "932200"|id "932380"|id "941100"|id "942430"|id "942431"|id "942432"

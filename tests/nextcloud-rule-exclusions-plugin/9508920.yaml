@@ -1,0 +1,49 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Notes: Classic editor web GUI"
+  enabled: true
+  name: 9508920.yaml
+tests:
+  - test_title: 9508920-1
+    desc: Creating a sample markdown note for new Notes users
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /apps/notes/notes
+            data: >-
+              {"category":"","content":"# Sample note\n\n* 📅 15 January 2021, via Nextcloud Notes\n* 👥 Me, you, and all our friends!\n\n## Tasks ✅\n\n* [ ] Write nice todo lists\n* [ ] Buy Fries\n* [ ]
+              …\n\n## Birthdays\n\n* Jen, in three days!\n* Moss, 21.03.1973\n* Roy, 1979\n\n## Review Steps 🔁\n\n1. Turn PC off\n2. Turn PC on\n3. Then call IT
+              \n\n## Quotes 💬\n\n> Nextcloud, a safe home for all your data\n","title":"Sample note"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "942430"|id "942431"|id "942432"
+  - test_title: 9508920-2
+    desc: Editing a markdown note
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/notes/notes/632
+            data: |-
+              {"content":"<script>"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "941100"

@@ -1,5 +1,5 @@
 # Coraza Coreruleset
-Coraza Coreruleset is a Go package meant to provide the [OWASP CRS](https://github.com/coreruleset/coreruleset) in an easy and consumable way to be embedded in a Go application. Alongside the unmodified CRS, the [Coraza configuration file](https://github.com/corazawaf/coraza/blob/main/coraza.conf-recommended) is also provided.
+Coraza Coreruleset is a Go package meant to provide the [OWASP CRS](https://github.com/coreruleset/coreruleset) and [OWASP CRS Plugins](https://github.com/coreruleset/plugin-registry) in an easy and consumable way to be embedded in a Go application. Alongside the unmodified CRS, the [Coraza configuration file](https://github.com/corazawaf/coraza/blob/main/coraza.conf-recommended) is also provided.
 ## Usage
 
 In order to use CRS, you need to load the coreruleset FileSystem:
@@ -11,7 +11,10 @@ func main() {
     // ...
     waf, err := coraza.NewWAF(
         coraza.NewWAFConfig().
-            WithDirectives("Include @owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf").
+            WithDirectives(`
+                Include @owasp_crs_plugins/wordpress-rule-exclusions-before.conf
+                Include @owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf
+            `).
             WithRootFS(coreruleset.FS),
     )
     // ...
@@ -45,7 +48,7 @@ func main() {
 
 ## How to update to a newer CRS and Coraza config version
 
-1. Update the `crsVersion` and `corazaVersion` constants in [`version.go`](/version.go) with the wished [CRS](https://github.com/coreruleset/coreruleset) and [Coraza](https://github.com/corazawaf/coraza) commit SHA or tags.
+1. Update the `crsVersion` and `corazaVersion` constants and `crsPlugins` variable in [`version.go`](/version.go) with the wished [CRS](https://github.com/coreruleset/coreruleset), [Coraza](https://github.com/corazawaf/coraza) and [CRS Plugins](https://github.com/coreruleset/plugin-registry) commit SHA or tags.
 2. Run `go run mage.go downloadDeps`.
 3. Double check the changes made under the `/rules` and `/tests` directories.
 3. Commit your changes.

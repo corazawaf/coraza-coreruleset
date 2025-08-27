@@ -1,0 +1,1586 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: |
+    This test file contains legacy tests from a refactor. In the past,
+    there were multiple (Way too many) rules that solely handled allowing
+    the required request methods. This test is a compilation of old
+    tests from rules that no longer exist.
+  enabled: true
+  name: 9508190.yaml
+tests:
+  - test_title: 9508190-1
+    desc: |
+      Nextcloud Mail:
+      Editing an email alias
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/accounts/2/aliases/1
+            data: |-
+              {"alias":"test@example.com","aliasName":"test123","smimeCertificateId":null}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-2
+    desc: |
+      Nextcloud Mail:
+      Deleting an email alias
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/mail/api/accounts/2/aliases/1
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-3
+    desc: |
+      Nextcloud Mail:
+      Editing a tag
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/tags/6
+            data: |-
+              {"displayName":"test123","color":"#541873"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-4
+    desc: |
+      Nextcloud Mail:
+      Deleting a tag
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/mail/api/tags/1/delete/6
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-5
+    desc: |
+      Nextcloud Mail:
+      Signing out of a mailbox
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/mail/api/accounts/1
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-6
+    desc: |
+      Nextcloud Mail:
+      Adding internal addresses (.com)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/internalAddress/test%40example.com?type=individual
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-7
+    desc: |
+      Nextcloud Mail:
+      Removing internal addresses (.com)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/mail/api/internalAddress/test%40example.com?type=individual
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-8
+    desc: |
+      Nextcloud Mail:
+      Adding internal addresses (.inc)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/internalAddress/test%40example.inc?type=individual
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-9
+    desc: |
+      Nextcloud Mail:
+      Removing internal addresses (.inc)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/mail/api/internalAddress/test%40example.inc?type=individual
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-10
+    desc: |
+      Nextcloud Mail:
+      Adding a domain to the trusted senders list (.com)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/trustedsenders/example.com?type=domain
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-11
+    desc: |
+      Nextcloud Mail:
+      Removing a domain from the trusted senders list (.com)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/mail/api/trustedsenders/example.com?type=domain
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-12
+    desc: |
+      Nextcloud Mail:
+      Adding a domain to the trusted senders list (.inc)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/trustedsenders/example.inc?type=domain
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-13
+    desc: |
+      Nextcloud Mail:
+      Removing a domain from the trusted senders list (.inc)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/mail/api/trustedsenders/example.inc?type=domain
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-14
+    desc: |
+      Nextcloud Mail:
+      Adding a tag to an email
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/messages/138/tags/%24test
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-15
+    desc: |
+      Nextcloud Mail:
+      Removing a tag from an email
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/mail/api/messages/138/tags/%24test
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-16
+    desc: |
+      Nextcloud Mail:
+      Changing the layout of Nextcloud Mail
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/preferences/layout-mode
+            data: |-
+              {"key":"layout-mode","value":"horizontal-split"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-17
+    desc: |
+      Nextcloud Mail:
+      Adjusting size of email message compose box
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/preferences/modalSize
+            data: |-
+              {"key":"modalSize","value":"large"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-18
+    desc: |
+      Nextcloud Mail:
+      Enabling/disabling internal addresses
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/preferences/internal-addresses
+            data: |-
+              {"key":"internal-addresses","value":"false"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-19
+    desc: |
+      File Manager GUI:
+      Enabling image preview cropping
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/files/api/v1/config/crop_image_previews
+            data: |-
+              { "value":true }
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-20
+    desc: |
+      File Manager GUI:
+      Enabling Grid view
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/files/api/v1/config/grid_view
+            data: |-
+              { "value":true }
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-21
+    desc: |
+      File Manager GUI:
+      Enabling show hidden files
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/files/api/v1/config/show_hidden
+            data: |-
+              { "value":true }
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-22
+    desc: |
+      File Manager GUI:
+      Enabling "Sort Favorites first"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/files/api/v1/config/sort_favorites_first
+            data: |-
+              { "value":true }
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-23
+    desc: |
+      File Manager GUI:
+      Enabling "Sort folders first"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/files/api/v1/config/sort_folders_first
+            data: |-
+              { "value":true }
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-24
+    desc: |
+      File Manager GUI:
+      Browsing folders via sidebar
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/files/api/v1/views
+            data: |-
+              {"value":true,"view":"https://example.com/remote.php/dav/files/example/Templates","key":"expanded"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-25
+    desc: |
+      File Manager GUI:
+      Viewing shares via sidebar
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/files/api/v1/config/folder_tree
+            data: |-
+              {"value":false}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-26
+    desc: |
+      Smart Picker:
+      Referencing a file using the smart picker
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /ocs/v2.php/references/provider/files
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-27
+    desc: |
+      Smart Picker:
+      Using the "Any Link" option within the smart picker
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /ocs/v2.php/references/provider/any-link
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-28
+    desc: |
+      Nextcloud Photos:
+      Disabling cropped layout view
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/photos/api/v1/config/croppedLayout
+            data: |-
+              {"value":"false"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-29
+    desc: |
+      Nextcloud Photos:
+      Enabling cropped layout view
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/photos/api/v1/config/croppedLayout
+            data: |-
+              {"value":"true"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-30
+    desc: |
+      User Management:
+      Disabling a user account
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /ocs/v2.php/cloud/users/johndoe/disable
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-31
+    desc: |
+      User Management:
+      Enabling a user account
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /ocs/v2.php/cloud/users/johndoe/enable
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-32
+    desc: |
+      User Management:
+      Deleting a user account
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /ocs/v2.php/cloud/users/johndoe
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-33
+    desc: |
+      User Management:
+      Deleting a user group
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /ocs/v2.php/cloud/groups/accountants
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-34
+    desc: |
+      Nextcloud Deck:
+      Deleting an attachment from an card
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/deck/cards/5/attachment/file:2
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-35
+    desc: |
+      Nextcloud Deck:
+      Editing a comment on a card
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /ocs/v2.php/apps/deck/api/v1.0/cards/5/comments/61
+            data: |-
+              {"message":"<div data-v-3b61be27=\"\"></div>"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-36
+    desc: |
+      Nextcloud Deck:
+      Deleting a comment on a card
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /ocs/v2.php/apps/deck/api/v1.0/cards/5/comments/62
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-37
+    desc: |
+      Nextcloud Deck:
+      Reordering card stacks
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/deck/stacks/1/reorder
+            data: |-
+              {"order":1}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-38
+    desc: |
+      Nextcloud Deck:
+      Removing a group/user from a board share
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/deck/boards/1/acl/1
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-39
+    desc: |
+      Nextcloud Deck:
+      Removing a group/user from a label share
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/deck/labels/4/acl/1
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-40
+    desc: |
+      Nextcloud Deck:
+      Editing an existing board
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/deck/boards/1
+            data: |-
+              {"id":3,"title":"test","owner":{"primaryKey":"esadc","uid":"esadc","displayname":"EsadCetiner","type":0},"color":"ea1025","archived":false,"labels":[],"acl":[],"permissions":{"PERMISSION_READ":true,"PERMISSION_EDIT":true,"PERMISSION_MANAGE":true,"PERMISSION_SHARE":true},"users":[],"shared":0,"stacks":[],"activeSessions":[],"deletedAt":0,"lastModified":1719946339,"settings":[],"ETag":"123456789abcdef"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-41
+    desc: |
+      Nextcloud Deck:
+      Editing an existing label
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/deck/labels/4
+            data: |-
+              {"id":4,"title":"test","color":"F1DB50","boardId":1,"cardId":null,"lastModified":1662255238,"ETag":"1234567890abcdef"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-42
+    desc: |
+      Nextcloud Deck:
+      Sharing a board with a user/group
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/deck/boards/1/acl/1
+            data: |-
+              {"id":1,"participant":{"primaryKey":"test","uid":"test","displayname":"test","type":1},"type":1,"boardId":1,"permissionEdit":true,"permissionShare":false,"permissionManage":false,"owner":false}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-43
+    desc: |
+      Nextcloud Deck:
+      Sharing a label with a user/group
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/deck/labels/4/acl/1
+            data: |-
+              {"id":4,"title":"test","color":"F1DB50","boardId":1,"cardId":null,"lastModified":1662255238,"ETag":"1234567890abcdef"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-44
+    desc: |
+      Nextcloud Deck:
+      Marking a card as done
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/deck/cards/7/done
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-45
+    desc: |
+      Nextcloud Deck:
+      Marking a card as not done
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/deck/cards/7/undone
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-46
+    desc: |
+      Nextcloud Deck:
+      Archiving a card
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/deck/cards/7/archive
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-47
+    desc: |
+      Nextcloud Deck:
+      Unarchiving a card
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/deck/cards/7/unarchive
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-48
+    desc: |
+      Nextcloud Deck:
+      Deleting a board
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/deck/boards/1
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-49
+    desc: |
+      Nextcloud Deck:
+      Deleting a stack
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/deck/stacks/1
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-50
+    desc: |
+      Nextcloud Deck:
+      Deleting a card
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/deck/cards/1
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-51
+    desc: |
+      Nextcloud Deck:
+      Deleting a label
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/deck/labels/1
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-52
+    desc: |
+      Nextcloud Deck:
+      Removing a label from a card
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/deck/cards/7/label/23
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-53
+    desc: |
+      Nextcloud Cookbook:
+      Editing a recipe category
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/cookbook/webapp/category/Soup
+            data: |-
+              {"name":"Soup"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-54
+    desc: |
+      Notification:
+      Dismissing notifications on iOS
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /ocs/v2.php/apps/notifications/api/v2/push
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-55
+    desc: |
+      Administration Settings:
+      Deleting an oauth client
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/oauth2/clients/42
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-56
+    desc: |
+      Administration Settings:
+      Deleting an oauth client
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/oauth2/clients
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-57
+    desc: |
+      Administration Settings:
+      Configuring default apps
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/theming/ajax/updateAppMenu
+            data: |-
+              { "setting":"defaultApps","value":["files","dashboard"] }
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-58
+    desc: |
+      Administration Settings:
+      Disabling Gmail email integration
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/mail/api/integration/google
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-59
+    desc: |
+      Administration Settings:
+      Disabling Microsoft email integration
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/mail/api/integration/microsoft
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-60
+    desc: |
+      Administration Settings:
+      Disabling automatic deletion of a tag type
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /ocs/v2.php/apps/files_retention/api/v2/retentions/42
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-61
+    desc: |
+      Administration Settings:
+      Disabling log reader live view
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/logreader/api/settings
+            data: |-
+              { "settingsKey": "liveLog","settingsValue": false }
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-62
+    desc: |
+      Administration Settings:
+      Enabling log reader live view
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/logreader/api/settings
+            data: |-
+              { "settingsKey": "liveLog","settingsValue": true }
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-63
+    desc: |
+      Administration Settings:
+      Configuring/excluding 2FA enforcement for groups
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /settings/api/admin/twofactorauth
+            data: |-
+              {"enforced":true,"enforcedGroups":["admin"],"excludedGroups":["Users"]}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-64
+    desc: |
+      Administration Settings:
+      Changing the cron method (AJAX, Webcron, Cron)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /ocs/v2.php/apps/provisioning_api/api/v1/config/apps/core/cronErrors
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-65
+    desc: |
+      Administration Settings:
+      Testing /.well-known/carddav redirection
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PROPFIND
+            uri: /.well-known/carddav
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-66
+    desc: |
+      Administration Settings:
+      Testing /.well-known/caldav redirection
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PROPFIND
+            uri: /.well-known/caldav
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-67
+    desc: |
+      Administration Settings:
+      Testing /.well-known/webdav redirection
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PROPFIND
+            uri: /.well-known/webdav
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-68
+    desc: |
+      Administration Settings:
+      Deleting administrators from "Who has access to your data"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /apps/privacy/api/admins/1
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-69
+    desc: |
+      Personal Settings:
+      Deleting an email address from personal info
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /ocs/v2.php/cloud/users/test/additional_mail
+            data: |-
+              {"key":"email@example.com","value":""}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-70
+    desc: |
+      Personal Settings:
+      Deleting out of office message
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /ocs/v2.php/apps/dav/api/v1/outOfOffice/username
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-71
+    desc: |
+      Personal Settings:
+      Disabling dyslexic font
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: DELETE
+            uri: /ocs/v2.php/apps/theming/api/v1/theme/opendyslexic
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-72
+    desc: |
+      Personal Settings:
+      Enabling "Automatically set user status to Do no disturb" option
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /ocs/v2.php/apps/provisioning_api/api/v1/config/users/dav/user_status_automation
+            data: |-
+              {"configValue":"yes"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-73
+    desc: |
+      Personal Settings:
+      Disabling "Automatically set user status to Do no disturb" option
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /ocs/v2.php/apps/provisioning_api/api/v1/config/users/dav/user_status_automation
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-74
+    desc: |
+      Personal Settings:
+      Disabling filesystem access
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /settings/personal/authtokens/1
+            data: |-
+              {"id":1,"name":"test","lastActivity":1721401548,"type":1,"scope":{"filesystem":false},"canDelete":true,"canRename":true}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-75
+    desc: |
+      Personal Settings:
+      Renaming a token/session
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /settings/personal/authtokens/1
+            data: |-
+              {"id":1,"name":"test123","lastActivity":1721401548,"type":1,"scope":{"filesystem":false},"canDelete":true,"canRename":true}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-76
+    desc: |
+      Personal Settings:
+      Deleting a token/session
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /settings/personal/authtokens/1
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-77
+    desc: |
+      Text Editor:
+      Opening an file
+      Public Share: NO
+      NC 27.1 and older
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/text/session/create
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-78
+    desc: |
+      Text Editor:
+      Opening an file
+      Public Share: YES
+      NC 27.1 and older
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/text/public/session/create
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-79
+    desc: |
+      Text Editor:
+      Opening an file
+      Public Share: NO
+      NC 28 and newer
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/text/session/1234/create
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-80
+    desc: |
+      Text Editor:
+      Opening an file
+      Public Share: YES
+      NC 28 and newer
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: PUT
+            uri: /apps/text/public/session/1234/create
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-81
+    desc: |
+      File Manager GUI:
+      Configuring a download limit for public shares
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /ocs/v2.php/apps/files_downloadlimit/api/v1/zqiJrSncJep32DL/limit
+            data: |-
+              {"limit":5}
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"
+  - test_title: 9508190-82
+    desc: |
+      Personal Settings:
+      Clearing profile picture
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: DELETE
+            uri: /avatar
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "911100"

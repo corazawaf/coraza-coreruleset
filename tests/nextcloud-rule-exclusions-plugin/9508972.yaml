@@ -1,0 +1,49 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508972.yaml
+tests:
+  - test_title: 9508972-1
+    desc: |
+      Nextcloud: Mail Logging into mail account
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /apps/mail/api/accounts
+            data: |-
+              {"imapHost":"mail.example.com","imapPort":993,"imapSslMode":"ssl","imapUser":"test@example.com","imapPassword":"<script>","smtpHost":"mail.example.com","smtpPort":465,"smtpSslMode":"ssl","smtpUser":"test@example.com","smtpPassword":"<script>","accountName":"esadc","emailAddress":"test@example.com","authMethod":"password"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "941100"
+  - test_title: 9508972-2
+    desc: |
+      Nextcloud Mail: changing mail account login information
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/mail/api/accounts/1
+            data: |-
+              {"imapHost":"mail.example.com","imapPort":993,"imapSslMode":"ssl","imapUser":"test@example.com","imapPassword":"<script>","smtpHost":"mail.example.com","smtpPort":465,"smtpSslMode":"ssl","smtpUser":"test@example.com","smtpPassword":"<script>","accountName":"esadc","emailAddress":"test@example.com","authMethod":"password","accountId":1}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920273"|id "941100"

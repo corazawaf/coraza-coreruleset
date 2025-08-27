@@ -1,0 +1,28 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+  enabled: true
+  name: 9507201.yaml
+tests:
+  - test_title: 9507201-1
+    desc:
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-json/batch/v1?_locale=user
+            data: |
+              {"validation":"require-all-validate","requests":[{"path":"/wp/v2/widgets","body":{"id_base":"block","instance":{"raw":{"content":"<!-- wp:paragraph -->\n<p>test</p>\n<!--/wp:paragraph -->"}},"sidebar":"sidebar-1"},"method":"POST"},{"path":"/wp/v2/widgets","body":{"id_base":"block","instance":{"raw":{"content":"<!-- wp:search{\"label\":\"Search\",\"buttonText\":\"Search\"} /-->"}},
+              "sidebar":"sidebar-1"},"method":"POST"},{"path":"/wp/v2/widgets","body":{"id_base":"block","instance":{"raw":{"content":"<!-- wp:table-->\n<figure class=\"wp-block-table\"><table class=\"has-fixed-layout\"><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></figure>\n<!-- /wp:table-->"}},"sidebar":"sidebar-1"},"method":"POST"}]}
+          output:
+            no_log_contains: |-
+              id "920272"|id "920273"|id "932200"|id "932236"|id "932240"|id "932370"|id "941150"|id "941180"|id "941181"|id "941320"|id "941330"|id "942130"|id "942131"|id "942200"|id "942210"|id "942260"|id "942330"|id "942340"|id "942370"|id "942430"|id "942431"|id "942432"|id "942440"|id "942460"|id "942520"
