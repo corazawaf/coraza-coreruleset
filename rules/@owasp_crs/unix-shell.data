@@ -31,12 +31,17 @@ bin/7z
 bin/7za
 bin/7zr
 bin/7zx
+bin/aa-
 bin/ab
+bin/auditctl
+bin/aurepot
+bin/ausearch
 bin/addgroup
 bin/adduser
 bin/agetty
 bin/alpine
 bin/ansible
+bin/apparmor_
 bin/apt
 bin/apt-get
 bin/aptitude
@@ -67,6 +72,7 @@ bin/blkid
 bin/bpftrace
 bin/breaksw
 bin/bridge
+bin/brwap
 bin/bsdcat
 bin/bsdiff
 bin/bsdtar
@@ -159,6 +165,7 @@ bin/dmsetup
 bin/dnf
 bin/doas
 bin/docker
+bin/docker-
 bin/dosbox
 bin/dpkg
 bin/dpkg-
@@ -214,6 +221,7 @@ bin/genisoimage
 bin/GET
 bin/HEAD
 bin/POST
+bin/getcap
 bin/getfacl
 bin/ghc
 bin/ghc-
@@ -421,6 +429,7 @@ bin/pico
 bin/pidstat
 bin/pigz
 bin/ping
+bin/ping6
 bin/pip
 bin/pkexec
 bin/pkg
@@ -478,6 +487,7 @@ bin/rpmverify
 bin/rsync
 bin/rsync-ssl
 bin/ruby
+bin/runc
 bin/run-mailcap
 bin/run-parts
 bin/rview
@@ -492,6 +502,7 @@ bin/sed
 bin/sendmail
 bin/service
 bin/setarch
+bin/setcap
 bin/setfacl
 bin/setsid
 bin/sftp
@@ -512,6 +523,9 @@ bin/split
 bin/sqlite3
 bin/ss
 bin/ssh
+bin/ssh-add
+bin/ssh-agent
+bin/ssh-copy-id
 bin/ssh-keygen
 bin/ssh-keyscan
 bin/sshpass
@@ -671,15 +685,20 @@ dev/stdout
 dev/tcp
 dev/udp
 dev/zero
+etc/alternatives/rmt
 etc/group
 etc/master.passwd
 etc/passwd
 etc/pwd.db
+etc/rmt
 etc/shadow
 etc/shells
 etc/spwd.db
 proc/self
 sbin/capsh
 sbin/logsave
+sbin/rmt
+sbin/rmt-dump
+sbin/rmt-tar
 sbin/service
 sbin/start-stop-daemon
