@@ -1,0 +1,47 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+  enabled: true
+  name: 9507139.yaml
+tests:
+  - test_title: 9507139-1
+    desc: Editing global styles for a theme
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+              x-http-method-override: PUT
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-json/wp/v2/global-styles/1?wp_theme_preview=twentytwentyfour&_locale=user
+            data: |-
+              {"id":2934,"styles":{"blocks":{"core/site-title":{"typography":{"fontWeight":"400"}},"core/pullquote":{"typography":{"fontSize":"var(--wp--preset--font-size--large)","fontStyle":"normal","fontWeight":"normal","lineHeight":"1.2"}},"core/quote":{"variations":{"plain":{"typography":{"fontStyle":"normal","fontWeight":"400"}}},"typography":{"fontFamily":"var(--wp--preset--font-family--heading)","fontSize":"var(--wp--preset--font-size--large)","fontStyle":"normal"}},"core/navigation":{"typography":{"fontWeight":"400"}}},"elements":{"button":{"typography":{"fontFamily":"var(--wp--preset--font-family--heading)","fontSize":"var(--wp--preset--font-size--small)","fontStyle":"normal"}},"heading":{"color":{"background":"#ab5a5a"}}},"css":""}}
+            no_log_contains: |-
+              id "942100|id "942440"
+  - test_title: 9507139-2
+    desc: Editing global styles for shadows
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+              x-http-method-override: PUT
+            port: 80
+            method: POST
+            version: "HTTP/1.1"
+            uri: /post/wp-json/wp/v2/global-styles/3327?wp_theme_preview=twentytwentyfive&_locale=user
+            data: |-
+              {"id":3327,"styles":{"blocks":{"core/code":{"typography":{"fontStyle":"normal","fontWeight":"300"},"color":{"text":"var:preset|color|custom-white","background":"var:preset|color|custom-light-black"}},"core/read-more":{"color":{"text":"var:preset|color|base","background":"var:preset|color|custom-orange"},"elements":{"link":{"color":{"text":"var:preset|color|base"}}},"border":{"top":{"color":"var:preset|color|custom-orange","style":"solid","width":"18px"},"right":{"color":"var:preset|color|custom-orange","style":"solid","width":"18px"},"bottom":{"color":"var:preset|color|custom-orange","style":"solid","width":"18px"},"left":{"color":"var:preset|color|custom-orange","style":"solid","width":"18px"},"radius":"18px"}},"core/button":{"color":{"text":"var:preset|color|custom-white","background":"var:preset|color|custom-orange"},"elements":{"link":{"color":{"text":"var:preset|color|custom-white"}}},"border":{"radius":"16px"},"shadow":"var:preset|shadow|natural"}}}}
+            no_log_contains: |-
+              id "932220|id "932235"|id "932236"

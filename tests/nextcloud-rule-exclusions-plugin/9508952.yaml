@@ -1,0 +1,37 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Photos"
+  enabled: true
+  name: 9508952.yaml
+tests:
+  - test_title: 9508952-1
+    desc: Creating/viewing a photo album
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: text/plain;charset=UTF-8
+            port: 80
+            method: PROPFIND
+            uri: /remote.php/dav/photos/esadc/albums/test
+            data: |-
+              <?xml version="1.0"?>
+              <d:propfind xmlns:d="DAV:"
+                xmlns:oc="http://owncloud.org/ns"
+                xmlns:nc="http://nextcloud.org/ns"
+                xmlns:ocs="http://open-collaboration-services.org/ns">
+                <d:prop>
+                  <nc:last-photo />
+                  <nc:nbItems />
+                  <nc:location /><nc:dateRange /><nc:collaborators />
+                </d:prop>
+              </d:propfind>
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920420"|id "921110"

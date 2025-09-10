@@ -1,0 +1,109 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508530.yaml
+tests:
+  - test_title: 9508530-1
+    desc: Creating/modifying documents in Nextcloud Office
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/octet-stream
+            port: 80
+            method: POST
+            uri: /index.php/apps/richdocuments/wopi/files/random_instanceid/contents
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "920420"
+  - test_title: 9508530-2
+    desc: Renaming a document within Nextcloud Office
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/octet-stream
+            port: 80
+            method: POST
+            uri: /index.php/apps/richdocuments/wopi/files/684_ocrandom?access_token=lsrandom&access_token_ttl=0%2Fws%3FWOPISrc%3Dhttps%3A%2F%2Fexample.com%2Findex.php%2Fapps%2Frichdocuments%2Fwopi%2Ffiles%2F684_oc4wynu9gzds&compat=
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "920420"
+  - test_title: 9508530-3
+    desc: Sending access token to Nextcloud Office connector
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            uri: /index.php/apps/richdocuments/wopi/files/random_instanceid/contents
+            data: "access_token=lsrandom03843"
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "932236"
+  - test_title: 9508530-4
+    desc: Sending access token to Nextcloud Office connector
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            uri: /index.php/apps/richdocuments/wopi/files/random_instanceid
+            data: "access_token=lsrandom03843"
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "932236"
+  - test_title: 9508530-5
+    desc: Sending access token to Nextcloud Office connector
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            uri: /index.php/apps/richdocuments/wopi/files/random_instanceid/contents
+            data: "access_token=0x0800random45"
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "942450"
+  - test_title: 9508530-6
+    desc: Sending access token to Nextcloud Office connector
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: POST
+            uri: /index.php/apps/richdocuments/wopi/files/random_instanceid
+            data: "access_token=0x0800random45"
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "942450"
