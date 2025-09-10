@@ -14,6 +14,12 @@ jobs:
       contents: write
 
     steps:
+      - name: Generate a GitHub App token to push changes that will trigger the workflow
+        id: generate-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.CORAZA_ORG_REPO_DISPATCH_APP_ID }}
+          private-key: ${{ secrets.CORAZA_ORG_REPO_DISPATCH_APP_PRIVATE_KEY }}
       - name: Checkout code
         uses: actions/checkout@v5
         # In a pull request trigger, ref is required as GitHub Actions checks out in detached HEAD mode,
@@ -21,6 +27,7 @@ jobs:
         # Ref: https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-to-a-pr-using-the-built-in-token
         with:
           ref: ${{ github.head_ref }}
+          token: ${{ steps.generate-token.outputs.token }}
       - name: Install Go
         uses: actions/setup-go@v6
         with:
@@ -28,12 +35,6 @@ jobs:
       - name: Download CRS and Coraza config
         run: go run mage.go downloadDeps
       # Ref: https://gist.github.com/somidad/3ce6e8a7b7d77ac8fa7fad583003d6f5
-      - name: Generate a GitHub App token to push changes that will trigger the workflow
-        id: generate-token
-        uses: actions/create-github-app-token@v2
-        with:
-          app-id: ${{ vars.CORAZA_ORG_REPO_DISPATCH_APP_ID }}
-          private-key: ${{ secrets.CORAZA_ORG_REPO_DISPATCH_APP_PRIVATE_KEY }}
       - name: Run Dependency Update
         id: changes
         run: echo "changed=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
