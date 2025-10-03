@@ -1,0 +1,49 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508957.yaml
+tests:
+  - test_title: 9508957-1
+    desc: Configuring folders for Nextcloud Photos to scan
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/photos/api/v2/config/photosSourceFolders
+            # Data is actually sent like this with characters escaped
+            data: |-
+              {"value":"[\"/Pictures\",\"/InstantUpload\"]"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "920273"|id "942100"|id "942200"|id "942370"|id "942431"|id "942432"|id "942460"|id "942520"
+  - test_title: 9508957-2
+    desc: Configuring upload folder for Nextcloud Photos
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: PUT
+            uri: /apps/photos/api/v2/config/photosLocation
+            # Data is actually sent like this with characters escaped
+            data: |-
+              {"value":"[\"/Pictures\",\"/InstantUpload\"]"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "911100"|id "920273"|id "942100"|id "942200"|id "942370"|id "942431"|id "942432"|id "942460"|id "942520"

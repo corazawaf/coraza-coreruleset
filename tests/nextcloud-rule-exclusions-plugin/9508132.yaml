@@ -1,0 +1,27 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+  enabled: true
+  name: 9508132.yaml
+tests:
+  - test_title: 9508132-1
+    desc: Posting a comment on a file
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS test agent
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Content-Type: application/json
+            port: 80
+            method: POST
+            uri: /remote.php/dav/comments/files/1371175
+            data: |-
+              {"actorDisplayName":"test","actorId":"test","actorType":"users","creationDateTime":"Sat, 16 Nov 2024 05:14:53 GMT","message":"&lt;script&gt;","objectType":"files","verb":"comment"}
+            version: HTTP/1.1
+          output:
+            no_log_contains: |-
+              id "920272"|id "920273"|id "921110"|id "941100"|id "942432"
