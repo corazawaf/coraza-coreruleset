@@ -324,6 +324,7 @@ wp-config_
 /sites/default/settings.local.php
 /config/settings.inc.php
 /app/config/parameters.php
+/app/etc/env.php
 /app/etc/local.xml
 /Web.config
 /package.json
