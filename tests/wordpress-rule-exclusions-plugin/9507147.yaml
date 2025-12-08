@@ -1,0 +1,147 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+rule_id: 9507147
+tests:
+  - test_id: 1
+    desc: Editing template part of a website i.e header or footer
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+            x-http-method-override: PUT
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          # URI is actually sent with double slashes
+          uri: /post/wp-json/wp/v2/template-parts/twentytwentyfour//header?_locale=user
+          # Data is sent with some special characters escaped
+          data: >-
+            {"id":"twentytwentyfour//header","content":"<!-- wp:group{\"align\":\"wide\",\"style\":{\"spacing\":{\"padding\":{\"top\":\"20px\",\"bottom\":\"20px\"}}},\"backgroundColor\":\"base\",\"layout\":{\"type\":\"constrained\"}} -->\n<div class=\"wp-block-groupalignwide has-base-background-color has-background\" style=\"padding-top:20px;padding-bottom:20px\"><!-- wp:group{\"align\":\"wide\",\"layout\":{\"type\":\"flex\",\"justifyContent\":\"space-between\",\"flexWrap\":\"wrap\"}} -->\n<div class=\"wp-block-group alignwide\"><!-- wp:group{\"style\":{\"spacing\":{\"blockGap\":\"var:preset|spacing|20\"},\"layout\":{\"selfStretch\":\"fit\",\"flexSize\":null}},\"layout\":{\"type\":\"flex\"}} -->\n<div class=\"wp-block-group\">
+            <!-- wp:site-logo{\"width\":60,\"shouldSyncIcon\":false} /-->\n\n<!-- wp:group {\"style\":{\"spacing\":{\"blockGap\":\"0px\"}}} -->\n<div class=\"wp-block-group\"><!-- wp:site-title {\"level\":0} /--></div>\n<!-- /wp:group--></div>\n<!-- /wp:group -->\n\n<!-- wp:navigation{\"ref\":2180,\"icon\":\"menu\",\"layout\":{\"type\":\"flex\",\"justifyContent\":\"right\",\"orientation\":\"horizontal\",\"flexWrap\":\"wrap\"},\"style\":{\"spacing\":{\"margin\":{\"top\":\"0\"},\"blockGap\":\"va>/--></div>\n<!-- /wp:group -->\n\n<!-- wp:paragraph -->\n<p></p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:group -->"}
+        output:
+          log:
+            no_expect_ids: [920450]
+  - test_id: 2
+    desc: Editing global styles for a theme
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+            x-http-method-override: PUT
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-json/wp/v2/global-styles/1?wp_theme_preview=twentytwentyfour&_locale=user
+          data: |-
+            {"id":2934,"styles":{"blocks":{"core/site-title":{"typography":{"fontWeight":"400"}},"core/pullquote":{"typography":{"fontSize":"var(--wp--preset--font-size--large)","fontStyle":"normal","fontWeight":"normal","lineHeight":"1.2"}},"core/quote":{"variations":{"plain":{"typography":{"fontStyle":"normal","fontWeight":"400"}}},"typography":{"fontFamily":"var(--wp--preset--font-family--heading)","fontSize":"var(--wp--preset--font-size--large)","fontStyle":"normal"}},"core/navigation":{"typography":{"fontWeight":"400"}}},"elements":{"button":{"typography":{"fontFamily":"var(--wp--preset--font-family--heading)","fontSize":"var(--wp--preset--font-size--small)","fontStyle":"normal"}},"heading":{"color":{"background":"#ab5a5a"}}},"css":""}}
+        output:
+          log:
+            no_expect_ids: [920450]
+  - test_id: 3
+    desc: Editing widgets
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+            x-http-method-override: PUT
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-json/wp/v2/sidebars/sidebar-1?_locale=user
+          data: |-
+            {"id":"sidebar-1","widgets":["block-16","block-17","block-18"]}
+        output:
+          log:
+            no_expect_ids: [920450]
+  - test_id: 4
+    desc: Save post
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json, */*;q=0.1
+            Content-Type: application/json
+            x-http-method-override: PUT
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-json/wp/v2/posts/1&_locale=user
+          data: |-
+            {"id":1,"content":"<p>Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!</p>\n\n<!-- wp:paragraph -->\n<p>dddd</p>\n<!-- /wp:paragraph -->"}
+        output:
+          log:
+            no_expect_ids: [920450]
+  - test_id: 5
+    desc: Delete post
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json, */*;q=0.1
+            Content-Type: application/json
+            x-http-method-override: DELETE
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-json/wp/v2/posts/1&_locale=user
+        output:
+          log:
+            no_expect_ids: [920450]
+  - test_id: 6
+    desc: Save post when permalink struct starts with /index.php/
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json, */*;q=0.1
+            Content-Type: application/json
+            x-http-method-override: PUT
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/index.php/wp-json/wp/v2/posts/1&_locale=user
+          data: |-
+            {"id":1,"content":"<p>Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!</p>\n\n<!-- wp:paragraph -->\n<p>dddd</p>\n<!-- /wp:paragraph -->"}
+        output:
+          log:
+            no_expect_ids: [920450]
+  - test_id: 7
+    desc: Save post for multisite or a WordPress installation in "nested directories"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json, */*;q=0.1
+            Content-Type: application/json
+            x-http-method-override: PUT
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/subdir/wordpress-here/wp-json/wp/v2/posts/1&_locale=user
+          data: |-
+            {"id":1,"content":"<p>Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!</p>\n\n<!-- wp:paragraph -->\n<p>dddd</p>\n<!-- /wp:paragraph -->"}
+        output:
+          log:
+            no_expect_ids: [920450]

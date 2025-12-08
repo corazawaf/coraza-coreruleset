@@ -1,0 +1,138 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Text Editor: Editing a text document"
+rule_id: 9508313
+tests:
+  - test_id: 1
+    desc: |
+      Version: 27.1 and older
+      Action: autosync
+      Public share: no
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/session/sync
+          data: |-
+            {"documentId":1234,"sessionId":5678,"sessionToken":"randomdata","token":null,"filePath":"","version":42,"autosaveContent":"<script>2","documentState":"randomdata","force":true,"manualSave":true}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941100]
+  - test_id: 2
+    desc: |
+      Version: 27.1 and older
+      Action: autosync
+      Public share: yes
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/public/session/sync
+          data: |-
+            {"documentId":1234,"sessionId":5678,"sessionToken":"randomdata","token":null,"filePath":"","version":42,"autosaveContent":"<script>2","documentState":"randomdata","force":true,"manualSave":true}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941100]
+  - test_id: 3
+    desc: |
+      Version: 28 and newer
+      Action: autosync
+      Public share: no
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/session/1234/sync
+          data: |-
+            {"documentId":1234,"sessionId":5678,"sessionToken":"randomdata","token":null,"filePath":"","version":42,"autosaveContent":"<script>2","documentState":"randomdata","force":true,"manualSave":true}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941100]
+  - test_id: 4
+    desc: |
+      Version: 28 and newer
+      Action: autosync
+      Public share: yes
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/public/session/1234/sync
+          data: |-
+            {"documentId":1234,"sessionId":5678,"sessionToken":"randomdata","token":null,"filePath":"","version":42,"autosaveContent":"<script>2","documentState":"randomdata","force":true,"manualSave":true}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941100]
+  - test_id: 5
+    desc: |
+      Version: 28 and newer
+      Action: manual save
+      Public share: no
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/session/1234/save
+          data: |-
+            {"documentId":1234,"sessionId":5678,"sessionToken":"randomdata","token":null,"filePath":"","version":42,"autosaveContent":"<script>2","documentState":"randomdata","force":true,"manualSave":true}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941100]
+  - test_id: 6
+    desc: |
+      Version: 28 and newer
+      Action: manual save
+      Public share: yes
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/public/session/1234/save
+          data: |-
+            {"documentId":1234,"sessionId":5678,"sessionToken":"randomdata","token":null,"filePath":"","version":42,"autosaveContent":"<script>2","documentState":"randomdata","force":true,"manualSave":true}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941100]

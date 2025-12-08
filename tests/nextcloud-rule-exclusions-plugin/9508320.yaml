@@ -1,0 +1,153 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+rule_id: 9508320
+tests:
+  - test_id: 1
+    desc: Creating/editing a contact via an dav client
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/vcard;version=4.0
+          port: 80
+          method: PUT
+          uri: /remote.php/dav/addressbooks/users/esadc/contacts/1234-567890-abc-def.vcf
+          data: |-
+            Content-Type: text/vcard;version=4.0
+            BEGIN:VCARD
+            VERSION:4.0
+            PRODID:+//IDN bitfire.at//DAVx5/4.4.8-ose ez-vcard/0.12.1
+            UID:1234-567890-abc-def
+            FN:Test
+            N:;Test;;;
+            REV:20250430T024319Z
+            END:VCARD
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920420
+              - 920530
+              - 921110
+              - 942430
+              - 942431
+              - 942432
+              - 942440
+  - test_id: 2
+    desc: Syncing recently contacted contacts
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/xml; charset=utf-8
+          port: 80
+          method: REPORT
+          uri: /remote.php/dav/addressbooks/users/esadc/z-app-generated--contactsinteraction--recent/
+          data: |-
+            <?xml version='1.0' encoding='UTF-8' ?>
+              <CARD:addressbook-multiget xmlns="DAV:" xmlns:CARD="urn:ietf:params:xml:ns:carddav">
+                <prop>
+                  <getcontenttype />
+                  <getetag />
+                  <CARD:address-data content-type="text/vcard" version="4.0" />
+                </prop>
+                <href>/remote.php/dav/addressbooks/users/esadc/z-app-generated--contactsinteraction--recent/53</href>
+              </CARD:addressbook-multiget>
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920420
+              - 920530
+              - 921110
+              - 942430
+              - 942431
+              - 942432
+              - 942440
+  - test_id: 3
+    desc: Editing an existing contact via the GUI
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/vcard; charset=UTF-8; charset=UTF-8
+          port: 80
+          method: PUT
+          uri: /remote.php/dav/addressbooks/users/test/contacts/44F9B20E-5FB9-410E-9C99-63320C133165.vcf
+          data: |-
+            BEGIN:VCARD
+            VERSION:3.0
+            PRODID;VALUE=TEXT:-//Apple Inc.//iOS 15.6.1//EN
+            N:;Test;;;
+            FN:Test1
+            REV;VALUE=DATE-AND-OR-TIME:20250605T224554Z
+            UID:C29191D9-A248-4DBE-B0A1-8515FC18F031
+            END:VCARD
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920420
+              - 920530
+              - 921110
+              - 942430
+              - 942431
+              - 942432
+              - 942440
+  - test_id: 4
+    desc: |
+      Editing an existing contact via the GUI
+      This false positive specifically happens when editing the default contact (Leon Green)
+      The stock photo is excluded from this test
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/vcard; charset=UTF-8; charset=UTF-8
+          port: 80
+          method: PUT
+          uri: /remote.php/dav/addressbooks/users/esadc/contacts/default
+          data: |-
+            BEGIN:VCARD
+            VERSION:3.0
+            PRODID:-//Sabre//Sabre VObject 4.5.6//EN
+            UID:91458dfa-a0f7-4c68-83cd-af3c953df35f
+            FN:Leon Green
+            ADR;TYPE=HOME:;;123 Street Street;City;State;;Country
+            EMAIL;TYPE=HOME:leon@example.com
+            TEL;TYPE=HOME,VOICE:+999999999999
+            TITLE:Manager
+            ORG:Company
+            BDAY;VALUE=DATE:20000101
+            URL:www.nextcloud.com
+            REV:20251025T122122Z
+            END:VCARD
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920420
+              - 920530
+              - 921110
+              - 942430
+              - 942431
+              - 942432
+              - 942440

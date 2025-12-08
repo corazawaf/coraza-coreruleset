@@ -1,0 +1,42 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "FPs during login/reauthentication"
+rule_id: 9508400
+tests:
+  - test_id: 1
+    desc: Logging in to Nextcloud
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: POST
+          uri: /login
+          data: "password=<script>"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941100]
+  - test_id: 2
+    desc: Reauthentication when performing an sensitive action (i.e changing personal settings or an admin installing a new app)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /login/confirm
+          data: |-
+            {"password": "<script>"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941100]

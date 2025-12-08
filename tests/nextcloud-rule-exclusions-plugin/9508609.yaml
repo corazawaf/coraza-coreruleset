@@ -1,0 +1,64 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "FPs when registering webauthn devices"
+rule_id: 9508609
+tests:
+  - test_id: 1
+    desc: Registering webauthn device with pretty URLs
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /settings/api/personal/webauthn/registration
+          data: |-
+            {"data":"{\"id\":\"RanDom__02Data\",\"type\":\"public-key\",\"rawId\":\"FDADG34//fsd88DF=\",\"response\":{\"authenticatorData\":\"3/fds+dsf79dDAF/SQ+sdfaf89sDFS==\",\"clientDataJSON\":\"7sdfybsdfbyubYUFDBVASUBYFASD7687gdsfb==\",\"signature\":\"dsyuifabHBJDAF989+sfddsfDFKJ6678+fsd676JKG+S8dg=\",\"userHandle\":\"random=\"}}"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920273
+              - 932236
+              - 932240
+              - 942200
+              - 942260
+              - 942340
+              - 942370
+              - 942430
+              - 942431
+              - 942432
+  - test_id: 2
+    desc: Registering webauthn device without pretty URLs
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /settings/api/personal/webauthn/registration
+          data: |-
+            {"data":"{\"id\":\"RanDom__02Data\",\"type\":\"public-key\",\"rawId\":\"FDADG34//fsd88DF=\",\"response\":{\"authenticatorData\":\"3/fds+dsf79dDAF/SQ+sdfaf89sDFS==\",\"clientDataJSON\":\"7sdfybsdfbyubYUFDBVASUBYFASD7687gdsfb==\",\"signature\":\"dsyuifabHBJDAF989+sfddsfDFKJ6678+fsd676JKG+S8dg=\",\"userHandle\":\"random=\"}}"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920273
+              - 932236
+              - 932240
+              - 942200
+              - 942260
+              - 942340
+              - 942370
+              - 942430
+              - 942431
+              - 942432

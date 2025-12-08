@@ -1,0 +1,47 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Office: Saving changes to settings (JSON data)"
+rule_id: 9508552
+tests:
+  - test_id: 1
+    desc: Saving changes to settings for users
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/html;charset=utf-8
+          port: 80
+          method: POST
+          uri: /apps/richdocuments/wopi/settings/upload?fileId=%2Fsettings%2Fuserconfig%2Fbrowsersetting%2Fbrowsersetting.json&access_token=randomtoken
+          data: >-
+            {"compactMode":false,"darkTheme":false,"spreadsheet":{"ShowStatusbar":false,"A11yCheckDeck":false,"NavigatorDeck":false,"PropertyDeck":true},
+            "text":{"ShowRuler":false,"ShowStatusbar":false,"A11yCheckDeck":false,"NavigatorDeck":false,"PropertyDeck":true,"StyleListDeck":false},
+            "presentation":{"ShowRuler":false,"ShowStatusbar":false,"A11yCheckDeck":false,"NavigatorDeck":false,"PropertyDeck":true,
+            "SdCustomAnimationDeck":false,"SdMasterPagesDeck":false,"SdSlideTransitionDeck":false},"drawing":{"ShowRuler":false,"ShowStatusbar":false,"A11yCheckDeck":false,"NavigatorDeck":false,"PropertyDeck":true}}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 2
+    desc: Saving changes to settings for users
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/html;charset=utf-8
+          port: 80
+          method: POST
+          uri: /apps/richdocuments/wopi/settings/upload?fileId=%2Fsettings%2Fuserconfig%2Fviewsetting%2Fviewsetting.json&access_token=random
+          data: |-
+            {"accessibilityState":false}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
