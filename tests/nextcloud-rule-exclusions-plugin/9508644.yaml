@@ -1,0 +1,26 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Administration Settings: Admin Permissions"
+tests:
+  - test_id: 1
+    desc: Enabling "accessing and collecting information about the web pages you add"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/settings//settings/authorizedgroups/saveSettings
+          data: |-
+            {"newGroups":[{"displayName":"Guests","gid":"guest_app"}],"class":"OCA\\Support\\Settings\\Admin"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+             - 920273
+             - 932240

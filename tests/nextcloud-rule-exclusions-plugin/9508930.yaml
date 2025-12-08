@@ -1,0 +1,54 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Custom CSS app"
+rule_id: 9508930
+tests:
+  - test_id: 1
+    desc: |
+      Used this for sample CSS https://gist.github.com/bootlegcoal/2c45b723f9bdf3be048cc39019ba8f3a
+      The entire CSS snippet is not included due to it's size
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+          port: 80
+          method: POST
+          uri: /ocs/v2.php/apps/provisioning_api/api/v1/config/apps/theming_customcss/customcss
+          data: >-
+            value=%2F*+This+is+a+quick+fix+to+unscramble+the+Nextcloud+News+ver+24+sidebar+inside+Nextcloud+29.%0A%0AFor+use+with+the+Nextcloud+Custom+CSS+ap
+            p.+No+modifying+system+files.+https%3A%2F%2Fapps.nextcloud.com%2Fapps%2Ftheming_customcss%0A%0AIt's+simply+the+code+copie
+            d+from+here%3A+https%3A%2F%2Fgist.github.com%2FYetangitu%2F3fadd53a308bd59275b055dbe4ed230f%0Awrapped+in+the+.app-news+class.+I+thin
+            k+added+left-padding+to+lists+links.%0A%0ACreated+9%2F1%2F2024+by+someone+who+knows+very+litt
+            le.%0A%0A*%2F%0A%0A.app-news+%7B%0A%09%3Aroot+%7B%0A%09%09--border-radius-rounded%3A+calc(var(--default-clickable-area)+%2F+2+%2B+var(--default-
+            grid-baseline)+*+2+-+2px)%3B%0A%09%09--body-container-radius%3A+var(--border-radius-rounded)%3B%0A%09%09--body-container-margin%3A+calc(var
+            (--default-grid-baseline)+*+2)%3B%0A%09%09--body-height%3A+calc(100%25+-+env(safe-area-inset-bottom)+-+50px+-+var(--body-container
+            -margin))%0A%09%7D%0A%09%40media+screen+and+(max-width%3A+1024px)+%7B%0A%09%09%3Aroot+%7B%0A%09%09--body-container
+            -margin%3A+0px%3B%0A%09%09--body-container-radius%3A+0px%0A%09%09%7D%0A%09%7D%0A%09html+%7B%0A%09%09wid
+            th%3A100%25%3B%0A%09%09height%3A100%25%3B%0A%09%09position%3Aabsolute%3B%0A%09%09background-color%3Avar(--color-background-plain%2C+var
+            (--color-main-background))%0A%09%7D%0A%09body+%7B%0A%09%09background-color%3Avar(--color-background-plain%2C+var(--color
+            -main-background))%3B%0A%09%09background-image%3Avar(--image-background%2C+var(--image-background
+            -default))%3B%0A%09%09background-size%3Acover%3B%0A%09%09background-position%3Acent
+            er%3B%0A%09%09position%3Afixed%3B%0A%09%09width%3A100%25%3B%0A%09%09height%3Acalc(100vh+-+env(safe
+            -area-inset-bottom))%0A%09%7D%0A%09h2+%7B%0A%09%09font-weight%3Abold%3B%0A%09%09font-size%3A20px%3B%0A%09%09margin-bottom
+            %3A12px%3B%0A%09%09line-height%3A30px%3B%0A%09%09color%3Avar(--color-text-light)%0A%09%7D%0A%09h3+%7B%0A%09%09font-size%3A16px
+            %3B%0A%09%09margin%3A12px+0%3B%0A%09%09color%3Avar(--color-text-light)%0A%09%7D%0A%09h4+%7B%0A%09%09font-size%3A14px
+            %0A%09%7D%0A%09em+%7B%0A%09%09font-style%3Anormal%3B%0A%09%09color%3Avar(--color-text-lighter)%0A%09%7D%0A%09dl+%7B%0A
+            %09%09padding%3A12px+0%0A%09%7D%0A%09dt%2Cdd+%7B%0A%09%09display%3Ainline-block%3B%0A%09%09padding%3A12px%3B%0A%09%09padding-
+            left%3A0%0A%09%7D%0A%09dt+%7B%0A%09%09width%3A130px%3B%0A%09%09white-space%3Anowrap%3B%0A%09%09text-align%3Aright%0A%09%7D%0A%09kbd
+            +%7B%0A%09%09padding%3A4px+10px%3B%0A%09%09border%3A1px+solid+%23ccc%3B%0A%09%09box-shadow%3A0+1px+0+rgba(0%2C0%2C0%2C.2)%3B%0A%09%09border-
+            radius%3Avar(--border-radius)%3B%0A%09%09display%3Ainline-block%3B%0A%09%09white-space%3Anowrap%0A%09%7D%0A%09%23content%5Bclass*%3Dapp-%5D
+            +*+%7B%0A%09%09box-sizing%3Aborder-box%0A%09%7D%0A%09%23app-navigation%3Anot(.vue)+%7B%0A%09%09--border-radius-pill%3A+calc(var(--default-c
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 942430
+              - 942431
+              - 942432

@@ -16,16 +16,26 @@ type subFS interface {
 	Glob(pattern string) ([]string, error)
 }
 
-//go:embed rules/*
-var wFS embed.FS
+//go:embed crs/*
+var cFS embed.FS
 var FS fs.FS
 
+//go:embed plugins/*
+var pFS embed.FS
+var PluginsFS fs.FS
+
 func init() {
-	rulesFS, err := fs.Sub(wFS, "rules")
+	crsFS, err := fs.Sub(cFS, "crs")
 	if err != nil {
 		log.Fatal(err)
 	}
-	FS = wrapFS{rulesFS.(subFS)}
+	FS = wrapFS{crsFS.(subFS)}
+
+	pluginsFS, err := fs.Sub(pFS, "plugins")
+	if err != nil {
+		log.Fatal(err)
+	}
+	PluginsFS = wrapFS{pluginsFS.(subFS)}
 }
 
 // wrapFS is a wrapper around a subFS that removes the absolute path prefix
@@ -42,7 +52,7 @@ func init() {
 //     `@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf`
 //   - `../my-file.conf`: the dir is `..` and hence it will call the RootFS to load
 //     `../@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf` which can't be resolved
-//     because CRS filesyste only holds references to `@owasp_crs“.
+//     because CRS filesyste only holds references to `@owasp_crs`.
 //   - `/abs-path/my-file.conf`: the dir is `/abs-path` and hence it will call the RootFS
 //     to load `/abs-path/@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf` which can't
 //     be resolved because CRS filesystem only holds references to `@owasp_crs`.
