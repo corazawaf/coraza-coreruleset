@@ -11,6 +11,10 @@ func TestRules(t *testing.T) {
 	require.NoError(t, err)
 	f.Close()
 
+	f, err = PluginsFS.Open("@owasp_plugins/wordpress-rule-exclusions-before.conf")
+	require.NoError(t, err)
+	f.Close()
+
 	_, err = FS.(subFS).ReadFile("/usr/src/github.com/myorg/myrepo/@crs-setup.conf.example")
 	require.NoError(t, err)
 }

@@ -1,0 +1,51 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Obtaining autoconfig information from a mailbox"
+rule_id: 9508970
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          uri: /apps/mail/api/autoconfig/ispdb/example.com/example@example.com
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920440]
+  - test_id: 2
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          uri: /apps/mail/api/autoconfig/ispdb/example@example.com
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920440]
+  - test_id: 3
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          uri: /apps/mail/api/autoconfig/mx/example@example.com
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920440]

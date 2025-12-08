@@ -1,0 +1,24 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Administration Settings: Configuring SMTP server credentials"
+rule_id: 9508646
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          method: POST
+          uri: /settings/admin/mailsettings/credentials
+          data: |-
+            mail_smtpname=no-reply%40example.com&mail_smtppassword=%3Cscript%3E
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941100]

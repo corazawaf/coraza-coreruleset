@@ -1,0 +1,41 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+rule_id: 9508131
+tests:
+  - test_id: 1
+    desc: Getting all system tags
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/plain;charset=UTF-8
+          port: 80
+          method: PROPFIND
+          uri: /remote.php/dav/systemtags-assigned/image/
+          data: |-
+            <?xml version="1.0"?>
+              <d:propfind  xmlns:d="DAV:"xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+                <d:prop>
+                  <oc:id />
+                  <oc:display-name />
+                  <oc:user-visible />
+                  <oc:user-assignable />
+                  <oc:can-assign />
+                  <nc:files-assigned/>
+                  <nc:reference-fileid/>
+                </d:prop>
+              </d:propfind>
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920272
+              - 920273
+              - 920420
+              - 921110

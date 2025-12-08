@@ -1,0 +1,257 @@
+---
+meta:
+  author: "azurit, Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+rule_id: 9507350
+tests:
+  - test_id: 1
+    desc: Creating a new user account
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /get/wp-admin/user-edit.php?user_id=9&wp_http_referer=%2Fwp-admin%2Fusers.php%3Fupdate%3Dadd%26id%3D9
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 932235
+              - 932236
+              - 942430
+              - 942431
+              - 942432
+              - 942450
+  - test_id: 2
+    desc: Deleteing a user account
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-admin/users.php?s=&_wpnonce=random&_wp_http_referer=%2Fwp-admin%2Fusers.php&action=delete&new_role=&paged=1&users%5B0%5D=9&action2=delete&new_role2=
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 932235
+              - 932236
+              - 942430
+              - 942431
+              - 942432
+              - 942450
+  - test_id: 3
+    desc: Disable 932236 for randomly generated nonce
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-admin/users.php?s=&_wpnonce=lsrandom&_wp_http_referer=%2Fwp-admin%2Fusers.php&action=delete&new_role=&paged=1&users%5B0%5D=9&action2=delete&new_role2=
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 932235
+              - 932236
+              - 942430
+              - 942431
+              - 942432
+              - 942450
+  - test_id: 4
+    desc: Disable 942450 for randomly generated nonce
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-admin/users.php?s=&_wpnonce=0x0800random&_wp_http_referer=%2Fwp-admin%2Fusers.php&action=delete&new_role=&paged=1&users%5B0%5D=9&action2=delete&new_role2=
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 932235
+              - 932236
+              - 942430
+              - 942431
+              - 942432
+              - 942450
+  - test_id: 5
+    desc: Disable 932236 for randomly generated nonce
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost test agent
+            User-Agent: OWASP CRS
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-admin/users.php?s=&nonce=lsrandom
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 932235
+              - 932236
+              - 942430
+              - 942431
+              - 942432
+              - 942450
+  - test_id: 6
+    desc: Disable 942450 for randomly generated nonce
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-admin/users.php?s=&nonce=0x0800random
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 932235
+              - 932236
+              - 942430
+              - 942431
+              - 942432
+              - 942450
+  - test_id: 7
+    desc: Requesting a static file with randomly generated version
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /get/example.js?ver=lsrandom
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 932235
+              - 932236
+              - 942430
+              - 942431
+              - 942432
+              - 942450
+  - test_id: 8
+    desc: Requesting a static file with randomly generated version
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /get/example.js?ver=0x0000
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 932235
+              - 932236
+              - 942430
+              - 942431
+              - 942432
+              - 942450
+  - test_id: 9
+    desc: Editing tags
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-admin/edit-tags.php
+          data: |
+            _wp_http_referer=/wp-admin/term.php?taxonomy=post_tag&tag_ID=12&post_type=post&wp_http_referer=%2Fwp-admin%2Fedit-tags.php%3Ftaxonomy%3Dpost_tag
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 932235
+              - 932236
+              - 942430
+              - 942431
+              - 942432
+              - 942450
+  - test_id: 10
+    desc: Editing a post after filtering post entries
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /get/wp-admin/edit.php?s=&post_status=all&post_type=post&_wpnonce=1234567890abcdef&_wp_http_referer=%2Fwp-admin%2Fedit.php%3Fs%26post_status%3Dall%26post_type%3Dpost%26action%3D-1%26m%3D0%26cat%3D0%26filter_action%3DFilter%26paged%3D1%26action2%3D-1&action=-1&m=0&cat=0&filter_action=Filter&paged=1&action2=-1
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 932235
+              - 932236
+              - 942430
+              - 942431
+              - 942432
+              - 942450
+  - test_id: 11
+    desc:
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-admin/admin-ajax.php
+          data: action=search-install-plugins&s=%20Insert%20Headers%20and%20Footers
+        output:
+          log:
+            no_expect_ids: [942360]

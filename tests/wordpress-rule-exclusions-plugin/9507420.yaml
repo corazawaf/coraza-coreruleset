@@ -1,0 +1,26 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+rule_id: 9507420
+tests:
+  - test_id: 1
+    desc: Creating admin account in new WordPress installation
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /wp-admin/install.php?step=2
+          data: "weblog_title=test&user_name=test&admin_password=%3Cscript%3E&admin_password2=%3Cscript%3E&pw_weak=on&admin_email=test%40example.com&Submit=Install+WordPress&language=en_US"
+        output:
+          log:
+            no_expect_ids:
+              - 920273
+              - 941110
