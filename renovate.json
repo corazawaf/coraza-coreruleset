@@ -19,7 +19,9 @@
 			"datasourceTemplate": "github-releases",
 			"depNameTemplate": "corazawaf/coraza"
 		  }
-	  ]
+	  ],
+	"postUpdateOptions": [
+		"gomodTidy"
+	]
 }
-
 
