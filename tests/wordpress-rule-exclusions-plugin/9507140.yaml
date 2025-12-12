@@ -1,0 +1,113 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+rule_id: 9507140
+tests:
+  - test_id: 1
+    desc: Editing global styles for a theme
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+            x-http-method-override: PUT
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-json/wp/v2/global-styles/1?wp_theme_preview=twentytwentyfour&_locale=user
+          data: |-
+            {"id":2934,"styles":{"blocks":{"core/site-title":{"typography":{"fontWeight":"400"}},"core/pullquote":{"typography":{"fontSize":"var(--wp--preset--font-size--large)","fontStyle":"normal","fontWeight":"normal","lineHeight":"1.2"}},"core/quote":{"variations":{"plain":{"typography":{"fontStyle":"normal","fontWeight":"400"}}},"typography":{"fontFamily":"var(--wp--preset--font-family--heading)","fontSize":"var(--wp--preset--font-size--large)","fontStyle":"normal"}},"core/navigation":{"typography":{"fontWeight":"400"}}},"elements":{"button":{"typography":{"fontFamily":"var(--wp--preset--font-family--heading)","fontSize":"var(--wp--preset--font-size--small)","fontStyle":"normal"}},"heading":{"color":{"background":"#ab5a5a"}}},"css":""}}
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 932200
+              - 932220
+              - 932235
+              - 932236
+              - 942100
+              - 942430
+              - 942431
+              - 942432
+              - 942440
+  - test_id: 2
+    desc: Editing global styles for shadows
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+            x-http-method-override: PUT
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-json/wp/v2/global-styles/3327?wp_theme_preview=twentytwentyfive&_locale=user
+          data: |-
+            {"id":3327,"styles":{"blocks":{"core/code":{"typography":{"fontStyle":"normal","fontWeight":"300"},"color":{"text":"var:preset|color|custom-white","background":"var:preset|color|custom-light-black"}},"core/read-more":{"color":{"text":"var:preset|color|base","background":"var:preset|color|custom-orange"},"elements":{"link":{"color":{"text":"var:preset|color|base"}}},"border":{"top":{"color":"var:preset|color|custom-orange","style":"solid","width":"18px"},"right":{"color":"var:preset|color|custom-orange","style":"solid","width":"18px"},"bottom":{"color":"var:preset|color|custom-orange","style":"solid","width":"18px"},"left":{"color":"var:preset|color|custom-orange","style":"solid","width":"18px"},"radius":"18px"}},"core/button":{"color":{"text":"var:preset|color|custom-white","background":"var:preset|color|custom-orange"},"elements":{"link":{"color":{"text":"var:preset|color|custom-white"}}},"border":{"radius":"16px"},"shadow":"var:preset|shadow|natural"}}}}
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 932200
+              - 932220
+              - 932235
+              - 932236
+              - 942100
+              - 942430
+              - 942431
+              - 942432
+              - 942440
+  - test_id: 3
+    desc: |
+      Adding custom CSS for block based themes
+      Pretty Permalinks: Enabled
+      Sample CSS is from WordPress docs: https://developer.wordpress.org/advanced-administration/wordpress/css/
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-json/wp/v2/global-styles/3327?wp_theme_preview=twentytwentyfive&_locale=user
+          data: >-
+            {"id":48,"styles":{"css":"/* WordPress Core\n-------------------------------------------------------------- */\n.alignnone
+            {\n  margin: 5px 20px 20px 0;\n}\n\n.aligncenter,\ndiv.aligncenter {\n  display: block;\n  margin: 5px auto 5px auto;\n}\n\n.alignright
+            {\n  float:right;\n  margin: 5px 0 20px 20px;\n}\n\n.alignleft {\n  float: left;\n  margin: 5px 20px 20px 0;\n}\n\na img.alignright
+            {\n  float: right;\n  margin: 5px 0 20px 20px;\n}\n\na img.alignnone {\n  margin: 5px 20px 20px 0;\n}\n\na img.alignleft
+            {\n  float: left;\n  margin: 5px 20px 20px 0;\n}\n\na img.aligncenter {\n  display: block;\n  margin-left: auto;\n  margin-right: auto;\n}\n\n.wp-caption
+            {\n  background: #fff;\n  border: 1px solid #f0f0f0;\n  max-width: 96%; /* Image does not overflow the content area */\n  padding: 5px 3px 10px;\n  text-align: center;\n}\n\n.wp-caption.alignnone
+            {\n  margin: 5px 20px 20px 0;\n}\n\n.wp-caption.alignleft {\n  margin: 5px 20px 20px 0;\n}\n\n.wp-caption.alignright {\n  margin: 5px 0 20px 20px;\n}\n\n.wp-caption img
+            {\n  border: 0 none;\n  height: auto;\n  margin: 0;\n  max-width: 98.5%;\n  padding: 0;\n  width: auto;\n}\n\n.wp-caption p.wp-caption-text
+            {\n  font-size: 11px;\n  line-height: 17px;\n  margin: 0;\n  padding: 0 4px 5px;\n}\n\n/* Text meant only for screen readers. */\n.screen-reader-text
+            {\n  border: 0;\n  clip: rect(1px, 1px, 1px, 1px);\n  clip-path: inset(50%);\n  height: 1px;\n  margin: -1px;\n  overflow: hidden;\n  padding: 0;\n  position:
+            absolute !important;\n  width: 1px;\n  word-wrap: normal !important; /* Many screen reader and browser combinations announce broken words as they would appear visually. */\n}\n\n.screen-reader-text:focus
+            {\n  background-color: #eee;\n  clip: auto !important;\n  clip-path: none;\n  color: #444;\n  display: block;\n  font-size: 1em;\n  height: auto;\n  left: 5px;\n  line-height: normal;\n  padding: 15px 23px 14px;\n  text-decoration:
+            none;\n  top: 5px;\n  width: auto;\n  z-index: 100000;\n  /* Above WP toolbar. */\n}\n"}}
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 932200
+              - 932220
+              - 932235
+              - 932236
+              - 942100
+              - 942430
+              - 942431
+              - 942432
+              - 942440

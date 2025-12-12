@@ -1,0 +1,44 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "FPs during password reset"
+rule_id: 9508411
+tests:
+  - test_id: 1
+    desc: Resetting a password with pretty URLs
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /lostpassword/set/random/username
+          data: |-
+            {"password": "<script>"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941100]
+  - test_id: 2
+    desc: Resetting a password without pretty URLs
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /index.php/lostpassword/set/random/username
+          data: |-
+            {"password": "<script>"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941100]

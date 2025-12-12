@@ -1,0 +1,46 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+rule_id: 9507142
+tests:
+  - test_id: 1
+    desc: Editing template part of a website i.e header or footer
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+            x-http-method-override: PUT
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          # URI is actually sent with double slashes
+          uri: /post/wp-json/wp/v2/template-parts/twentytwentyfour//header?_locale=user
+          # Data is sent with some special characters escaped
+          data: >-
+            {"id":"twentytwentyfour//header","content":"<!-- wp:group{\"align\":\"wide\",\"style\":{\"spacing\":{\"padding\":{\"top\":\"20px\",\"bottom\":\"20px\"}}},\"backgroundColor\":\"base\",\"layout\":{\"type\":\"constrained\"}} -->\n<div class=\"wp-block-groupalignwide has-base-background-color has-background\" style=\"padding-top:20px;padding-bottom:20px\"><!-- wp:group{\"align\":\"wide\",\"layout\":{\"type\":\"flex\",\"justifyContent\":\"space-between\",\"flexWrap\":\"wrap\"}} -->\n<div class=\"wp-block-group alignwide\"><!-- wp:group{\"style\":{\"spacing\":{\"blockGap\":\"var:preset|spacing|20\"},\"layout\":{\"selfStretch\":\"fit\",\"flexSize\":null}},\"layout\":{\"type\":\"flex\"}}
+            -->\n<div class=\"wp-block-group\"><!-- wp:site-logo{\"width\":60,\"shouldSyncIcon\":false} /-->\n\n<!-- wp:group {\"style\":{\"spacing\":{\"blockGap\":\"0px\"}}} -->\n<div class=\"wp-block-group\"><!-- wp:site-title {\"level\":0} /--></div>\n<!-- /wp:group--></div>\n<!-- /wp:group -->\n\n<!-- wp:navigation{\"ref\":2180,\"icon\":\"menu\",\"layout\":{\"type\":\"flex\",\"justifyContent\":\"right\",\"orientation\":\"horizontal\",\"flexWrap\":\"wrap\"},\"style\":{\"spacing\":{\"margin\":{\"top\":\"0\"},\"blockGap\":\"va>/--></div>\n<!-- /wp:group -->\n\n<!-- wp:paragraph -->\n<p></p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:group -->"}
+        output:
+          log:
+            no_expect_ids:
+              - 932240
+              - 932236
+              - 941100
+              - 941150
+              - 941160
+              - 941180
+              - 941181
+              - 941320
+              - 942210
+              - 942330
+              - 942340
+              - 942370
+              - 942430
+              - 942431
+              - 942432
+              - 942440
+              - 942520
