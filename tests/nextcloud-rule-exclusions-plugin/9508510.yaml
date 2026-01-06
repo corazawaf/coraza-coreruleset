@@ -1,0 +1,72 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Sending request token"
+rule_id: 9508510
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          uri: /apps/mail/proxy?src=https%3A%2F%2Fexample.com&requesttoken=lsrandom
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 932236
+              - 941100
+              - 941120
+              - 942390
+              - 942432
+  - test_id: 2
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          method: POST
+          uri: /login
+          data: |-
+            user=test&password=test&timezone=Australia%2FSydney&timezone_offset=10&requesttoken=0x0000random
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 932236
+              - 941100
+              - 941120
+              - 942390
+              - 942432
+  - test_id: 3
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          method: POST
+          uri: /s/random/authenticate/showshare
+          data: |-
+            requesttoken=or%2B2U5random%2F&password=test&sharingToken=test&sharingType=3
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 932236
+              - 941100
+              - 941120
+              - 942390
+              - 942432

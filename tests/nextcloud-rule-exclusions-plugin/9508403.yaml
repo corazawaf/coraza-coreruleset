@@ -1,0 +1,74 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "FPs during login from desktop app"
+rule_id: 9508403
+tests:
+  - test_id: 1
+    desc: Logging in via desktop app with pretty URLs
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: POST
+          uri: /login/v2/grant
+          data: "stateToken=0x0800"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942450]
+  - test_id: 2
+    desc: Logging in via desktop app with pretty URLs
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: POST
+          uri: /login/v2/grant
+          data: "stateToken=lsbsdf7ASD9gh79d"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 3
+    desc: Logging in via desktop app without pretty URLs
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: POST
+          uri: /index.php/login/v2/grant
+          data: "stateToken=0x0800"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942450]
+  - test_id: 4
+    desc: Logging in via desktop app without pretty URLs
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: POST
+          uri: /index.php/login/v2/grant
+          data: "stateToken=lsbsdf7ASD9gh79d"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932236]

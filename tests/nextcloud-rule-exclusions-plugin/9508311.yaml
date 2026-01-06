@@ -1,0 +1,565 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Text Editor: False positive with various Text Editor tokens"
+rule_id: 9508311
+tests:
+  - test_id: 1
+    desc: "Checking for attachments"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/attachments
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"0x0000/random+some/thing","shareToken":null}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 2
+    desc: |
+      Nextcloud 28 and newer
+      Public share: no
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/session/1/sync
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"lssomething/random+example/token","token":null,"filePath":"","baseVersionEtag":"1234567890abcdef","version":23660}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 3
+    desc: |
+      Nextcloud 28 and newer
+      Public share: no
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/session/1/push
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"lsrandom+something/L","token":null,"filePath":"","baseVersionEtag":"1234567890abcdef","steps":["AAABAA=="],"version":23660,"awareness":"lsrandomsomething=="}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 4
+    desc: |
+      Nextcloud 28 and newer
+      Public share: no
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/session/1/save
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"lssomething/random+s+test","token":null,"filePath":"","baseVersionEtag":"1234567890abcdef","version":1,"autosaveContent":"<script>","documentState":"something+random==","force":false,"manualSave":true}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 5
+    desc: |
+      Nextcloud 28 and newer
+      Public share: no
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/session/1/close
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"0x0000/ra+ndom","token":null}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 6
+    desc: "Checking for attachments on public shares"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/attachments
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"0x0000/something+ran+dom","shareToken":"0x000random"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 7
+    desc: |
+      Nextcloud 28 and newer
+      Public share: yes
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/public/session/1/sync
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"lsrandom/some+thing+example","token":"0x000something","filePath":"/New text file.md","baseVersionEtag":"1234567890abcdef","version":0}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 8
+    desc: |
+      Nextcloud 28 and newer
+      Public share: yes
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/public/session/1/push
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"lsr/andom+some+thing","token":"example","filePath":"/New text file.md","baseVersionEtag":"1234567890abcdef","steps":["AAABAA==","random="],"version":0,"awareness":"0x000something/random=="}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 9
+    desc: |
+      Nextcloud 28 and newer
+      Public share: yes
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/public/session/1/save
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"lsaa/something/random","token":"lsaarandom","filePath":"/New text file.md","baseVersionEtag":"1234567890abcdef","version":23696,"autosaveContent":"<script>","documentState":"0x0000+some+thingrandom==","force":false,"manualSave":true}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 10
+    desc: |
+      Nextcloud 28 and newer
+      Public share: yes
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/public/session/1/close
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"0x0000/something/random","token":"lssomethingrandom"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 11
+    desc: |
+      Nextcloud 27 and older
+      Public share: no
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/session/push
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"0x00000/random/some/th+ing","token":null,"filePath":"","baseVersionEtag":"1234567890abcdef","steps":["randomsomething"],"version":26,"awareness":"somethingrandom"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 12
+    desc: |
+      Nextcloud 27 and older
+      Public share: no
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/session/sync
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"ls/rAnDOM","token":null,"filePath":"/Readme.md","baseVersionEtag":"1234567890abcdef","version":11,"force":false,"manualSave":false}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 13
+    desc: |
+      Nextcloud 27 and older
+      Public share: no
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/session/close
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"ls/r/Andom","token":null}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 14
+    desc: |
+      Nextcloud 27 and older
+      Public share: yes
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/public/session/sync
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"or+2usome/thingrandom","token":"lssomethingrandmo","filePath":"/New text file.md","baseVersionEtag":"1234567890abcdef","version":0,"force":false,"manualSave":false}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 15
+    desc: |
+      Nextcloud 27 and older
+      Public share: yes
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/public/session/push
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"random+something/lsran","token":"lssomethingrandmo","filePath":"/New text file.md","baseVersionEtag":"1234567890abcdef","version":33,"force":false,"manualSave":false}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 16
+    desc: |
+      Nextcloud 27 and older
+      Public share: yes
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/public/session/close
+          data: |-
+            {"documentId":1,"sessionId":1,"sessionToken":"ls+somethi/random","token":"lssomethingrandmo"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120
+  - test_id: 17
+    desc: |
+      Nextcloud 28 and newer
+      Public Share: no
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/text/session/1359272/push
+          data: >-
+            {"documentId":1359272,"sessionId":7361,"sessionToken":"1SbY1cdxFtL/xkI0LZj6Taj+9LlYpxPx98X0xhpruIKMeuDAoqDpL47dd5yyLnvj",
+            "token":null,"filePath":"/Readme.md","baseVersionEtag":"672057b0ec5cf","steps":["AAAEAQDIAQ=="],"version":0,
+            "awareness":"AWQBiK6c2wgBXHsidXNlciI6eyJuYW1lIjoidGVzdHVzZXIiLCJjbGllbnRJZCI6MjMzODc4OTEyOCwiY29sb3IiOiIjNzk1YWFiIiwibGFzdFVwZGF0ZSI6MTczMDE3Mjg0N319"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 921110
+              - 932236
+              - 932250
+              - 941100
+              - 942120
+              - 942210
+              - 942390
+              - 942432
+              - 942450
+              - 943120

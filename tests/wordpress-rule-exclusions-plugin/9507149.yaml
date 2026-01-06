@@ -1,0 +1,52 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+rule_id: 9507149
+tests:
+  - test_id: 1
+    desc: |
+      Adding hyperlinks in pages/posts
+      Pretty Permalinks: Disabled
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: example.com
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /get/index.php?rest_route=%2Fwp-block-editor%2Fv1%2Furl-details&url=https%3A%2F%2Foffsite-domain.com%
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 931130
+              - 942431
+              - 942432
+  - test_id: 2
+    desc: |
+      Embedding an site within gutenberg
+      Pretty Permalinks: Disabled
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: example.com
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /index.php?rest_route=%2Foembed%2F1.0%2Fproxy&url=https%3A%2F%2Fvimeo.com%2F22439234&_locale=user
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 931130
+              - 942431
+              - 942432

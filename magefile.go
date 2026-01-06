@@ -21,12 +21,17 @@ import (
 )
 
 const (
-	rulesDir = "rules"
-	testsDir = "tests"
+	crsDir     = "crs"
+	pluginsDir = "plugins"
+	testsDir   = "tests"
 )
 
-// DownloadDeps downloads the OWASP CRS and the recommended OWASP Coraza configuration file
+// DownloadDeps downloads the OWASP CRS with official plugins and the recommended OWASP Coraza configuration file
 func DownloadDeps() error {
+	if err := cleanupOldTests(testsDir); err != nil {
+		return err
+	}
+
 	if err := downloadCRS(); err != nil {
 		return err
 	}
@@ -36,6 +41,10 @@ func DownloadDeps() error {
 		return err
 	}
 	fmt.Printf("Updated Coraza config to version %q\n", corazaVersion)
+
+	if err := downloadPlugins(); err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -48,7 +57,7 @@ func downloadCorazaConfig() error {
 		return err
 	}
 
-	out, err := os.Create(filepath.Join(rulesDir, "@coraza.conf-recommended"))
+	out, err := os.Create(filepath.Join(crsDir, "@coraza.conf-recommended"))
 	if err != nil {
 		return err
 	}
@@ -64,12 +73,12 @@ func downloadCorazaConfig() error {
 
 // downloadCRS downloads the OWASP CRS from the CRS repository
 func downloadCRS() error {
-	rulesDstDir := rulesDir + "/@owasp_crs"
+	rulesDstDir := crsDir + "/@owasp_crs"
 
 	// Before downloading, we need to remove:
-	// - old rules under rules/@owasp_crs
+	// - old rules under crs/@owasp_crs
 	// - all the related tests
-	if err := cleanupOldCRS(rulesDstDir, testsDir); err != nil {
+	if err := cleanupOldRules(rulesDstDir); err != nil {
 		return err
 	}
 
@@ -95,14 +104,14 @@ func downloadCRS() error {
 
 	for _, f := range r.File {
 		if f.Name == fmt.Sprintf("coreruleset-%s/LICENSE", crsVersionStripped) {
-			if err := copyFile(f, filepath.Join(rulesDir, "LICENSE")); err != nil {
+			if err := copyFile(f, filepath.Join(crsDir, "LICENSE")); err != nil {
 				return err
 			}
 			continue
 		}
 
 		if f.Name == fmt.Sprintf("coreruleset-%s/crs-setup.conf.example", crsVersionStripped) {
-			if err := copyFile(f, filepath.Join(rulesDir, "@crs-setup.conf.example")); err != nil {
+			if err := copyFile(f, filepath.Join(crsDir, "@crs-setup.conf.example")); err != nil {
 				return err
 			}
 			continue
@@ -180,8 +189,134 @@ func downloadCRS() error {
 	return nil
 }
 
+// downloadPlugins downloads OWASP CRS plugins from their repositories
+func downloadPlugins() error {
+	rulesDstDir := pluginsDir + "/@owasp_plugins"
+
+	// Before downloading, we need to remove:
+	// - old rules under plugins/@owasp_plugins
+	// - all the related tests
+	if err := cleanupOldRules(rulesDstDir); err != nil {
+		return err
+	}
+
+	if err := os.MkdirAll(rulesDstDir, os.ModePerm); err != nil {
+		return err
+	}
+
+	for name, version := range plugins {
+		if err := downloadPlugin(name, version, rulesDstDir); err != nil {
+			return err
+		}
+		fmt.Printf("Updated CRS plugin %q to version %q\n", name, version)
+	}
+
+	return nil
+}
+
+// downloadPlugin downloads the given OWASP CRS plugin from its repository
+func downloadPlugin(pluginName, pluginVersion, rulesDstDir string) error {
+	uri := fmt.Sprintf("https://github.com/coreruleset/%s/archive/%s.zip", pluginName, pluginVersion)
+
+	pluginZip, err := getDataFromURL(uri)
+	if err != nil {
+		return err
+	}
+
+	r, err := zip.NewReader(bytes.NewReader(pluginZip), int64(len(pluginZip)))
+	if err != nil {
+		return err
+	}
+
+	pluginVersionStripped := strings.TrimPrefix(pluginVersion, "v")
+
+	const licenseNumberOfLines = 8
+
+	for _, f := range r.File {
+		if f.FileInfo().IsDir() {
+			continue
+		}
+
+		testPrefix := fmt.Sprintf("%s-%s/tests/regression/", pluginName, pluginVersionStripped)
+		if strings.HasPrefix(f.Name, testPrefix) {
+			if !strings.HasSuffix(f.Name, ".yaml") {
+				continue
+			}
+
+			subdir := strings.TrimPrefix(filepath.Dir(f.Name), testPrefix)
+			dir := filepath.Join(testsDir, subdir)
+
+			if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+				return err
+			}
+
+			copyFile(f, filepath.Join(dir, filepath.Base(f.Name)))
+		}
+
+		prefix := fmt.Sprintf("%s-%s/plugins/", pluginName, pluginVersionStripped)
+		if !strings.HasPrefix(f.Name, prefix) {
+			continue
+		}
+
+		filename := f.Name[len(prefix):]
+
+		if strings.HasSuffix(filename, "config.conf") {
+			continue
+		}
+
+		fPath := filepath.Join(rulesDstDir, filename)
+
+		target, err := os.Create(fPath)
+		if err != nil {
+			return err
+		}
+
+		source, err := f.Open()
+		if err != nil {
+			os.Remove(fPath)
+			return err
+		}
+
+		fileScanner := bufio.NewScanner(source)
+		fileScanner.Split(bufio.ScanLines)
+
+		lineNumber := 0
+
+		for fileScanner.Scan() {
+			lineNumber++
+			if lineNumber <= licenseNumberOfLines {
+				target.Write(fileScanner.Bytes())
+				target.WriteString("\n")
+				continue
+			}
+
+			text := strings.TrimSpace(fileScanner.Text())
+			if len(text) == 0 || text[0] == '#' {
+				continue
+			}
+			target.Write(fileScanner.Bytes())
+			target.WriteString("\n")
+		}
+		source.Close()
+
+		target.Close()
+	}
+
+	return nil
+}
+
 func getDataFromURL(uri string) ([]byte, error) {
-	resp, err := http.Get(uri)
+	req, err := http.NewRequest("GET", uri, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if token := os.Getenv("GITHUB_TOKEN"); token != "" {
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	}
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -217,10 +352,14 @@ func copyFile(f *zip.File, dstPath string) error {
 	return nil
 }
 
-func cleanupOldCRS(rulesDstDir, testsDir string) error {
+func cleanupOldRules(rulesDstDir string) error {
 	if err := os.RemoveAll(rulesDstDir); err != nil {
 		return err
 	}
+	return nil
+}
+
+func cleanupOldTests(testsDir string) error {
 	if err := filepath.WalkDir(testsDir, func(path string, d os.DirEntry, err error) error {
 		if err != nil {
 			return err

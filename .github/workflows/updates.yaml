@@ -34,6 +34,8 @@ jobs:
           go-version: 1.23.x
       - name: Download CRS and Coraza config
         run: go run mage.go downloadDeps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # Ref: https://gist.github.com/somidad/3ce6e8a7b7d77ac8fa7fad583003d6f5
       - name: Run Dependency Update
         id: changes

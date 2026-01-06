@@ -1,0 +1,132 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Photos"
+rule_id: 9508952
+tests:
+  - test_id: 1
+    desc: Creating/viewing a photo album
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/plain;charset=UTF-8
+          port: 80
+          method: PROPFIND
+          uri: /remote.php/dav/photos/esadc/albums/test
+          data: |-
+            <?xml version="1.0"?>
+            <d:propfind xmlns:d="DAV:"
+              xmlns:oc="http://owncloud.org/ns"
+              xmlns:nc="http://nextcloud.org/ns"
+              xmlns:ocs="http://open-collaboration-services.org/ns">
+              <d:prop>
+                <nc:last-photo />
+                <nc:nbItems />
+                <nc:location /><nc:dateRange /><nc:collaborators />
+              </d:prop>
+            </d:propfind>
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920272
+              - 920273
+              - 920420
+              - 921110
+              - 932240
+              - 942200
+              - 942340
+              - 942370
+              - 942430
+              - 942431
+              - 942432
+              - 942490
+  - test_id: 2
+    desc: Setting a time filter for an album
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/plain;charset=UTF-8
+          port: 80
+          method: PROPPATCH
+          uri: /remote.php/dav/photos/esadc/albums/test
+          data: |-
+            <?xml version="1.0"?>
+              <d:propertyupdate xmlns:d="DAV:"
+              xmlns:oc="http://owncloud.org/ns"
+              xmlns:nc="http://nextcloud.org/ns"
+              xmlns:ocs="http://open-collaboration-services.org/ns">
+              <d:set>
+                <d:prop>
+                  <nc:filters>{"date-range":[],"places":[]}</nc:filters>
+                </d:prop>
+              </d:set>
+              </d:propertyupdate>
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920272
+              - 920273
+              - 920420
+              - 921110
+              - 932240
+              - 942200
+              - 942340
+              - 942370
+              - 942430
+              - 942431
+              - 942432
+              - 942490
+  - test_id: 3
+    desc: Setting a time filter for an album
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/plain;charset=UTF-8
+          port: 80
+          method: PROPPATCH
+          uri: /remote.php/dav/photos/esadc/albums/test
+          data: |-
+            <?xml version="1.0"?>
+              <d:propertyupdate xmlns:d="DAV:"
+              xmlns:oc="http://owncloud.org/ns"
+              xmlns:nc="http://nextcloud.org/ns"
+              xmlns:ocs="http://open-collaboration-services.org/ns">
+              <d:set>
+                <d:prop>
+                  <nc:filters>{"date-range":[{"start":1757512800000,"end":1761051600000}],"places":[]}</nc:filters>
+                </d:prop>
+              </d:set>
+              </d:propertyupdate>
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920272
+              - 920273
+              - 920420
+              - 921110
+              - 932240
+              - 942200
+              - 942340
+              - 942370
+              - 942430
+              - 942431
+              - 942432
+              - 942490
