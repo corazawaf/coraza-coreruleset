@@ -1,0 +1,79 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Smart Picker: Displaying Previews/adding a hyperlink"
+rule_id: 9508880
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          method: GET
+          uri: "/ocs/v2.php/references/resolve?reference=https%3A%2F%2Fwww.jaycar.com.au%2Fraspberry-pi-3-switchmode-power-supply-5-1v-2-5a-with-usb-micro-b%2Fp%2FMP3536%3Fpos%3D1%26queryId%3D0a9ebf34f466c42c586d9561f4ac20d2%26sort%3Drelevance%26searchText%3D2.5a%25205v%2520micro%2520usb"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 920272
+              - 920273
+              - 921151
+              - 931130
+              - 932200
+              - 942430
+              - 942431
+              - 942432
+  - test_id: 2
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          uri: /ocs/v2.php/references/resolve?reference=%20https%3A%2F%2Fnextcloud-talk.readthedocs.io%2Fen%2Flatest%2Fbot-list%2F%0A
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 920272
+              - 920273
+              - 921151
+              - 931130
+              - 932200
+              - 942430
+              - 942431
+              - 942432
+  - test_id: 3
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          uri: /ocs/v2.php/references/resolvePublic?reference=https%3A%2F%2Fexample.com&sharingToken=null
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 920272
+              - 920273
+              - 921151
+              - 931130
+              - 932200
+              - 942430
+              - 942431
+              - 942432

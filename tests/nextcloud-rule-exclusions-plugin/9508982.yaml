@@ -1,0 +1,58 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Mail: Configuring mail account provisioning"
+rule_id: 9508982
+tests:
+  - test_id: 1
+    desc: Creating a new mail account provison config
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/mail/api/settings/provisioning
+          data: >-
+            {"data":{"id":null,"active":true,"emailTemplate":"%USERID%@domain.com","provisioningDomain":"domain.com","imapUser":"%USERID%domain.com",
+            "imapHost":"mx.domain.com","imapPort":"993","imapSslMode":"ssl","smtpUser":"%USERID%domain.com","smtpHost":"mx.domain.com","smtpPort":"465",
+            "smtpSslMode":"ssl","masterPasswordEnabled":false,"masterPassword":"","sieveEnabled":false,"sieveUser":"","sieveHost":"",
+            "sievePort":"","sieveSslMode":"","ldapAliasesProvisioning":false,"ldapAliasesAttribute":""}}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 920272
+              - 920273
+              - 942432
+  - test_id: 2
+    desc: Editing an existing mail account provison config
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/mail/api/settings/provisioning/2
+          data: >-
+            {"data":{"id":2,"active":true,"emailTemplate":"%USERID%@domain.com","provisioningDomain":"domain.com",
+            "imapUser":"%USERID%domain.com","imapHost":"mx.domain.com","imapPort":993,"imapSslMode":"ssl","smtpUser":"%USERID%domain.com",
+            "smtpHost":"mx.domain.com","smtpPort":465,"smtpSslMode":"ssl","masterPasswordEnabled":false,"masterPassword":"","sieveEnabled":"",
+            "sieveUser":"","sieveHost":"","sievePort":"","sieveSslMode":"","ldapAliasesProvisioning":false,"ldapAliasesAttribute":""}}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 920272
+              - 920273
+              - 942432

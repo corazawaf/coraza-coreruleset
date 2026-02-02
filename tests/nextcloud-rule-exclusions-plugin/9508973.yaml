@@ -1,0 +1,56 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+rule_id: 9508973
+tests:
+  - test_id: 1
+    desc: Loading a remote image in Nextcloud Mail
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          uri: /apps/mail/proxy?src=https://go.netacad.com/rs/059-VFZ-834/images/ezgif.com-animated-gif-maker%281%29.gif
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 920273
+              - 931130
+              - 932235
+              - 932236
+              - 942421
+              - 942430
+              - 942431
+              - 942432
+  - test_id: 2
+    desc: Loading a remote image in Nextcloud Mail
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          uri: /apps/mail/proxy?src=https%3A%2F%2Fhealthengine.imgix.net%2Fpublic%2Fimages%2Fnote_20230912022336.png%3Fauto%3Dcompress%26ixlib%3Dphp-3.3.1%26or%3D0&requesttoken=something/token
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 920273
+              - 931130
+              - 932235
+              - 932236
+              - 942421
+              - 942430
+              - 942431
+              - 942432
