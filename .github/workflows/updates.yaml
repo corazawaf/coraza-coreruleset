@@ -31,7 +31,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v6
         with:
-          go-version: 1.23.x
+          go-version: 1.26.x
       - name: Download CRS and Coraza config
         run: go run mage.go downloadDeps
       # Ref: https://gist.github.com/somidad/3ce6e8a7b7d77ac8fa7fad583003d6f5
