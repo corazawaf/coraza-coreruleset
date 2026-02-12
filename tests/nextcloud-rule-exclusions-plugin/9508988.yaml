@@ -1,0 +1,150 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Mail: Adding/removing trusted senders/internal addresses"
+rule_id: 9508988
+tests:
+  - test_id: 1
+    desc: Adding a trusted domain (.com TLD)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: PUT
+          uri: /apps/mail/api/trustedsenders/example.com?type=domain
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920440
+  - test_id: 2
+    desc: Adding a trusted domain (.inc TLD)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: PUT
+          uri: /apps/mail/api/trustedsenders/example.inc?type=domain
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920440
+  - test_id: 3
+    desc: Removing a trusted domain (.com TLD)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: DELETE
+          uri: /apps/mail/api/trustedsenders/example.com?type=domain
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920440
+  - test_id: 4
+    desc: Removing a trusted domain (.inc TLD)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: DELETE
+          uri: /apps/mail/api/trustedsenders/example.inc?type=domain
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920440
+  - test_id: 5
+    desc: Adding a internal address (.com TLD)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: PUT
+          uri: /apps/mail/api/internalAddress/example.com?type=domain
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920440
+  - test_id: 6
+    desc: Adding a internal address (.inc TLD)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: PUT
+          uri: /apps/mail/api/internalAddress/example.inc?type=domain
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920440
+  - test_id: 7
+    desc: Removing a internal address (.com TLD)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: DELETE
+          uri: /apps/mail/api/internalAddress/example.com?type=domain
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920440
+  - test_id: 8
+    desc: Removing a internal address (.inc TLD)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: DELETE
+          uri: /apps/mail/api/internalAddress/example.inc?type=domain
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920440

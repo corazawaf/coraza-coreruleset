@@ -1,0 +1,386 @@
+---
+meta:
+  author: "Jozef Sudolsky, Max Leske, Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+rule_id: 9508114
+tests:
+  - test_id: 1
+    desc: Check that application/pdf Content-Type will pass with POST on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /remote.php/dav/files/something
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 2
+    desc: Check that application/pdf Content-Type will pass with PUT on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /remote.php/dav/files/something
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 3
+    desc: Check that application/pdf Content-Type will pass with POST on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /remote.php/dav/bulk
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 4
+    desc: Check that application/pdf Content-Type will pass with PUT on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /remote.php/dav/bulk
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 5
+    desc: Check that application/pdf Content-Type will pass with POST on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /remote.php/dav/uploads/username/something/something/
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 6
+    desc: Check that application/pdf Content-Type will pass with PUT on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /remote.php/dav/uploads/username/something/something/
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 7
+    desc: Check that application/pdf Content-Type will pass with POST on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /remote.php/webdav/something
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 8
+    desc: Check that application/pdf Content-Type will pass with PUT on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /remote.php/webdav/something
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 9
+    desc: Check that application/pdf Content-Type will pass with POST on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /public.php/webdav/something
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 10
+    desc: Check that application/pdf Content-Type will pass with PUT on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /public.php/webdav/something
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 11
+    desc: Check that application/pdf Content-Type will pass with POST on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /public.php/dav/files/something
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 12
+    desc: Check that application/pdf Content-Type will pass with PUT on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /public.php/dav/files/something
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 13
+    desc: Check that application/pdf Content-Type will fail with PROPFIND on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: PROPFIND
+          uri: /remote.php/dav/files
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 14
+    desc: Check that application/pdf Content-Type will fail with PROPFIND on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: PROPFIND
+          uri: /remote.php/dav/bulk
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 15
+    desc: Check that application/pdf Content-Type will fail with PROPFIND on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: PROPFIND
+          uri: /remote.php/dav/uploads/username/something/something/
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 16
+    desc: Check that application/pdf Content-Type will fail with PROPFIND on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: PROPFIND
+          uri: /remote.php/webdav/something
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 17
+    desc: Check that application/pdf Content-Type will fail with PROPFIND on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: PROPFIND
+          uri: /public.php/webdav/something
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 18
+    desc: Check that application/pdf Content-Type will fail with PROPFIND on correct URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: PROPFIND
+          uri: /public.php/dav/files/something
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 19
+    desc: Check that application/pdf Content-Type will fail with POST on incorrect URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /remote.php/dav/invalid
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 20
+    desc: Check that application/pdf Content-Type will fail with PUT on incorrect URL path
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/pdf
+          port: 80
+          method: POST
+          uri: /remote.php/dav/invalid
+          data: |-
+            PDF
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]

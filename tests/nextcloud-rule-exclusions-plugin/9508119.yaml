@@ -1,0 +1,222 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+rule_id: 9508119
+tests:
+  - test_id: 1
+    desc: Make sure iOS file upload workaround is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/6.2.4
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          method: POST
+          uri: /remote.php/dav/files/something
+          data: "evil=/bin/bash"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 2
+    desc: Make sure iOS file upload workaround is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/6.2.4
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          method: PUT
+          uri: /remote.php/dav/files/something
+          data: "evil=/bin/bash"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 3
+    desc: Make sure iOS file upload workaround is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/6.2.4
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          method: POST
+          uri: /remote.php/dav/uploads/username/something
+          data: "evil=/bin/bash"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 4
+    desc: Make sure iOS file upload workaround is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/6.2.4
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          method: PUT
+          uri: /remote.php/dav/uploads/username/something
+          data: "evil=/bin/bash"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 5
+    desc: Make sure iOS file upload workaround is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/6.2.4
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          method: POST
+          uri: /remote.php/dav/uploads/username/something/something
+          data: "evil=/bin/bash"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 6
+    desc: Make sure iOS file upload workaround is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/6.2.4
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          method: PUT
+          uri: /remote.php/dav/uploads/username/something/something
+          data: "evil=/bin/bash"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 7
+    desc: Make sure iOS file upload workaround is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/6.2.4
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/xml
+          port: 80
+          method: POST
+          uri: /remote.php/dav/files/something
+          data: "<evil>/bin/bash</evil>"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 8
+    desc: Make sure iOS file upload workaround is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/6.2.4
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/xml
+          port: 80
+          method: PUT
+          uri: /remote.php/dav/files/something
+          data: "<evil>/bin/bash</evil>"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 9
+    desc: Make sure iOS file upload workaround is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/6.2.4
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/xml
+          port: 80
+          method: POST
+          uri: /remote.php/dav/uploads/username/something
+          data: "<evil>/bin/bash</evil>"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 10
+    desc: Make sure iOS file upload workaround is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/6.2.4
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/xml
+          port: 80
+          method: PUT
+          uri: /remote.php/dav/uploads/username/something
+          data: "<evil>/bin/bash</evil>"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 11
+    desc: Make sure iOS file upload workaround is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/6.2.4
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/xml
+          port: 80
+          method: POST
+          uri: /remote.php/dav/uploads/username/something/something
+          data: "<evil>/bin/bash</evil>"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 12
+    desc: Make sure iOS file upload workaround is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/6.2.4
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/xml
+          port: 80
+          method: PUT
+          uri: /remote.php/dav/uploads/username/something/something
+          data: "<evil>/bin/bash</evil>"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932160]

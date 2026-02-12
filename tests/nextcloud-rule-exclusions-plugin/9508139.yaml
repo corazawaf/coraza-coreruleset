@@ -1,0 +1,44 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin: Viewing Comments on iOS"
+rule_id: 9508139
+tests:
+  - test_id: 1
+    desc: |
+      Viewing comments on a file
+      This request is not sent with a Content Type header
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          autocomplete_headers: false
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/7.1.9
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Length: 424
+          port: 80
+          method: PROPFIND
+          uri: /remote.php/dav/comments/files/1739140
+          data: |-
+            <?xml version="1.0" encoding="UTF-8"?>
+            <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+                <d:prop>
+                    <oc:id />
+                    <oc:verb />
+                    <oc:actorType />
+                    <oc:actorId />
+                    <oc:creationDateTime />
+                    <oc:objectType />
+                    <oc:objectId />
+                    <oc:isUnread />
+                    <oc:message />
+                    <oc:actorDisplayName />"
+                </d:prop>
+            </d:propfind>
+        version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920340
+              - 920341

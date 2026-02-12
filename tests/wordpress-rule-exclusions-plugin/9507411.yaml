@@ -1,0 +1,23 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+rule_id: 9507411
+tests:
+  - test_id: 1
+    desc: Allow `setup-config.php` in referer header
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: example.com
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: https://example.com/wp-admin/setup-config.php?step=0
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /wp-admin/install.php
+        output:
+          log:
+            no_expect_ids: [930121]
