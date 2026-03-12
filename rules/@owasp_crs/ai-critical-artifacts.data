@@ -1,0 +1,23 @@
+# AI coding assistant directories (issue #4474)
+# Block: high-confidence paths only. @pmFromFile substring match:
+# Directory entries (trailing slash) block that path and everything under it,
+# e.g. .claude/ blocks /.claude/* and any path containing .claude/
+
+# Anthropic Claude Code — settings, hooks, MCP refs, env; API keys in settings.local.json
+.claude/
+# Cursor IDE — MCP defs, API keys in env, project rules; high secrets risk
+.cursor/
+.continue/
+.aider/
+.roo/
+.zed/
+.cline/
+.kiro/
+.windsurf/
+.rovodev/
+.codex/
+.opencode/
+.a0proj/
+.plandex/
+.fabric/
+.n8n/
