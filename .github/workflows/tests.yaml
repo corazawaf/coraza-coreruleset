@@ -8,12 +8,18 @@ on:
       - "**/version.go"
       - "LICENSE"
   pull_request:
+    branches:
+      - main
     paths-ignore:
       - "**/*.md"
       - "LICENSE"
 
+permissions: {}
+
 jobs:
   test:
+    permissions:
+      contents: read
     strategy:
       matrix:
         go-version: [1.23.x, 1.24.x]
@@ -21,9 +27,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Install Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6
         with:
           go-version: ${{ matrix.go-version }}
           cache: true
@@ -31,12 +37,14 @@ jobs:
         run: go run mage.go test
 
   check_changes:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Install Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6
         with:
           go-version: 1.23.x
       - name: Download CRS and Coraza config
@@ -46,7 +54,7 @@ jobs:
         id: changes
         run: echo "changed=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
       - name: Process changes
-        if: steps.changes.outputs.changed != 0 
+        if: steps.changes.outputs.changed != 0
         run: |
           echo 'Uncommited changes detected. Run `go run mage.go downloadDeps` to check the changes and commit them.'
           exit 1
