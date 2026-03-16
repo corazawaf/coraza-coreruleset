@@ -5,6 +5,8 @@ on:
     paths:
       - "version.go"
 
+permissions: {}
+
 jobs:
   download_deps:
     if: ${{ github.actor == 'renovate[bot]' }}
@@ -16,20 +18,20 @@ jobs:
     steps:
       - name: Generate a GitHub App token to push changes that will trigger the workflow
         id: generate-token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3
         with:
           app-id: ${{ vars.CORAZA_ORG_REPO_DISPATCH_APP_ID }}
           private-key: ${{ secrets.CORAZA_ORG_REPO_DISPATCH_APP_PRIVATE_KEY }}
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         # In a pull request trigger, ref is required as GitHub Actions checks out in detached HEAD mode,
-        # meaning it doesn’t check out your branch by default.
+        # meaning it doesn't check out your branch by default.
         # Ref: https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-to-a-pr-using-the-built-in-token
         with:
           ref: ${{ github.head_ref }}
           token: ${{ steps.generate-token.outputs.token }}
       - name: Install Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6
         with:
           go-version: 1.23.x
       - name: Download CRS and Coraza config
@@ -41,7 +43,7 @@ jobs:
       - name: create a commit with the changes
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
-        if: steps.changes.outputs.changed != 0 
+        if: steps.changes.outputs.changed != 0
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
