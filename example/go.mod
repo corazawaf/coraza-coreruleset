@@ -1,6 +1,6 @@
 module github.com/corazawaf/coraza-coreruleset/v4/example
 
-go 1.23.0
+go 1.25.0
 
 require (
 	github.com/corazawaf/coraza-coreruleset/v4 v4.24.1
