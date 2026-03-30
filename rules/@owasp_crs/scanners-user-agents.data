@@ -34,6 +34,7 @@ nikto
 nmap
 nuclei
 openvas
+securityagent
 sitelockspider
 sqlmap
 sysscan
