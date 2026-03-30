@@ -1,5 +1,17 @@
 # Coraza Coreruleset
-Coraza Coreruleset is a Go package meant to provide the [OWASP CRS](https://github.com/coreruleset/coreruleset) in an easy and consumable way to be embedded in a Go application. Alongside the unmodified CRS, the [Coraza configuration file](https://github.com/corazawaf/coraza/blob/main/coraza.conf-recommended) is also provided.
+
+Coraza Coreruleset is a Go package meant to provide the [OWASP CRS](https://github.com/coreruleset/coreruleset) in an easy and consumable way to be embedded in a Go application. Alongside the unmodified CRS ruleset, the [upstream latest Coraza configuration file](https://github.com/corazawaf/coraza/blob/main/coraza.conf-recommended) is also provided.
+
+## Available values for Include directives
+
+The following values can be used in `Include` directives with a root filesystem that includes `coreruleset.FS`.
+
+| Value | Description |
+|---|---|
+| `@coraza.conf-recommended` | Coraza recommended base configuration |
+| `@crs-setup.conf.example` | OWASP CRS setup configuration example |
+| `@owasp_crs/` | OWASP CRS rules directory |
+
 ## Usage
 
 In order to use CRS, you need to load the coreruleset FileSystem:
@@ -46,6 +58,6 @@ func main() {
 ## How to update to a newer CRS and Coraza config version
 
 1. Update the `crsVersion` and `corazaVersion` constants in [`version.go`](/version.go) with the wished [CRS](https://github.com/coreruleset/coreruleset) and [Coraza](https://github.com/corazawaf/coraza) commit SHA or tags.
-2. Run `go run mage.go downloadDeps`.
-3. Double check the changes made under the `/rules` and `/tests` directories.
-3. Commit your changes.
+1. Run `go run mage.go downloadDeps`.
+1. Double check the changes made under the `/rules` and `/tests` directories.
+1. Commit your changes.
