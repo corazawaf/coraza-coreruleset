@@ -1,7 +1,7 @@
 github.com/corazawaf/coraza-coreruleset v0.0.0-20240226094324-415b1017abdc h1:OlJhrgI3I+FLUCTI3JJW8MoqyM78WbqJjecqMnqG+wc=
 github.com/corazawaf/coraza-coreruleset v0.0.0-20240226094324-415b1017abdc/go.mod h1:7rsocqNDkTCira5T0M7buoKR2ehh7YZiPkzxRuAgvVU=
-github.com/corazawaf/coraza-coreruleset/v4 v4.24.1 h1:O53krJaPFI7JCLA8JBPd9wgxJi7HJLYDE2I72h7WttE=
-github.com/corazawaf/coraza-coreruleset/v4 v4.24.1/go.mod h1:vRAP1vtdqSiJQzPuVhhtF7RusCRUYC9MCBl6nFj4C6E=
+github.com/corazawaf/coraza-coreruleset/v4 v4.25.0 h1:tqFO1lfVpTiyWtlN618OXpZMfw+nnN0Q4///W5W+/HM=
+github.com/corazawaf/coraza-coreruleset/v4 v4.25.0/go.mod h1:nRuGXITxOPvsLF2VxaTB7pYok8QB8BitX3ZenXcUryY=
 github.com/corazawaf/coraza/v3 v3.5.0 h1:zGYW3cKhDa05Ztdt7+SGp7OkmR9AgxOFfLbDPwi0Y5M=
 github.com/corazawaf/coraza/v3 v3.5.0/go.mod h1:q7gszZCSufoHIy9jV2NCgk+glYwZpP2mIKgbu2dZkvE=
 github.com/corazawaf/libinjection-go v0.3.2 h1:9rrKt0lpg4WvUXt+lwS06GywfqRXXsa/7JcOw5cQLwI=
@@ -26,8 +26,8 @@ github.com/kaptinlin/go-i18n v0.1.4 h1:wCiwAn1LOcvymvWIVAM4m5dUAMiHunTdEubLDk4hT
 github.com/kaptinlin/go-i18n v0.1.4/go.mod h1:g1fn1GvTgT4CiLE8/fFE1hboHWJ6erivrDpiDtCcFKg=
 github.com/kaptinlin/jsonschema v0.4.6 h1:vOSFg5tjmfkOdKg+D6Oo4fVOM/pActWu/ntkPsI1T64=
 github.com/kaptinlin/jsonschema v0.4.6/go.mod h1:1DUd7r5SdyB2ZnMtyB7uLv64dE3zTFTiYytDCd+AEL0=
-github.com/magefile/mage v1.16.1 h1:j5UwkdA48xTlGs0Hcm1Q3sSAcxBorntQjiewDNMsqlo=
-github.com/magefile/mage v1.16.1/go.mod h1:z5UZb/iS3GoOSn0JgWuiw7dxlurVYTu+/jHXqQg881A=
+github.com/magefile/mage v1.17.0 h1:dS4tkq997Ism03akafC8509iqDjeE7TNTexI25Y7sXM=
+github.com/magefile/mage v1.17.0/go.mod h1:Yj51kqllmsgFpvvSzgrZPK9WtluG3kUhFaBUVLo4feA=
 github.com/miekg/dns v1.1.57 h1:Jzi7ApEIzwEPLHWRcafCN9LZSBbqQpxjt/wpgvg7wcM=
 github.com/miekg/dns v1.1.57/go.mod h1:uqRjCRUuEAA6qsOiJvDd+CFo/vW+y5WR6SNmHE55hZk=
 github.com/pelletier/go-toml/v2 v2.2.4 h1:mye9XuhQ6gvn5h28+VilKrrPoQVanw5PMw/TB0t5Ec4=
