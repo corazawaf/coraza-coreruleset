@@ -16,6 +16,7 @@ Detectify
 dirbuster
 fimap
 fuzz faster
+whatwaf
 gobuster
 havij
 hexometer
@@ -64,4 +65,23 @@ xsser
 joomscan
 droopescan
 zgrab
+Ghauri
 zmeu
+WPProbe
+SSTIMap
+Mozilla/4.0 (Hydra)
+tplmap
+DotDotPwn
+shortscan
+Kadimus
+LFISuite
+Mozilla/5.0 (compatible; Panoptic
+LFImap
+graphw00f
+graphql-cop
+jSQL
+noseyparker
+TruffleHog
+YesWeHack-Hunter
+TInjA
+Mozilla/5.0 (compatible; AppScan;
