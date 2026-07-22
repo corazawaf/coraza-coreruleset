@@ -20,6 +20,20 @@
 			"depNameTemplate": "corazawaf/coraza"
 		  }
 	  ],
+	"packageRules": [
+		{
+			"matchDepNames": ["coreruleset/coreruleset"],
+			"semanticCommitType": "feat",
+			"automerge": true,
+			"automergeType": "pr"
+		},
+		{
+			"matchDepNames": ["corazawaf/coraza"],
+			"semanticCommitType": "fix",
+			"automerge": true,
+			"automergeType": "pr"
+		}
+	],
 	"postUpdateOptions": [
 		"gomodTidy"
 	]
