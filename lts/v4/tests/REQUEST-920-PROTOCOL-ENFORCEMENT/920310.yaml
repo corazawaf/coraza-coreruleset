@@ -1,0 +1,95 @@
+---
+meta:
+  author: "csanders-git, azurit"
+rule_id: 920310
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            # Test needs an empty Accept: header
+            Accept: ""
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920310]
+  - test_id: 2
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "OPTIONS"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            # Test needs an empty Accept: header
+            Accept: ""
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920310]
+  - test_id: 3
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920310]
+  - test_id: 4
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            # Test needs an empty Accept: header
+            Accept: ""
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920310]
+  - test_id: 5
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent; Business/6.6.1.2 CFNetwork/758.5.3 Darwin/15.6.0"
+            Host: "localhost"
+            # Test needs an empty Accept: header
+            Accept: ""
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920310]
+  - test_id: 6
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent; Entreprise/6.5.0.177 CFNetwork/758.4.3 Darwin/15.5.0"
+            Host: "localhost"
+            # Test needs an empty Accept: header
+            Accept: ""
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920310]

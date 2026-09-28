@@ -1,0 +1,80 @@
+---
+meta:
+  author: "csanders-git, azurit"
+rule_id: 920460
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          uri: "/"
+          headers:
+            Host: "localhost"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Length: 22
+            Content-Type: "application/x-www-form-urlencoded"
+            User-Agent: "OWASP CRS test agent"
+          data: 'file=cat+/etc/\passw\d'
+          autocomplete_headers: false
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920460]
+  - test_id: 2
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/?file=cat+/etc/pa\\ssw\\d"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920460]
+  - test_id: 3
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/?file=\\c"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920460]
+  - test_id: 4
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/?file=\\\\c"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920460]
+  - test_id: 5
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/?file=\\\\\\c"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920460]

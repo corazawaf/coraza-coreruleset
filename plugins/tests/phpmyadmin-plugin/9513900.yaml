@@ -1,0 +1,24 @@
+---
+meta:
+  author: "azurit"
+  description: "PhpMyAdmin Rule Exclusions Plugin"
+  rule_id: 9513900
+tests:
+  - test_id: 1
+    desc: FP with DATE_FORMAT() function
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: phpMyAdmin=1
+          port: 80
+          method: POST
+          version: HTTP/1.1
+          uri: /post/index.php?route=/database/sql/format
+          data: sql=SELECT%20odp.%60datum%60%2C%20sub.%60druh%60%2C%20sub.%60vyrc%60%2C%20sub.%60rm_vyrc%60%2C%20%28MAX%28odp.%60stav_dopredny%60%29%20-%20MIN%28odp.%60stav_dopredny%60%29%29%20-%20%28MAX%28odp.%60stav_spatny%60%29%20-%20MIN%28odp.%60stav_spatny%60%29%29%20AS%20spotreba%2C%28MAX%28odp.%60stav_spatny%60%29%20-%20MIN%28odp.%60stav_spatny%60%29%29%20AS%20spatna_spotreba%2C%20%28MAX%28odp.%60stav_dopredny%60%29%20-%20MIN%28odp.%60stav_dopredny%60%29%29%20AS%20dopredna_spotreba%20FROM%20%28SELECT%20voda.%60druh%60%2C%20voda.%60rm_vyrc%60%2C%20voda.%60vyrc%60%20FROM%20%60users_naj_kod%60%20AS%20unk%20INNER%20JOIN%20%60voda%60%20AS%20voda%20ON%20voda.%60naj_kod%60%20%3D%20unk.%60naj_kod%60%20WHERE%20unk.%60naj_kod%60%20%3D%20%27AD-5A-NP2-V52%27%20GROUP%20BY%20%60rm_vyrc%60%29%20AS%20sub%20INNER%20JOIN%20%60odpocty_voda%60%20AS%20odp%20ON%20odp.%60cislo_rm%60%20%3D%20sub.%60rm_vyrc%60%20WHERE%201%20GROUP%20BY%20sub.%60druh%60%20%2CDATE_FORMAT%28odp.%60datum%60%2C%27%25Y-%25m%27%29
+        output:
+          log:
+            no_expect_ids: [942151]

@@ -1,0 +1,163 @@
+---
+meta:
+  author: "csanders-git, azurit"
+rule_id: 920430
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          version: "HTTP/1.1"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+        output:
+          log:
+            no_expect_ids: [920430]
+  - test_id: 2
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          version: "HTTP/1.1"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+        output:
+          log:
+            no_expect_ids: [920430]
+  - test_id: 3
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          version: "HTTP/0.9"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+        output:
+          status: 400
+  - test_id: 4
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          version: "HTTP/2"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+        output:
+          log:
+            no_expect_ids: [920430]
+  - test_id: 5
+    desc: |
+      Request line without version will be interpreted as HTTP/0.9.
+      Note that go-ftw currently can't handle the generated response though and
+      will see a premature EOF.
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          version: ""
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+        output:
+          expect_error: true
+          log:
+            expect_ids: [920430]
+  - test_id: 6
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          version: "1.1"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+        output:
+          status: 400
+  - test_id: 7
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          version: "TEST"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+        output:
+          status: 400
+  - test_id: 8
+    desc: HTTP protocol version is not allowed by policy (920430) from old modsec regressions
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/"
+          version: HTTP/4.0
+        output:
+          log:
+            expect_ids: [920430]
+  - test_id: 9
+    desc: HTTP protocol version is not allowed by policy (920430) from old modsec regressions
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/"
+          version: HTTP/0.8
+        output:
+          status: 400
+  - test_id: 10
+    desc: HTTP protocol version is not allowed by policy (920430) from old modsec regressions
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/"
+          version: JUNK/1.0
+        output:
+          status: 400

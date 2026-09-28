@@ -1,0 +1,52 @@
+---
+meta:
+  author: "4v3r9, Walter Hop, azurit"
+rule_id: 941101
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Referer: www.github.com<script><img><iframe>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941101]
+  - test_id: 2
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: /get/"onmouseover='prompt(document.cookie)'"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941101]
+  - test_id: 3
+    desc: "SVG onload injection in filename"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/index.php/%3Csvg/onload=alert()"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941101]

@@ -6,6 +6,7 @@ on:
       - main
     paths-ignore:
       - "**/version.go"
+      - "versions.go"
       - "LICENSE"
   pull_request:
     branches:
@@ -35,8 +36,48 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
           cache: true
-      - name: Tests
+      - name: Test all modules
         run: go run mage.go test
+
+  examples:
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        go-version: [1.25.x, 1.26.x]
+        example: [example/latest, example/lts, example/runtime-toggle]
+        # `args` must be a real axis (not just an include key): include entries
+        # can only ever overwrite keys that are NOT part of the original matrix,
+        # so keys added via include get clobbered by later entries instead of
+        # fanning out. With args as an axis, the includes below conflict with
+        # the original `""` value and therefore create new combinations.
+        args: [""]
+        include:
+          - go-version: 1.25.x
+            example: example/runtime-toggle
+            args: "--lts"
+          - go-version: 1.26.x
+            example: example/runtime-toggle
+            args: "--lts"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Install Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: Run ${{ matrix.example }} ${{ matrix.args }}
+        working-directory: ${{ matrix.example }}
+        env:
+          ARGS: ${{ matrix.args }}
+        run: |
+          go build ./...
+          out=$(go run . $ARGS)
+          echo "$out"
+          grep -q "Success!" <<<"$out"
 
   check_changes:
     permissions:
@@ -51,8 +92,10 @@ jobs:
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
         with:
           go-version: 1.25.x
-      - name: Download CRS and Coraza config
-        run: go run mage.go downloadDeps
+      - name: Download all bundles
+        run: go run mage.go downloadAll
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # Ref: https://gist.github.com/somidad/3ce6e8a7b7d77ac8fa7fad583003d6f5
       - name: Check if there are changes
         id: changes
@@ -60,5 +103,6 @@ jobs:
       - name: Process changes
         if: steps.changes.outputs.changed != 0
         run: |
-          echo 'Uncommited changes detected. Run `go run mage.go downloadDeps` to check the changes and commit them.'
+          echo 'Uncommitted changes detected. Run `go run mage.go downloadAll` locally and commit the result.'
+          git status --porcelain
           exit 1

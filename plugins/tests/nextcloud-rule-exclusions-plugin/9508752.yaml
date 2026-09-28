@@ -1,0 +1,44 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin: Nextcloud Talk"
+rule_id: 9508752
+tests:
+  - test_id: 1
+    desc: Participating in a voice/video call via the built-in signaling server
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /ocs/v2.php/apps/spreed/api/v3/signaling/roomid123
+          data: >-
+            {"messages":"[{\"ev\":\"message\",\"fn\":\"{\\\"to\\\":\\\"ic/random/random+random/random+random+random/random/IM/random\\\",
+            \\\"roomType\\\":\\\"video\\\",\\\"type\\\":\\\"nickChanged\\\",\\\"payload\\\":{\\\"name\\\":\\\"test\\\"}}\",
+            \"sessionId\":\"random+random+random+random/u+random+random/random/random\"}]"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920273
+              - 931130
+              - 932200
+              - 932240
+              - 941120
+              - 941330
+              - 941340
+              - 942200
+              - 942300
+              - 942330
+              - 942340
+              - 942370
+              - 942430
+              - 942431
+              - 942432
+              - 942460
+              - 942520

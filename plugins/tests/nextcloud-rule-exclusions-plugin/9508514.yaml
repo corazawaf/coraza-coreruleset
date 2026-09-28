@@ -1,0 +1,21 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+rule_id: 9508514
+tests:
+  - test_id: 1
+    desc: Make sure server crawler rule exclusions are disabled out of the box
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          uri: /
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920320]

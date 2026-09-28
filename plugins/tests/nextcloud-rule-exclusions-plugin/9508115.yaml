@@ -1,0 +1,24 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin: Opening a PDF file"
+rule_id: 9508115
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: cloud.example.com
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          uri: /apps/files_pdfviewer/?file=https%3A%2F%2Fcloud.example.com%2Fremote.php%2Fdav%2Ffiles%2Fesadc%2FDocuments%2FCIS%2520Security%2520Benchmarks%2FCIS_Ubuntu_Linux_24.04_LTS_Benchmark_v1.0.0.pdf
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 920272
+              - 920273

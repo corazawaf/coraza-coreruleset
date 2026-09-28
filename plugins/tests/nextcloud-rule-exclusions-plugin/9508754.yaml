@@ -1,0 +1,26 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin: Nextcloud Talk"
+rule_id: 9508754
+tests:
+  - test_id: 1
+    desc: Joining a public password protected call
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+          port: 80
+          method: POST
+          uri: /call/id123
+          data: 'requesttoken=somethingcE7tM%3D%3AoTZrandom1R%2BSRtokenoJk%3D&password=%3CScript%3Eal3rt'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920273
+              - 941110

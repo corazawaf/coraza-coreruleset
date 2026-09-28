@@ -1,0 +1,24 @@
+---
+meta:
+  author: "azurit"
+  description: "PhpMyAdmin Rule Exclusions Plugin"
+  rule_id: 9513920
+tests:
+  - test_id: 1
+    desc: FP when searching HTML data in whole database
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: phpMyAdmin=1
+          port: 80
+          method: POST
+          version: HTTP/1.1
+          uri: /post/index.php?route=/database/search
+          data: criteriaSearchString=%3Ca%20class%3D%22kontakt%22%20href%3D%22%3Ccensored%3E%22%3EKontakt%3C%2Fa%3E%3Ca%20class%3D%22partneri%22%20href%3D%22%3Ccensored%3E%22%3EPre%20partnerov%3C%2Fa%3E%20%3Cp%20class%3D%22top-socials%22%3E%3Ca%20href%3D%22%3Ccensored%3E%22%3E%3Cimg%20class%3D%22fb%22%20src%3D%22%3Ccensored%3E%22%20%2F%3E%3C%2Fa%3E%3Ca%20href%3D%22%3Ccensored%3E%2F%22%3E%3Cimg%20src%3D%22%3Ccensored%3E%22%20%2F%3E%3C%2Fa%3E%3Ca%20href%3D%22%3Ccensored%3E%22%3E%3Cimg%20class%3D%22tiktok%22%20src%3D%22%3Ccensored%3E%22%20%2F%3E%3C%2Fa%3E%3C%2Fp%3E%20%3Ca%20href%3D%22%3Ccensored%3E%22%3ESK%3C%2Fa%3E%3Ca%20href%3D%22%3Ccensored%3E%22%3EEN%3C%2Fa%3E
+        output:
+          log:
+            no_expect_ids: [941160]

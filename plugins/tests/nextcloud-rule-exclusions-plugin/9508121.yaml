@@ -1,0 +1,34 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin: Dav client locking a file"
+rule_id: 9508121
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            X-Oc-Mtime: 1785031392
+            Oc-Total-Length: 9332
+            If-Match: "6a656ad1001ba"
+            User-Agent: "Mozilla/5.0 (Windows) mirall/33.0.7 (build 20260629) (Nextcloud, windows-10.0.26200 ClientArchitecture: x86_64 OsArchitecture: x86_64)"
+            If: <https://example.com/remote.php/dav/files/esadc/test.odt> (<opaquelocktoken:files_lock/ae11a9f4-647b-4686-aa22-a38bc6c57358>)
+            Oc-Chunk-Size: 104857600
+            Content-Type: application/octet-stream
+            Oc-Checksum: SHA1:9bcc49f899d6c97d9dadbf484ee5fe4f5b6b2f41
+            Host: localhost
+            X-Request-Id: 14a16b47-73eb-4ed0-9999-da177733dfcc
+            Accept-Encoding: zstd, br, gzip, deflate
+            Accept-Language: en-AU,*
+          port: 80
+          method: PUT
+          uri: /remote.php/dav/files/esadc/test.odt
+          data: "file goes here"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920274
+              - 920450

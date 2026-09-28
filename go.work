@@ -2,5 +2,11 @@ go 1.25.0
 
 use (
 	.
-	./example
+	./coraza/v3
+	./crs/v4
+	./example/latest
+	./example/lts
+	./example/runtime-toggle
+	./lts/v4
+	./plugins
 )

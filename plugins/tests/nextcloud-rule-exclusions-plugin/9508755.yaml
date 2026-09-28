@@ -1,0 +1,28 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin: Nextcloud Talk"
+rule_id: 9508755
+tests:
+  - test_id: 1
+    desc: Sharing a voice recording
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /ocs/v2.php/apps/files_sharing/api/v1/shares
+          data: '{"shareType":10,"path":"/Talk/Talk recording from 2024-11-00 22-24-05 (Note to self).wav","shareWith":"123","referenceId":"1234567890abcdef","talkMetaData":"{\"messageType\":\"voice-message\",\"caption\":\"<script>\"}"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920273
+              - 941110
+              - 942431
+              - 942432

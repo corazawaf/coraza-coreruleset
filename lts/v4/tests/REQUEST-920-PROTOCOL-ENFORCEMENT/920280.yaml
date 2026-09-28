@@ -1,0 +1,48 @@
+---
+meta:
+  author: "csanders-git, azurit"
+rule_id: 920280
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          # To test an empty Host: header we must use HTTP/1.0 version
+          version: "HTTP/1.0"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            # Test needs empty Host:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+        output:
+          log:
+            expect_ids: [920280]
+  - test_id: 2
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920280]
+  - test_id: 3
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          version: "HTTP/0.9"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+        output:
+          # Technically valid but Apache doesn't allow 0.9 anymore
+          status: 400

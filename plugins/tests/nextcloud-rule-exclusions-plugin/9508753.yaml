@@ -1,0 +1,60 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin: Nextcloud Talk"
+rule_id: 9508753
+tests:
+  - test_id: 1
+    desc: Configuring an turn server
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+          port: 80
+          method: POST
+          uri: /ocs/v2.php/apps/provisioning_api/api/v1/config/apps/spreed/turn_servers
+          data: 'value=%5B%7B%22schemes%22%3A%22turn%22%2C%22server%22%3A%22turn.example.com%22%2C%22secret%22%3A%22fd2ee1234567890abdefac4%22%2C%22protocols%22%3A%22udp%2Ctcp%22%7D%5D'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920273
+              - 932240
+              - 942200
+              - 942340
+              - 942370
+              - 942430
+              - 942431
+              - 942432
+              - 942460
+  - test_id: 2
+    desc: Configuring an signaling server (High Performance Backend)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+          port: 80
+          method: POST
+          uri: /ocs/v2.php/apps/provisioning_api/api/v1/config/apps/spreed/signaling_servers
+          data: 'value=%7B%22servers%22%3A%5B%5D%2C%22secret%22%3A%22%22%7D'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920273
+              - 932240
+              - 942200
+              - 942340
+              - 942370
+              - 942430
+              - 942431
+              - 942432
+              - 942460

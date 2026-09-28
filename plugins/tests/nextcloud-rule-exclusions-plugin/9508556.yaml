@@ -1,0 +1,23 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Office: Rendering Collabora document from the Collabora server"
+rule_id: 9508556
+tests:
+  - test_id: 1
+    desc: Rendering Collabora document from the Collabora server
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            host: example.com
+          port: 80
+          method: GET
+          uri: /cool/https%3A%2F%2Fcloud.example.com%2Findex.php%2Fapps%2Frichdocuments%2Fwopi%2Ffiles%2F123456_ncid%3Faccess_token%3Dnrandom%26access_token_ttl%3D1769683575000%26no_auth_header%3D/ws?WOPISrc=https%3A%2F%2Fcloud.example.com%2Findex.php%2Fapps%2Frichdocuments%2Fwopi%2Ffiles%2F123456_ncid&compat=/ws
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [931131]

@@ -3,3 +3,8 @@
 .vscode
 
 go.work.sum
+
+# Compiled example binaries
+example/latest/latest
+example/lts/lts
+example/runtime-toggle/runtime-toggle

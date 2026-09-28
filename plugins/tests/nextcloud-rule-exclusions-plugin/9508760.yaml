@@ -1,0 +1,32 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Talk: Spreed signalling keeping alive connections to rooms"
+rule_id: 9508760
+tests:
+  - test_id: 1
+    desc: This rule should be disabled by default (expect detections)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: cloud.example.com
+            User-Agent: nextcloud-spreed-signaling/2.1.1~docker
+            Ocs-Apirequest: true
+            Spreed-Signaling-Random: MVURXWAZ2YWLJJUOMNAY4ARURB3VNEML3X5SJIKBDKQU4JCLLDWU4N4KYLCAXKHP
+            Accept: application/json
+            Content-Type: application/json
+            Spreed-Signaling-Checksum: 533636cd093917860f0afac12b23a3017cf15df0e58f141201642e6b9cf19509
+            X-Spreed-Signaling-Features: audio-video-permissions, chat-relay, dialout, federation, hello-v2, incall-all, join-features, mcu, offer-codecs, recipient-call, serverinfo, simulcast, switchto, transient-data, transient-sessiondata, update-sdp, welcome
+            Accept-Encoding: gzip
+          port: 80
+          method: POST
+          uri: /ocs/v2.php/apps/spreed/api/v3/signaling/backend
+          data: '{"type":"ping","ping":{"version":"1.0","roomid":"","entries":[{"userid":"esadc","sessionid":"HAHuvsAaLiNITFf1WOUG5CNrZkZgJXKIvvAevv12hOhoCM1odY1juMcncFBPyPDeOrT7zHhJTBQp5xKW6efNp8eEVKTe34SKk/eqnDogs8b+pX6cXNDtMeNHE5iipdAWvAMtkmNO10BH+D2HG4ZlGlxTBoUH2EliLic/Xk9iz2939fXKjyhtUW9gc+IRpZ36pZM9018OnIkUgO10BlcfWwDNX8SgHLRjbJSdLVMCuiKY4tmTkoFauRN98ZdF+En$y174qJl3TzRGGYdCXQJwFZ63rVdTzPlwAXRXmRx2b1YAl0UWM5JKIzfax5M7YVOT"}]}}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids:
+              - 920273
+              - 932200
+              - 932240

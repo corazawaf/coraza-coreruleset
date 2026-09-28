@@ -1,0 +1,47 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin: Nextcloud Talk"
+rule_id: 9508750
+tests:
+  - test_id: 1
+    desc: Sending a message in a room
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /ocs/v2.php/apps/spreed/api/v1/chat/roomid123
+          data: '{"message":"<script>","actorDisplayName":"Esad Cetiner","referenceId":"0123456789abcdef","silent":false}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920273
+              - 941110
+  - test_id: 2
+    desc: Sending a message in a room
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: PUT
+          uri: /ocs/v2.php/apps/spreed/api/v1/chat/roomid123/1
+          data: '{"message":"<script>alert"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 920273
+              - 941110
