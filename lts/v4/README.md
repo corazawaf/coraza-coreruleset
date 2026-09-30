@@ -13,7 +13,7 @@ For the Coraza `coraza.conf-recommended` file, use [`coraza-coreruleset/coraza/v
 | `@crs-setup-lts.conf.example` | Upstream CRS setup file (renamed from `crs-setup.conf.example`) |
 | `@crs-setup-lts.conf.example-nodefaultact` | Same, with `SecDefaultAction` lines commented out, allowing custom ones to be set |
 
-The distinct `@owasp_crs_lts/` alias (vs `@owasp_crs/` for the latest line) lets both bundles live in the same binary, with the choice of which to load deferred to runtime. See `example/runtime-toggle/` in the repo for an end-to-end demo.
+The distinct `@owasp_crs_lts/` alias (vs `@owasp_crs/` for the latest line) lets both bundles live in the same binary, with the choice of which to load deferred to runtime. See `example/combined/` in the repo for an end-to-end demo.
 
 > ⚠️ **CRS rule IDs collide between the latest and LTS lines** (e.g. `id:930100` exists in both). Bundle both freely, but `Include` rules from exactly one bundle at runtime, or the Coraza parser will reject duplicates.
 
@@ -32,8 +32,9 @@ func main() {
         coraza.NewWAFConfig().
             WithDirectives(`
                 Include @coraza.conf-recommended
+                SecRuleEngine On
                 Include @crs-setup-lts.conf.example
-                Include @owasp_crs_lts/REQUEST-911-METHOD-ENFORCEMENT.conf
+                Include @owasp_crs_lts/*.conf
             `).
             WithRootFS(mergefs.Merge(lts.FS, corazaconf.FS)),
     )

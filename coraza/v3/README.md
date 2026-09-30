@@ -27,8 +27,9 @@ func main() {
         coraza.NewWAFConfig().
             WithDirectives(`
                 Include @coraza.conf-recommended
+                SecRuleEngine On
                 Include @crs-setup.conf.example
-                Include @owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf
+                Include @owasp_crs/*.conf
             `).
             WithRootFS(mergefs.Merge(crs.FS, corazaconf.FS)),
     )

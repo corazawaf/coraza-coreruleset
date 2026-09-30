@@ -21,6 +21,8 @@ Entries carrying an `"excluded"` field are tracked but **not** bundled; the fiel
 
 To re-enable a plugin, remove its `"excluded"` field and run `go run mage.go downloadPlugins`.
 
+Each bundled plugin's upstream license is embedded at `licenses/<plugin name>/LICENSE` in `plugins.FS`, outside the `@owasp_plugins/` alias so that `Include @owasp_plugins/*` never picks it up.
+
 ## Quick start
 
 ```go
@@ -37,15 +39,21 @@ func main() {
         coraza.NewWAFConfig().
             WithDirectives(`
                 Include @coraza.conf-recommended
+                SecRuleEngine On
                 Include @crs-setup.conf.example
-                Include @owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf
+                Include @owasp_plugins/wordpress-rule-exclusions-config.conf
                 Include @owasp_plugins/wordpress-rule-exclusions-before.conf
+                Include @owasp_crs/*.conf
             `).
             WithRootFS(mergefs.Merge(crs.FS, corazaconf.FS, plugins.FS)),
     )
     _ = waf
 }
 ```
+
+Plugin files must be included in the CRS plugin order: setup → `*-config.conf` → `*-before.conf` → CRS rules → `*-after.conf`. A `-before` file removes rules or targets at runtime, so if it is included after the CRS rules, any exclusion that runs in the same phase as the rules it targets comes too late and has no effect.
+
+> ⚠️ Include only the plugins your application needs. Every plugin is enabled as soon as it is included, so a glob such as `Include @owasp_plugins/*-before.conf` turns on the rule exclusions of all bundled plugins at once, weakening protection for no benefit.
 
 ## Runtime version
 

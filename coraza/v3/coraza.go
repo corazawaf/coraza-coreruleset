@@ -35,5 +35,5 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	FS = wrapFS{sub.(subFS)}
+	FS = wrapFS{sub}
 }

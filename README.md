@@ -13,10 +13,18 @@ This is a **multi-module** repo. Each module has its own release cadence, allowi
 
 | Module | Import path | Include aliases it provides | Tag pattern |
 |---|---|---|---|
-| **Latest CRS** | `github.com/corazawaf/coraza-coreruleset/crs/v4` | `@owasp_crs/`<br>`@crs-setup.conf.example`<br>`@crs-setup.conf.example-nodefaultact` | `crs/v4.26.0`, `crs/v4.26.1`, ... |
+| **Latest CRS** | `github.com/corazawaf/coraza-coreruleset/crs/v4` | `@owasp_crs/`<br>`@crs-setup.conf.example`<br>`@crs-setup.conf.example-nodefaultact` | `crs/v4.25.0`, `crs/v4.26.0`, ... |
 | **CRS LTS** | `github.com/corazawaf/coraza-coreruleset/lts/v4` | `@owasp_crs_lts/`<br>`@crs-setup-lts.conf.example`<br>`@crs-setup-lts.conf.example-nodefaultact` | `lts/v4.25.0`, `lts/v4.25.1`, ... |
 | **Coraza config** | `github.com/corazawaf/coraza-coreruleset/coraza/v3` | `@coraza.conf-recommended` | `coraza/v3.5.0`, `coraza/v3.6.0`, ... |
 | **Official CRS plugins** | `github.com/corazawaf/coraza-coreruleset/plugins` | `@owasp_plugins/` | `plugins/v0.1.0`, `plugins/v0.2.0`, ... |
+
+The regression tests of each bundle, e.g. for use with [go-ftw](https://github.com/coreruleset/go-ftw), ship as separate modules, so importing a bundle doesn't download its test corpus. Each exposes an embedded `FS` and is released with the same version as its bundle:
+
+| Tests for | Import path | Tag pattern |
+|---|---|---|
+| **Latest CRS** | `github.com/corazawaf/coraza-coreruleset/crs/tests/v4` | `crs/tests/v4.25.0`, ... |
+| **CRS LTS** | `github.com/corazawaf/coraza-coreruleset/lts/tests/v4` | `lts/tests/v4.25.0`, ... |
+| **Official CRS plugins** | `github.com/corazawaf/coraza-coreruleset/plugins/tests` | `plugins/tests/v0.1.0`, ... |
 
 Note that:
 - `@owasp_crs/…`, `@owasp_crs_lts/…`, and `@owasp_plugins/…` are directory aliases. Via `Include` it is possible to include individual files under them, e.g. `@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf`.
@@ -24,14 +32,18 @@ Note that:
 - The `-nodefaultact` aliases are copies of the CRS setup files with every `SecDefaultAction "phase:..."` line commented out. Coraza forbids redefining `SecDefaultAction`, so these allow setting custom ones without rewriting the upstream file (e.g. `Include @crs-setup.conf.example-nodefaultact` followed by custom `SecDefaultAction` directives).
 - The `Version` constant lets applications introspect what they bundled:
 
+  ```go
+  log.Printf("CRS %s, Coraza config %s", crs.Version, corazaconf.Version)
+  ```
+
 ## Usage
 
 Every bundle follows the same pattern: merge the needed modules' `FS` into a single root FS with `mergefs.Merge` and pass it to `WithRootFS`, then `Include` the aliases listed in the [Modules table](#modules). Each bundle claims disjoint paths, so merge order doesn't matter.
 
-- **Latest CRS** — merge `crs.FS` and `corazaconf.FS`, then include `@coraza.conf-recommended`, `@crs-setup.conf.example` and the needed `@owasp_crs/…` rules. See [`example/latest/`](./example/latest/).
-- **LTS** — same as above, with `lts/v4` in place of `crs/v4` and the `@owasp_crs_lts/…` / `@crs-setup-lts.conf.example` aliases. See [`example/lts/`](./example/lts/), which also adds an official plugin.
+- **Latest CRS** — merge `crs.FS` and `corazaconf.FS`, then include `@coraza.conf-recommended`, set `SecRuleEngine On` (the recommended config ships in `DetectionOnly`), and include `@crs-setup.conf.example` and the `@owasp_crs/*.conf` rules. See [`example/latest/`](./example/latest/).
+- **LTS** — same as above, with `lts/v4` in place of `crs/v4` and the `@owasp_crs_lts/…` / `@crs-setup-lts.conf.example` aliases. See [`example/lts/`](./example/lts/).
 - **Plugins** — additionally merge `plugins.FS` and include the plugin `.conf`s under `@owasp_plugins/`. Bundled plugins and their pinned upstream versions are tracked in [`plugins/versions.json`](./plugins/versions.json); a few are tracked but excluded, see [`plugins/README.md`](./plugins/README.md#bundled-plugins) for which and why.
-- **Both CRS lines in one binary** — see [`example/runtime-toggle/`](./example/runtime-toggle/), which switches line via a `--lts` flag.
+- **Everything in one binary** — see [`example/combined/`](./example/combined/), which embeds both CRS lines and the plugins once and builds several WAFs from them: latest, LTS, custom `SecDefaultAction` via the `-nodefaultact` setup, and LTS with the WordPress plugin.
 
 The `coraza/v3` module's package name is `coraza`, which collides with `github.com/corazawaf/coraza/v3`; import it under an alias, conventionally `corazaconf`.
 
@@ -50,6 +62,8 @@ Migrate to the subpackage modules:
 - WithRootFS(coreruleset.FS)
 + WithRootFS(mergefs.Merge(crs.FS, corazaconf.FS))
 ```
+
+Migrating doesn't require upgrading CRS: `crs/v4` `v4.25.0` and `coraza/v3` `v3.5.0` bundle exactly the same CRS rules, setup file and Coraza recommended config as the legacy `v4.25.0`, and `crs/tests/v4` `v4.25.0` the same regression tests (previously `coraza-coreruleset/v4/tests`). Upgrade CRS separately afterwards.
 
 The `@coraza.conf-recommended` file no longer ships in the same FS as the CRS rules. It has been moved to its own `coraza/v3` module with its own release cadence. This allows to pin Coraza's recommended config independently of the CRS version.
 
@@ -70,7 +84,8 @@ Each releasable module (`crs/v4`, `lts/v4`, `coraza/v3`, `plugins`) is tagged vi
 
 - **module**: which module to tag (dropdown).
 - **ref** *(optional)*: the commit SHA to tag; it must be on `main`. Leave empty to tag the tip of `main`. Useful to tag an earlier commit once `main` has moved on, e.g. when releasing several intermediate upstream versions merged one after another.
-- There is no version input, the version is extracted from `<module>/version.go`. Always merge the Renovate / version-bump PR first to bring `version.go` in sync, then dispatch this. The workflow pushes the annotated tag (e.g. `crs/v4.26.1`, as per [Go's tagging convention](https://go.dev/ref/mod#vcs-version)).
+- There is no version input, the version is extracted from `<module>/version.go`. Always merge the Renovate / version-bump PR first to bring `version.go` in sync, then dispatch this. The workflow pushes the annotated tag (e.g. `crs/v4.26.0`, as per [Go's tagging convention](https://go.dev/ref/mod#vcs-version)).
+- Releasing `crs/v4`, `lts/v4` or `plugins` also tags the matching tests module (`crs/tests/v4`, `lts/tests/v4`, `plugins/tests`) with the same version at the same commit, in a single atomic push. Tests modules are never released on their own.
 
 The same target also works locally: `go run mage.go tag crs/v4` from a developer machine validates and pushes the tag using the developer's own git identity. It uses the `origin` remote by default; from a fork clone, set `TAG_REMOTE` to the remote pointing at `corazawaf/coraza-coreruleset` (e.g. `TAG_REMOTE=upstream go run mage.go tag crs/v4`).
 

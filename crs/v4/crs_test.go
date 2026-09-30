@@ -7,11 +7,11 @@ import (
 	"testing"
 )
 
-// activeSecDefaultActionRe matches an uncommented `SecDefaultAction "phase:N,..."`
-// directive at the start of a line. The -nodefaultact variant must contain none
+// activeSecDefaultActionRe matches an uncommented, optionally indented
+// `SecDefaultAction "phase:N,..."` directive. The -nodefaultact variant must contain none
 // of these: Coraza rejects a config that redefines SecDefaultAction, so the
 // variant exists precisely to let consumers set their own.
-var activeSecDefaultActionRe = regexp.MustCompile(`(?m)^SecDefaultAction\s+"phase:`)
+var activeSecDefaultActionRe = regexp.MustCompile(`(?m)^[ \t]*SecDefaultAction\s+"phase:`)
 
 func TestFSOpensCRSRule(t *testing.T) {
 	f, err := FS.Open("@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf")
@@ -21,10 +21,37 @@ func TestFSOpensCRSRule(t *testing.T) {
 	f.Close()
 }
 
+// openOnly hides every method but Open, like an fs.FS that implements none of
+// the optional interfaces. mergefs drops ReadFile when merging with such an FS,
+// so Coraza's fs.ReadFile falls back to Open.
+type openOnly struct{ fs.FS }
+
 func TestWrapFSStripsAbsolutePrefix(t *testing.T) {
-	_, err := FS.(subFS).ReadFile("/usr/src/github.com/myorg/myrepo/@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf")
+	for _, name := range []string{
+		"/usr/src/github.com/myorg/myrepo/@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf",
+		// A parent directory containing `@` (as Go module cache paths do)
+		// must not be mistaken for the alias.
+		"/go/pkg/mod/github.com/myorg/myrepo@v1.2.3/@owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf",
+	} {
+		if _, err := fs.ReadFile(FS, name); err != nil {
+			t.Errorf("ReadFile(%q): %v", name, err)
+		}
+		if _, err := fs.ReadFile(openOnly{FS}, name); err != nil {
+			t.Errorf("ReadFile via Open(%q): %v", name, err)
+		}
+		if _, err := fs.Stat(FS, name); err != nil {
+			t.Errorf("Stat(%q): %v", name, err)
+		}
+	}
+}
+
+func TestWrapFSGlobStripsAbsolutePrefix(t *testing.T) {
+	matches, err := fs.Glob(FS, "/usr/src/github.com/myorg/myrepo/@owasp_crs/*.conf")
 	if err != nil {
-		t.Fatalf("expected wrapFS to strip absolute prefix, got: %v", err)
+		t.Fatalf("Glob: %v", err)
+	}
+	if len(matches) == 0 {
+		t.Fatal("expected Glob to match embedded files once the prefix is stripped")
 	}
 }
 

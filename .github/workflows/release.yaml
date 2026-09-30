@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       module:
-        description: "Module to release"
+        description: "Module to release (crs/v4, lts/v4 and plugins also tag their tests module)"
         required: true
         type: choice
         options:

@@ -28,5 +28,5 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	FS = wrapFS{rulesFS.(subFS)}
+	FS = wrapFS{rulesFS}
 }

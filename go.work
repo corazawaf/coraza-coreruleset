@@ -3,10 +3,13 @@ go 1.25.0
 use (
 	.
 	./coraza/v3
+	./crs/tests/v4
 	./crs/v4
 	./example/latest
 	./example/lts
-	./example/runtime-toggle
+	./example/combined
+	./lts/tests/v4
 	./lts/v4
 	./plugins
+	./plugins/tests
 )

@@ -28,8 +28,9 @@ func main() {
         coraza.NewWAFConfig().
             WithDirectives(`
                 Include @coraza.conf-recommended
+                SecRuleEngine On
                 Include @crs-setup.conf.example
-                Include @owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf
+                Include @owasp_crs/*.conf
             `).
             WithRootFS(mergefs.Merge(crs.FS, corazaconf.FS)),
     )
@@ -39,8 +40,8 @@ func main() {
 
 ## Runtime version
 
-`crs.Version` exposes the bundled upstream CRS tag (e.g. `"v4.26.0"`).
+`crs.Version` exposes the bundled upstream CRS tag (e.g. `"v4.25.0"`).
 
 ## Tags
 
-Module tags follow upstream CRS releases: `crs/v4.26.0`, `crs/v4.26.1`, …
+Module tags follow upstream CRS releases: `crs/v4.25.0`, `crs/v4.26.0`, …

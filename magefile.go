@@ -18,6 +18,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/magefile/mage/sh"
 )
@@ -25,16 +26,19 @@ import (
 // Subpackage destinations. Each downloader writes into one of these and
 // regenerates the corresponding runtime `version.go` (except plugins/, whose
 // version is hand-maintained).
+//
+// Regression tests live in their own modules (crs/tests/v4, lts/tests/v4,
+// plugins/tests) so importing a bundle doesn't download its test corpus.
 const (
 	crsRulesDir  = "crs/v4/rules"
-	crsTestsDir  = "crs/v4/tests"
+	crsTestsDir  = "crs/tests/v4"
 	crsAlias     = "@owasp_crs"
 	crsSetupFile = "@crs-setup.conf.example"
 	crsPkgDir    = "crs/v4"
 	crsPkgName   = "crs"
 
 	ltsRulesDir = "lts/v4/rules"
-	ltsTestsDir = "lts/v4/tests"
+	ltsTestsDir = "lts/tests/v4"
 	ltsAlias    = "@owasp_crs_lts"
 	// ltsSetupFile is deliberately distinct from crsSetupFile: the upstream file
 	// is named crs-setup.conf.example in both lines, so without a rename the two
@@ -53,12 +57,16 @@ const (
 	pluginsTestsDir = "plugins/tests"
 	pluginsAlias    = "@owasp_plugins"
 	pluginsManifest = "plugins/versions.json"
+	// pluginsLicensesDir holds each plugin's upstream LICENSE as
+	// licenses/<plugin name>/LICENSE. It sits outside the @owasp_plugins/
+	// alias so `Include @owasp_plugins/*` never picks up a license file.
+	pluginsLicensesDir = "licenses"
 )
 
-// secDefaultActionRe matches uncommented `SecDefaultAction "phase:N,..."` lines
-// at the start of a line. Already-commented lines (starting with `#`) are not
+// secDefaultActionRe matches uncommented `SecDefaultAction "phase:N,..."` lines,
+// optionally indented. Already-commented lines (starting with `#`) are not
 // matched.
-var secDefaultActionRe = regexp.MustCompile(`^SecDefaultAction\s+"phase:`)
+var secDefaultActionRe = regexp.MustCompile(`^[ \t]*SecDefaultAction\s+"phase:`)
 
 // pluginManifest mirrors the schema of plugins/versions.json.
 type pluginManifest struct {
@@ -156,7 +164,9 @@ func DownloadCoraza() error {
 }
 
 // DownloadPlugins downloads each plugin listed in plugins/versions.json into
-// plugins/files/@owasp_plugins/ and their regression tests into plugins/tests/.
+// plugins/files/@owasp_plugins/, their licenses into
+// plugins/files/licenses/<plugin name>/, and their regression tests into
+// plugins/tests/.
 // Does not touch plugins/version.go — that's hand-maintained.
 func DownloadPlugins() error {
 	manifest, err := readPluginManifest(pluginsManifest)
@@ -184,6 +194,7 @@ func DownloadPlugins() error {
 	}
 
 	dstDir := filepath.Join(pluginsFilesDir, pluginsAlias)
+	licensesDir := filepath.Join(pluginsFilesDir, pluginsLicensesDir)
 	if err := cleanupOldRules(pluginsFilesDir); err != nil {
 		return err
 	}
@@ -195,7 +206,7 @@ func DownloadPlugins() error {
 	}
 
 	for i, p := range plugins {
-		if err := extractPlugin(p, readers[i], dstDir, pluginsTestsDir); err != nil {
+		if err := extractPlugin(p, readers[i], dstDir, licensesDir, pluginsTestsDir); err != nil {
 			return fmt.Errorf("plugin %s@%s: %w", p.Name, p.Version, err)
 		}
 		fmt.Printf("Updated CRS plugin %q to version %q\n", p.Name, p.Version)
@@ -203,9 +214,14 @@ func DownloadPlugins() error {
 	return nil
 }
 
-// Test runs `go test ./...` in every workspace submodule.
+// Test runs `go test ./...` in every workspace submodule. The examples' tests
+// double as integration tests: they load the bundles into Coraza and check
+// that requests are blocked or allowed as expected.
 func Test() error {
-	for _, m := range []string{"crs/v4", "coraza/v3", "lts/v4", "plugins"} {
+	for _, m := range []string{
+		"crs/v4", "crs/tests/v4", "coraza/v3", "lts/v4", "lts/tests/v4", "plugins", "plugins/tests",
+		"example/latest", "example/lts", "example/combined",
+	} {
 		fmt.Printf(">>> go test ./... in %s\n", m)
 		if err := sh.RunV("go", "test", "-C", m, "./..."); err != nil {
 			return fmt.Errorf("%s: %w", m, err)
@@ -223,13 +239,17 @@ type releaseSpec struct {
 	expectedMajor string
 	// versionPin: empty means no prefix constraint; e.g. "v4.25." locks lts/v4.
 	versionPin string
+	// testsModule, when set, is the module holding this bundle's regression
+	// tests. It is tagged with the same version in the same run, so a bundle
+	// and its tests can never be released out of step.
+	testsModule string
 }
 
 var releasableModules = map[string]releaseSpec{
-	"crs/v4":    {expectedMajor: "4"},
-	"lts/v4":    {expectedMajor: "4", versionPin: "v4.25."},
+	"crs/v4":    {expectedMajor: "4", testsModule: "crs/tests/v4"},
+	"lts/v4":    {expectedMajor: "4", versionPin: "v4.25.", testsModule: "lts/tests/v4"},
 	"coraza/v3": {expectedMajor: "3"},
-	"plugins":   {},
+	"plugins":   {testsModule: "plugins/tests"},
 }
 
 var (
@@ -240,8 +260,9 @@ var (
 )
 
 // Tag pushes an annotated git tag for `module` at the currently checked-out
-// HEAD. The tag's version is read from <module>/version.go — no explicit
-// version argument is needed, so the operator can't typo it.
+// HEAD, plus one for its regression-tests module when it has one (e.g.
+// crs/v4 also tags crs/tests/v4). The version is read from <module>/version.go
+// — no explicit version argument is needed, so the operator can't typo it.
 //
 // Usage: go run mage.go tag <module>
 //
@@ -266,22 +287,36 @@ func Tag(module string) error {
 	if err := validateReleaseVersion(module, spec, version); err != nil {
 		return err
 	}
-	// Per https://go.dev/ref/mod#vcs-version, the tag prefix for a module in a
-	// subdirectory is the subdirectory WITHOUT the major version suffix:
-	// crs/v4 tags as crs/v4.26.0 (not crs/v4/v4.26.0), plugins as plugins/v0.1.0.
-	// Go tooling would never resolve a tag that keeps the /vN directory.
-	tag := majorSuffixRe.ReplaceAllString(module, "") + "/" + version
-	if err := assertTagAbsent(remote, tag); err != nil {
-		return err
+	tags := []string{moduleTag(module, version)}
+	if spec.testsModule != "" {
+		tags = append(tags, moduleTag(spec.testsModule, version))
+	}
+	for _, tag := range tags {
+		if err := assertTagAbsent(remote, tag); err != nil {
+			return err
+		}
 	}
 	if err := assertHeadOnMain(remote); err != nil {
 		return err
 	}
-	fmt.Printf(">>> tagging %s\n", tag)
-	if err := sh.RunV("git", "tag", "-a", tag, "-m", "Release "+tag); err != nil {
-		return err
+	for _, tag := range tags {
+		fmt.Printf(">>> tagging %s\n", tag)
+		if err := sh.RunV("git", "tag", "-a", tag, "-m", "Release "+tag); err != nil {
+			return err
+		}
 	}
-	return sh.RunV("git", "push", remote, tag)
+	// One push for all tags, so a bundle is never published without its tests.
+	return sh.RunV("git", append([]string{"push", "--atomic", remote}, tags...)...)
+}
+
+// moduleTag returns the git tag for `module` at `version`. Per
+// https://go.dev/ref/mod#vcs-version, the tag prefix for a module in a
+// subdirectory is the subdirectory WITHOUT the major version suffix:
+// crs/v4 tags as crs/v4.26.0 (not crs/v4/v4.26.0), crs/tests/v4 as
+// crs/tests/v4.26.0, plugins as plugins/v0.1.0. Go tooling would never
+// resolve a tag that keeps the /vN directory.
+func moduleTag(module, version string) string {
+	return majorSuffixRe.ReplaceAllString(module, "") + "/" + version
 }
 
 func readBundledVersion(module string) (string, error) {
@@ -412,12 +447,7 @@ func downloadCRSLine(version, rulesDir, testsDir, alias, setupFile string) error
 			if !strings.HasSuffix(f.Name, ".yaml") {
 				continue
 			}
-			subdir := strings.TrimPrefix(filepath.Dir(f.Name), testsPrefix)
-			dir := filepath.Join(testsDir, subdir)
-			if err := os.MkdirAll(dir, 0o755); err != nil {
-				return err
-			}
-			if err := copyZipFile(f, filepath.Join(dir, filepath.Base(f.Name))); err != nil {
+			if err := copyZipTestFile(f, testsDir, strings.TrimPrefix(f.Name, testsPrefix)); err != nil {
 				return err
 			}
 			continue
@@ -428,7 +458,10 @@ func downloadCRSLine(version, rulesDir, testsDir, alias, setupFile string) error
 			if strings.HasSuffix(filename, ".example") {
 				continue
 			}
-			fPath := filepath.Join(rulesDstDir, filename)
+			fPath, err := zipDest(rulesDstDir, filename)
+			if err != nil {
+				return err
+			}
 			if err := extractRuleFile(f, fPath); err != nil {
 				return err
 			}
@@ -455,7 +488,7 @@ func fetchPluginZip(p pluginEntry) (*zip.Reader, error) {
 	return zip.NewReader(bytes.NewReader(body), int64(len(body)))
 }
 
-func extractPlugin(p pluginEntry, r *zip.Reader, rulesDstDir, testsDstDir string) error {
+func extractPlugin(p pluginEntry, r *zip.Reader, rulesDstDir, licensesDstDir, testsDstDir string) error {
 	zipRoot, err := zipTopLevelDir(r)
 	if err != nil {
 		return err
@@ -463,8 +496,24 @@ func extractPlugin(p pluginEntry, r *zip.Reader, rulesDstDir, testsDstDir string
 	pluginsPrefix := zipRoot + "plugins/"
 	testsPrefix := zipRoot + "tests/regression/"
 
+	licenseFound := false
 	for _, f := range r.File {
 		if f.FileInfo().IsDir() {
+			continue
+		}
+
+		if f.Name == zipRoot+"LICENSE" {
+			dst, err := zipDest(licensesDstDir, filepath.Join(p.Name, "LICENSE"))
+			if err != nil {
+				return err
+			}
+			if err := os.MkdirAll(filepath.Dir(dst), 0o755); err != nil {
+				return err
+			}
+			if err := copyZipFile(f, dst); err != nil {
+				return err
+			}
+			licenseFound = true
 			continue
 		}
 
@@ -472,12 +521,7 @@ func extractPlugin(p pluginEntry, r *zip.Reader, rulesDstDir, testsDstDir string
 			if !strings.HasSuffix(f.Name, ".yaml") {
 				continue
 			}
-			subdir := strings.TrimPrefix(filepath.Dir(f.Name), testsPrefix)
-			dir := filepath.Join(testsDstDir, subdir)
-			if err := os.MkdirAll(dir, 0o755); err != nil {
-				return err
-			}
-			if err := copyZipFile(f, filepath.Join(dir, filepath.Base(f.Name))); err != nil {
+			if err := copyZipTestFile(f, testsDstDir, strings.TrimPrefix(f.Name, testsPrefix)); err != nil {
 				return err
 			}
 			continue
@@ -485,14 +529,30 @@ func extractPlugin(p pluginEntry, r *zip.Reader, rulesDstDir, testsDstDir string
 
 		if strings.HasPrefix(f.Name, pluginsPrefix) {
 			filename := strings.TrimPrefix(f.Name, pluginsPrefix)
-			fPath := filepath.Join(rulesDstDir, filename)
+			fPath, err := zipDest(rulesDstDir, filename)
+			if err != nil {
+				return err
+			}
 			if err := os.MkdirAll(filepath.Dir(fPath), 0o755); err != nil {
 				return err
 			}
-			if err := extractRuleFile(f, fPath); err != nil {
+			// Mirrors the CRS handling: -config.conf is the plugin's
+			// counterpart of crs-setup.conf.example and is copied verbatim,
+			// keeping the commented-out SecActions that document its settings
+			// (including how to disable it); rule files are comment-stripped.
+			copyFn := extractRuleFile
+			if strings.HasSuffix(filename, "-config.conf") {
+				copyFn = copyZipFile
+			}
+			if err := copyFn(f, fPath); err != nil {
 				return err
 			}
 		}
+	}
+	// The plugins are redistributed under their upstream license, so a
+	// release without one must not ship.
+	if !licenseFound {
+		return fmt.Errorf("no LICENSE at the root of the %s archive", p.Repo)
 	}
 	return nil
 }
@@ -589,6 +649,9 @@ func zipTopLevelDir(r *zip.Reader) (string, error) {
 // `Authorization: Bearer <token>` header with a 403, so we keep auth only on
 // the original host.
 var httpClient = &http.Client{
+	// Bounds the whole request, including reading the archive body, so a
+	// stalled download fails CI instead of hanging it.
+	Timeout: 5 * time.Minute,
 	CheckRedirect: func(req *http.Request, via []*http.Request) error {
 		if len(via) > 0 && req.URL.Host != via[0].URL.Host {
 			req.Header.Del("Authorization")
@@ -632,31 +695,40 @@ func getDataFromURL(uri string) ([]byte, error) {
 // carry no license header — for them this preserves whatever short leading
 // commentary upstream ships (generator notes, section labels), which is
 // equally safe: Coraza ignores `#` lines in data files.
-func extractRuleFile(f *zip.File, dst string) error {
+func extractRuleFile(f *zip.File, dst string) (err error) {
+	source, err := f.Open()
+	if err != nil {
+		return err
+	}
+	defer source.Close()
+
 	target, err := os.Create(dst)
 	if err != nil {
 		return err
 	}
-	defer target.Close()
-
-	source, err := f.Open()
-	if err != nil {
-		os.Remove(dst)
-		return err
-	}
-	defer source.Close()
+	// A partially written rule file must not be left behind for the embed.
+	defer func() {
+		if cerr := target.Close(); err == nil {
+			err = cerr
+		}
+		if err != nil {
+			os.Remove(dst)
+		}
+	}()
 
 	scanner := bufio.NewScanner(source)
 	scanner.Split(bufio.ScanLines)
 	scanner.Buffer(make([]byte, 1024*1024), 1024*1024)
 
+	// bufio.Writer errors are sticky: any failed write surfaces at Flush.
+	w := bufio.NewWriter(target)
 	inHeader := true
 	for scanner.Scan() {
 		line := scanner.Bytes()
 		if inHeader {
 			if len(line) > 0 && line[0] == '#' {
-				target.Write(line)
-				target.WriteString("\n")
+				w.Write(line)
+				w.WriteByte('\n')
 				continue
 			}
 			inHeader = false
@@ -665,10 +737,13 @@ func extractRuleFile(f *zip.File, dst string) error {
 		if len(text) == 0 || text[0] == '#' {
 			continue
 		}
-		target.Write(line)
-		target.WriteString("\n")
+		w.Write(line)
+		w.WriteByte('\n')
 	}
-	return scanner.Err()
+	if err := scanner.Err(); err != nil {
+		return err
+	}
+	return w.Flush()
 }
 
 // copyZipFile copies a zip entry verbatim to dst.
@@ -685,6 +760,29 @@ func copyZipFile(f *zip.File, dst string) error {
 	return os.WriteFile(dst, data, 0o644)
 }
 
+// copyZipTestFile copies a regression-test zip entry verbatim to
+// <testsDir>/<rel>, creating its parent directories.
+func copyZipTestFile(f *zip.File, testsDir, rel string) error {
+	dst, err := zipDest(testsDir, rel)
+	if err != nil {
+		return err
+	}
+	if err := os.MkdirAll(filepath.Dir(dst), 0o755); err != nil {
+		return err
+	}
+	return copyZipFile(f, dst)
+}
+
+// zipDest joins a path taken from a zip entry onto dir, refusing any path
+// that would escape dir (zip slip): absolute paths, `..` segments, and the
+// like. Upstream archives are trusted, but the plugin list keeps growing.
+func zipDest(dir, rel string) (string, error) {
+	if !filepath.IsLocal(rel) {
+		return "", fmt.Errorf("refusing zip entry %q: escapes %s", rel, dir)
+	}
+	return filepath.Join(dir, rel), nil
+}
+
 // =============================================================================
 // Cleanup
 // =============================================================================
@@ -696,9 +794,17 @@ func cleanupOldRules(dir string) error {
 	return os.RemoveAll(dir)
 }
 
-// cleanupTestsDir wipes the contents of a tests directory but preserves any
-// top-level Go source files (tests.go, tests_test.go) that belong to the
-// package itself rather than the regression-test corpus.
+// testsModuleFiles are the top-level files of a tests module that belong to
+// the module itself rather than to the downloaded regression-test corpus.
+var testsModuleFiles = map[string]bool{
+	"go.mod":        true,
+	"go.sum":        true,
+	"tests.go":      true,
+	"tests_test.go": true,
+}
+
+// cleanupTestsDir wipes the contents of a tests module directory but
+// preserves the module's own files (see testsModuleFiles).
 func cleanupTestsDir(testsDir string) error {
 	entries, err := os.ReadDir(testsDir)
 	if err != nil {
@@ -709,7 +815,7 @@ func cleanupTestsDir(testsDir string) error {
 	}
 	for _, e := range entries {
 		name := e.Name()
-		if !e.IsDir() && (name == "tests.go" || name == "tests_test.go") {
+		if !e.IsDir() && testsModuleFiles[name] {
 			continue
 		}
 		if err := os.RemoveAll(filepath.Join(testsDir, name)); err != nil {

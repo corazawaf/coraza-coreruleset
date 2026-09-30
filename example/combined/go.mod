@@ -1,11 +1,12 @@
-module github.com/corazawaf/coraza-coreruleset/example/runtime-toggle
+module github.com/corazawaf/coraza-coreruleset/example/combined
 
 go 1.25.0
 
 require (
 	github.com/corazawaf/coraza-coreruleset/coraza/v3 v3.5.0
-	github.com/corazawaf/coraza-coreruleset/crs/v4 v4.26.0
+	github.com/corazawaf/coraza-coreruleset/crs/v4 v4.25.0
 	github.com/corazawaf/coraza-coreruleset/lts/v4 v4.25.0
+	github.com/corazawaf/coraza-coreruleset/plugins v0.1.0
 	github.com/corazawaf/coraza/v3 v3.7.0
 	github.com/jcchavezs/mergefs v0.1.1
 )
@@ -35,4 +36,5 @@ replace (
 	github.com/corazawaf/coraza-coreruleset/coraza/v3 => ../../coraza/v3
 	github.com/corazawaf/coraza-coreruleset/crs/v4 => ../../crs/v4
 	github.com/corazawaf/coraza-coreruleset/lts/v4 => ../../lts/v4
+	github.com/corazawaf/coraza-coreruleset/plugins => ../../plugins
 )
