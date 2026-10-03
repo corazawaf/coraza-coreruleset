@@ -1,10 +1,11 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Christoph Hansen, azurit"
-rule_id: 942320
+  author: "fzipi"
+  description: "\"+json\" structured syntax suffix content types: allowed by default and JSON-parsed"
+rule_id: 901370
 tests:
   - test_id: 1
-    desc: "Detects MySQL and PostgreSQL stored procedure/function injections"
+    desc: "Positive test: application/ld+json is allowed by the default configuration"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -12,16 +13,17 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/ld+json
           method: POST
           port: 80
-          uri: "/post"
-          data: "var=procedure%20analyse%20%28"
+          uri: "/"
+          data: '{"foo":"bar"}'
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [942320]
+            no_expect_ids: [920420]
   - test_id: 2
-    desc: "Detects MySQL and PostgreSQL stored procedure/function injections"
+    desc: "Positive test: application/vnd.api+json is allowed by the default configuration"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -29,16 +31,17 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/vnd.api+json
           method: POST
           port: 80
-          uri: "/post"
-          data: "pay=exec+%28%40%0A"
+          uri: "/"
+          data: '{"foo":"bar"}'
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [942320]
+            no_expect_ids: [920420]
   - test_id: 3
-    desc: "Detects MySQL and PostgreSQL stored procedure/function injections"
+    desc: "Positive test: application/csp-report+json is allowed by the default configuration (distinct from the bare application/csp-report type removed in #4365)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -46,16 +49,17 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/csp-report+json
           method: POST
           port: 80
-          uri: "/post"
-          data: "pay=declare+%40b%0A"
+          uri: "/"
+          data: '{"foo":"bar"}'
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [942320]
+            no_expect_ids: [920420]
   - test_id: 4
-    desc: "Detects MySQL and PostgreSQL stored procedure/function injections"
+    desc: "Positive test: application/cloudevents+json is allowed by the default configuration, now that the JSON body processor is forced for it (ref.: 9EA-241022, coreruleset/coreruleset#3905)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -63,16 +67,17 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/cloudevents+json
           method: POST
           port: 80
-          uri: "/post"
-          data: "pay=DECLARE%2F%2A%2A%2F%40x%0A"
+          uri: "/"
+          data: '{"foo":"bar"}'
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [942320]
+            no_expect_ids: [920420]
   - test_id: 5
-    desc: "Detects PostgreSQL data conversion with ::int"
+    desc: "Positive test: the bare application/csp-report type (no +json suffix) must stay blocked (ref.: #4362, #4365)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -80,155 +85,156 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/get/index.php?id=password::int"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942320]
-  - test_id: 6
-    desc: "Detects PostgreSQL data conversion with ::bool"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/get/index.php?no=2&id=1%27%20and%20unistr(password)::bool--"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942320]
-  - test_id: 7
-    desc: "Detects PostgreSQL bypass attempt with div(23,-2) - issue #2910"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/get/index.php?id=div(23,-2)"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942320]
-  - test_id: 8
-    desc: "Detects PostgreSQL bypass attempt with div (23.23 , 2) - issue #2910"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/get/index.php?id=div+(23.23+,+2)"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942320]
-  - test_id: 9
-    desc: "Detects PostgreSQL bypass attempt lo_import'( - issue #2912"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/get/index.php?id=lo_import(%27/etc%27%20||%20%27/pass%27%20||%20%27wd%27)"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942320]
-  - test_id: 10
-    desc: "Detects PostgreSQL bypass attempt with lo_get(16400) - issue #2924"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/get/index.php?id=lo_get(16400)"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942320]
-  - test_id: 11
-    desc: "Detects PostgreSQL bypass attempt function(foo)::text - issue #2924"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/get/index.php?id=function(foo)::text"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942320]
-  - test_id: 12
-    desc: "Detects PostgreSQL bypass attempt function(foo)::bigint - issue #2924"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/get/index.php?id=function(foo)::bigint"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942320]
-  - test_id: 13
-    desc: "Detects PostgreSQL bypass attempt function(foo)::double precision - issue #2924"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/get/index.php?id=function(foo)::double%20precision"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942320]
-  - test_id: 14
-    desc: 'GHSA: 942320 payload via XML attribute injection (verifies XML://@* coverage)'
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
+            Content-Type: application/csp-report
           method: POST
           port: 80
-          headers:
-            User-Agent: 'OWASP CRS test agent'
-            Host: 'localhost'
-            Content-Type: 'application/xml'
-          uri: '/post'
-          data: '<?xml version="1.0"?><root><a probe="procedure analyse ("></a></root>'
-          version: 'HTTP/1.1'
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
         output:
           log:
-            expect_ids: [942320]
+            expect_ids: [920420]
+  - test_id: 6
+    desc: "Positive test: a lookalike content type that doesn't actually end in +json is NOT allowed"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/vnd.api+jsonx
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 7
+    desc: "Positive test: JSON body processor is actually forced, a SQLi payload nested in the JSON body is detected (ref.: coreruleset/coreruleset#4775)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/vnd.api+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"var":"1234 OR 1=1"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 8
+    desc: "Positive test: a mixed-case content type (Application/Vnd.API+JSON) is still allowed, t:lowercase applies before capture (ref.: coreruleset/coreruleset#4775)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: Application/Vnd.API+JSON
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 9
+    desc: "Positive test: application/foo_bar+json is allowed, underscore is a legal RFC 6838 restricted-name-chars character"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/foo_bar+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 10
+    desc: "Positive test: application/foo!bar+json is allowed, \"!\" is a legal RFC 6838 restricted-name-chars character"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/foo!bar+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 11
+    desc: "Positive test: application/a@b+json is NOT allowed, \"@\" is not a legal RFC 6838 restricted-name-chars character"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/a@b+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 12
+    desc: "Positive test: application/vc+ld+json is allowed, \"+\" is a legal RFC 6838 restricted-name-chars character inside the subtype"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/vc+ld+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 13
+    desc: "Positive test: JSON body processor is forced for application/vc+ld+json, a SQLi payload nested in the JSON body is detected"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/vc+ld+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"var":"1234 OR 1=1"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942100]
