@@ -1,10 +1,11 @@
 ---
 meta:
-  author: "Christian S.J. Peron, azurit"
-rule_id: 942330
+  author: "fzipi"
+  description: "AWS JSON content types: allowed by default and JSON-parsed"
+rule_id: 901360
 tests:
   - test_id: 1
-    desc: "classic SQL injection probings 1/3"
+    desc: "Positive test: application/x-amz-json-1.0 is allowed by the default configuration"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -12,16 +13,17 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-amz-json-1.0
           method: POST
           port: 80
-          uri: "/post"
-          data: "var=%22%27&var2=whatever"
+          uri: "/"
+          data: '{"foo":"bar"}'
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [942330]
+            no_expect_ids: [920420]
   - test_id: 2
-    desc: "Test first backslash match ([\"'`\x5c]*?)"
+    desc: "Positive test: application/x-amz-json-1.1 is allowed by the default configuration"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -29,16 +31,17 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-amz-json-1.1
           method: POST
           port: 80
-          uri: "/post"
-          data: "var=\\\"1 or 1-"
+          uri: "/"
+          data: '{"foo":"bar"}'
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [942330]
+            no_expect_ids: [920420]
   - test_id: 3
-    desc: 'Test second backslash match (\x5cx(?:23|27|3d))'
+    desc: "Positive test: a lookalike content type (application/x-amz-json-1.12) is NOT allowed"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -46,16 +49,17 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-amz-json-1.12
           method: POST
           port: 80
-          uri: "/post"
-          data: "var=\\x23"
+          uri: "/"
+          data: '{"foo":"bar"}'
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [942330]
+            expect_ids: [920420]
   - test_id: 4
-    desc: "Test false positive issue nr. 3205"
+    desc: "Positive test: JSON body processor is actually forced, a SQLi payload nested in the JSON body is detected (ref.: coreruleset/coreruleset#4775)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -63,18 +67,17 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-amz-json-1.1
           method: POST
           port: 80
-          uri: "/post"
-          data: |
-            "var=05111222333
-            andy.surname@somedomain.com"
+          uri: "/"
+          data: '{"var":"1234 OR 1=1"}'
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [942330]
+            expect_ids: [942100]
   - test_id: 5
-    desc: "Test false positive issue nr. 3205"
+    desc: "Positive test: application/x-amz-json-1.1 with a trailing parameter (charset) is still allowed, consistent with rule 901370"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -82,28 +85,12 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-amz-json-1.1; charset=utf-8
           method: POST
           port: 80
-          uri: "/post"
-          data: "var=05111222333 andy.surname@somedomain.com"
+          uri: "/"
+          data: '{"foo":"bar"}'
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [942330]
-  - test_id: 6
-    desc: 'GHSA: 942330 payload via XML attribute injection (verifies XML://@* coverage)'
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          method: POST
-          port: 80
-          headers:
-            User-Agent: 'OWASP CRS test agent'
-            Host: 'localhost'
-            Content-Type: 'application/xml'
-          uri: '/post'
-          data: '<?xml version="1.0"?><root><a probe="&quot;''"></a></root>'
-          version: 'HTTP/1.1'
-        output:
-          log:
-            expect_ids: [942330]
+            no_expect_ids: [920420]
