@@ -1,0 +1,56 @@
+{
+  "plugins": [
+    {
+      "name": "wordpress-rule-exclusions",
+      "repo": "coreruleset/wordpress-rule-exclusions-plugin",
+      "version": "v1.2.0"
+    },
+    {
+      "name": "nextcloud-rule-exclusions",
+      "repo": "coreruleset/nextcloud-rule-exclusions-plugin",
+      "version": "v1.7.1"
+    },
+    {
+      "name": "dokuwiki-rule-exclusions",
+      "repo": "coreruleset/dokuwiki-rule-exclusions-plugin",
+      "version": "v1.0.0"
+    },
+    {
+      "name": "phpbb-rule-exclusions",
+      "repo": "coreruleset/phpbb-rule-exclusions-plugin",
+      "version": "v1.0.0"
+    },
+    {
+      "name": "phpmyadmin-rule-exclusions",
+      "repo": "coreruleset/phpmyadmin-rule-exclusions-plugin",
+      "version": "v1.1.0"
+    },
+    {
+      "name": "fake-bot",
+      "repo": "coreruleset/fake-bot-plugin",
+      "version": "v1.1.0",
+      "excluded": "Relies on `@inspectFile fake-bot.lua`, which Coraza executes from the OS filesystem (not the embedded FS) and cannot run as Lua, so the detection silently never matches."
+    },
+    {
+      "name": "google-oauth2",
+      "repo": "coreruleset/google-oauth2-plugin",
+      "version": "v1.0.0",
+      "excluded": "Upstream v1.0.0 is unparsable: rule 9505120 in google-oauth2-before.conf is missing the closing quote after `chain`, so coraza.NewWAF fails on Include. Re-enable once upstream ships a fix."
+    },
+    {
+      "name": "drupal-rule-exclusions",
+      "repo": "coreruleset/drupal-rule-exclusions-plugin",
+      "version": "v1.0.0"
+    },
+    {
+      "name": "cpanel-rule-exclusions",
+      "repo": "coreruleset/cpanel-rule-exclusions-plugin",
+      "version": "v1.0.0"
+    },
+    {
+      "name": "xenforo-rule-exclusions",
+      "repo": "coreruleset/xenforo-rule-exclusions-plugin",
+      "version": "v1.0.0"
+    }
+  ]
+}

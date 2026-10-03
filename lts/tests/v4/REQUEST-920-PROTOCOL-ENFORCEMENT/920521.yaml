@@ -1,0 +1,125 @@
+---
+meta:
+  author: "Franziska Bühler, azurit"
+  description: "Testing for allowed and forbidden Accept-Encoding"
+rule_id: 920521
+tests:
+  - test_id: 1
+    desc: "Allowed Accept-Encoding: gzip, deflate, br"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Host: "localhost"
+            Accept-Encoding: "gzip, deflate, br"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920521]
+  - test_id: 2
+    desc: "Allowed Accept-Encoding: gzip,deflate,identity"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Host: "localhost"
+            Accept-Encoding: "gzip,deflate,identity"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920521]
+  - test_id: 3
+    desc: "Allowed Accept-Encoding: compress;q=0.5, gzip;q=1.0"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Host: "localhost"
+            Accept-Encoding: "compress;q=0.5, gzip;q=1.0"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920521]
+  - test_id: 4
+    desc: "Allowed Accept-Encoding: gzip;q=1.0, identity; q=0.5, *;q=0"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Host: "localhost"
+            Accept-Encoding: "gzip;q=1.0, identity; q=0.5, *;q=0"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920521]
+  - test_id: 5
+    desc: "Allowed Accept-Encoding: gzip;q=1.0, identity; q=0.5, *;q=0"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Host: "localhost"
+            Accept-Encoding: "gzip;q=1.0, identity; q=0.5, *;q=0"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920521]
+  - test_id: 6
+    desc: "Allowed empty Accept-Encoding"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Host: "localhost"
+            Accept-Encoding: ""
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920521]
+  - test_id: 7
+    desc: "Not allowed Accept-Encoding: foobar"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Host: "localhost"
+            Accept-Encoding: "foobar"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920521]

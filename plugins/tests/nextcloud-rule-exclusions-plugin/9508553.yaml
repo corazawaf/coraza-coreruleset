@@ -1,0 +1,256 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Office: Saving changes to settings (XML data)"
+rule_id: 9508553
+tests:
+  - test_id: 1
+    desc: Saving changes to settings for users
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/html;charset=utf-8
+          port: 80
+          method: POST
+          uri: /apps/richdocuments/wopi/settings/upload?fileId=%2Fsettings%2Fuserconfig%2Fxcu%2FdocumentView.xcu&access_token=randomtoken
+          data: |-
+            <?xml version="1.0" encoding="UTF-8"?>
+              <oor:items
+                  xmlns:oor="http://openoffice.org/2001/registry"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <item oor:path="/org.openoffice.Office.Calc/Grid/Option">
+                  <prop oor:name="SnapToGrid" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="SizeToGrid" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="VisibleGrid" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Synchronize" oor:op="fuse"><value>true</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Calc/Print/Page">
+                  <prop oor:name="EmptyPages" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="ForceBreaks" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Calc/Print/Other">
+                  <prop oor:name="AllSheets" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Draw/Grid/Option">
+                  <prop oor:name="SnapToGrid" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="VisibleGrid" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Synchronize" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Draw/Grid/SnapGrid">
+                  <prop oor:name="Size" oor:op="fuse"><value>true</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Draw/Print/Content">
+                  <prop oor:name="Drawing" oor:op="fuse"><value>true</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Draw/Print/Page">
+                  <prop oor:name="PageSize" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="PageTile" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Booklet" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="BookletFront" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="BookletBack" oor:op="fuse"><value>true</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Draw/Print/Other">
+                  <prop oor:name="PageName" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Date" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Time" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="HiddenPage" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="FromPrinterSetup" oor:op="fuse"><value>false</value></prop>
+                </item>
+                  <item oor:path="/org.openoffice.Office.Impress/Grid/Option">
+                  <prop oor:name="SnapToGrid" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="VisibleGrid" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Synchronize" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Impress/Grid/SnapGrid">
+                  <prop oor:name="Size" oor:op="fuse"><value>true</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Impress/Print/Content">
+                  <prop oor:name="Presentation" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="Note" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Handout" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Outline" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Impress/Print/Page">
+                  <prop oor:name="PageSize" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="PageTile" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Booklet" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="BookletFront" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="BookletBack" oor:op="fuse"><value>true</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Impress/Print/Other">
+                  <prop oor:name="PageName" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Date" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Time" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="HiddenPage" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="FromPrinterSetup" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="HandoutHorizontal" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Writer/Grid/Option">
+                  <prop oor:name="SnapToGrid" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="VisibleGrid" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Synchronize" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Writer/Print">
+                  <prop oor:name="EmptyPages" oor:op="fuse"><value>true</value></prop>
+                </item>
+                  <item oor:path="/org.openoffice.Office.Writer/Print/Content">
+                  <prop oor:name="Graphic" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="Table" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="Drawing" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="Control" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="Background" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="PrintBlack" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="PrintHiddenText" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="PrintPlaceholders" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Writer/Print/Page">
+                  <prop oor:name="LeftPage" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="RightPage" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="Reversed" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Brochure" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="BrochureRightToLeft" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Writer/Print/Output">
+                  <prop oor:name="SinglePrintJob" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Writer/Print/Papertray">
+                  <prop oor:name="FromPrinterSetup" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Writer/Content/Display">
+                  <prop oor:name="GraphicObject" oor:op="fuse"><value>true</value></prop>
+                </item>
+              </oor:items>
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 2
+    desc: Saving changes to settings for admin settings
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/html;charset=utf-8
+          port: 80
+          method: POST
+          uri: /apps/richdocuments/wopi/settings/upload?fileId=%2Fsettings%2Fsystemconfig%2Fxcu%2FdocumentView.xcu&access_token=randomtoken
+          data: |-
+            <?xml version="1.0" encoding="UTF-8"?>
+              <oor:items
+                  xmlns:oor="http://openoffice.org/2001/registry"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <item oor:path="/org.openoffice.Office.Calc/Grid/Option">
+                  <prop oor:name="SnapToGrid" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="SizeToGrid" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="VisibleGrid" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Synchronize" oor:op="fuse"><value>true</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Calc/Print/Page">
+                  <prop oor:name="EmptyPages" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="ForceBreaks" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Calc/Print/Other">
+                  <prop oor:name="AllSheets" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Draw/Grid/Option">
+                  <prop oor:name="SnapToGrid" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="VisibleGrid" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Synchronize" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Draw/Grid/SnapGrid">
+                  <prop oor:name="Size" oor:op="fuse"><value>true</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Draw/Print/Content">
+                  <prop oor:name="Drawing" oor:op="fuse"><value>true</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Draw/Print/Page">
+                  <prop oor:name="PageSize" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="PageTile" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Booklet" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="BookletFront" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="BookletBack" oor:op="fuse"><value>true</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Draw/Print/Other">
+                  <prop oor:name="PageName" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Date" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Time" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="HiddenPage" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="FromPrinterSetup" oor:op="fuse"><value>false</value></prop>
+                </item>
+                  <item oor:path="/org.openoffice.Office.Impress/Grid/Option">
+                  <prop oor:name="SnapToGrid" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="VisibleGrid" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Synchronize" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Impress/Grid/SnapGrid">
+                  <prop oor:name="Size" oor:op="fuse"><value>true</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Impress/Print/Content">
+                  <prop oor:name="Presentation" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="Note" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Handout" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Outline" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Impress/Print/Page">
+                  <prop oor:name="PageSize" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="PageTile" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Booklet" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="BookletFront" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="BookletBack" oor:op="fuse"><value>true</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Impress/Print/Other">
+                  <prop oor:name="PageName" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Date" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Time" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="HiddenPage" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="FromPrinterSetup" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="HandoutHorizontal" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Writer/Grid/Option">
+                  <prop oor:name="SnapToGrid" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="VisibleGrid" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Synchronize" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Writer/Print">
+                  <prop oor:name="EmptyPages" oor:op="fuse"><value>true</value></prop>
+                </item>
+                  <item oor:path="/org.openoffice.Office.Writer/Print/Content">
+                  <prop oor:name="Graphic" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="Table" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="Drawing" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="Control" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="Background" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="PrintBlack" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="PrintHiddenText" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="PrintPlaceholders" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Writer/Print/Page">
+                  <prop oor:name="LeftPage" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="RightPage" oor:op="fuse"><value>true</value></prop>
+                  <prop oor:name="Reversed" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="Brochure" oor:op="fuse"><value>false</value></prop>
+                  <prop oor:name="BrochureRightToLeft" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Writer/Print/Output">
+                  <prop oor:name="SinglePrintJob" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Writer/Print/Papertray">
+                  <prop oor:name="FromPrinterSetup" oor:op="fuse"><value>false</value></prop>
+                </item>
+                <item oor:path="/org.openoffice.Office.Writer/Content/Display">
+                  <prop oor:name="GraphicObject" oor:op="fuse"><value>true</value></prop>
+                </item>
+              </oor:items>
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]

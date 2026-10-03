@@ -1,0 +1,48 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Mail"
+rule_id: 9508989
+tests:
+  - test_id: 1
+    desc: Setting a email signature
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: PUT
+          uri: /apps/mail/api/accounts/1/signature
+          data: |-
+            {"signature":"<p style=\"margin:0;\">&lt;script&gt;</p>"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 941100
+  - test_id: 2
+    desc: Setting a email signature for an alias
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: PUT
+          uri: /apps/mail/api/accounts/2/aliases/2/signature
+          data: |-
+           {"signature":"<p style=\"margin:0;\">t</p>"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 941100

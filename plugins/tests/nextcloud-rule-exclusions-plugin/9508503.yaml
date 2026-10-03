@@ -1,0 +1,26 @@
+---
+meta:
+  author: "Matthieu Schapranow"
+  description: "Nextcloud Rule Exclusions Plugin: Setup iOS app polling authentication"
+rule_id: 9508503
+tests:
+  - test_id: 1
+    desc: |
+      iOS app authentication flow using polling during initial setup
+      This POST request is sent w/o content-length and a random polling token
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          autocomplete_headers: false
+          headers:
+            Host: localhost
+            User-Agent: Mozilla/5.0 (iOS) Nextcloud-iOS/33.0.7
+            Accept: "*/*"
+            Content-Length: 0
+          port: 80
+          method: POST
+          uri: /index.php/login/v2/poll?token=mL9ackQ9Kv4n03OoUsT048ctWE0Fn6LGm7POWx2Fh8wn1TfnjZPS6MqqpKYoLW3aSxv6nHqM63wItq123mtepcTt0K8rJLIFL67M5GKaabblInw321zbBLh2fQKQm0Ac
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920180]

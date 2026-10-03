@@ -1,0 +1,196 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "wp-admin: Loading styles/scripts"
+rule_id: 9507900
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /get/wp-admin/load-scripts.php?load[chunk_0]=jquery-core,jquery-migrate,utils
+        output:
+          log:
+            no_expect_ids:
+              - 920100
+              - 920273
+              - 921220
+              - 921180
+              - 932236
+              - 942360
+              - 942430
+              - 942431
+              - 942432
+  - test_id: 2
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /get/wp-admin/load-scripts.php?load[chunk_1]=jquery-core,jquery-migrate,utils
+        output:
+          log:
+            no_expect_ids:
+              - 920100
+              - 920273
+              - 921220
+              - 921180
+              - 932236
+              - 942360
+              - 942430
+              - 942431
+              - 942432
+  - test_id: 3
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /get/wp-admin/load-styles.php?load[chunk_0]=jquery-core,jquery-migrate,utils
+        output:
+          log:
+            no_expect_ids:
+              - 920100
+              - 920273
+              - 921220
+              - 921180
+              - 932236
+              - 942360
+              - 942430
+              - 942431
+              - 942432
+  - test_id: 4
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /get/wp-admin/load-styles.php?load[chunk_1]=jquery-core,jquery-migrate,utils
+        output:
+          log:
+            no_expect_ids:
+              - 920100
+              - 920273
+              - 921220
+              - 921180
+              - 932236
+              - 942360
+              - 942430
+              - 942431
+              - 942432
+  - test_id: 5
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /get/wp-admin/load-styles.php?c=1&dir=ltr&load%5Bchunk_0%5D=dashicons,common,forms,admin-menu,dashboard,list-tables,edit,revisions,media,themes,about,nav-menus,wp-pointer,widgets,site-icon&load%5Bchunk_1%5D=,l10n,buttons,customize-controls,customize-widgets,wp-block-library,wp-components,wp-widgets,wp-preferences,wp-block-editor,wp-r&load%5Bchunk_2%5D=eusable-blocks,wp-patterns,wp-editor,wp-reset-editor-styles,wp-block-editor-content,wp-editor-classic-layout-styles,wp-edit-bloc&load%5Bchunk_3%5D=ks,wp-customize-widgets,wp-block-directory,wp-format-library,customize-nav-menus,media-views,code-editor,wp-color-picker&ver=6.7.2
+        output:
+          log:
+            no_expect_ids:
+              - 920100
+              - 920273
+              - 921220
+              - 921180
+              - 932236
+              - 942360
+              - 942430
+              - 942431
+              - 942432
+  - test_id: 6
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /wp-admin/load-scripts.php?c=0&load%5B%5D=hoverIntent,common,admin-bar,wp-ajax-response,jquery-color,wp-lists,quicktags,jquery-query,admin-comments,svg-painter,heartbeat,&load%5B%5D=wp-auth-check,wp-a11y,wplink,jquery-ui-core,jquery-ui-widget,jquery-ui-position,jquery-ui-menu,jquery-ui-autocomplete&ver=4.6.1
+        output:
+          log:
+            no_expect_ids:
+              - 920100
+              - 920273
+              - 921220
+              - 921180
+              - 932236
+              - 942360
+              - 942430
+              - 942431
+              - 942432
+  - test_id: 7
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,admin-bar,buttons,media-views,common,forms,admin-menu,dashboard,list-tables,edit,revisions,media,themes,about,nav-menu&load%5B%5D=s,widgets,site-icon,l10n,wp-auth-check&ver=4.6.1
+          log:
+            no_expect_ids:
+              - 920100
+              - 920273
+              - 921220
+              - 921180
+              - 932236
+              - 942360
+              - 942430
+              - 942431
+              - 942432
+  - test_id: 8
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /wp-admin/load-scripts.php?c=0&load%5B%5D=hoverIntent,common,admin-bar,jquery-ui-widget,jquery-ui-position,wp-pointer,wp-ajax-response,jquery-color,wp-lists,quicktags,jqu&load%5B%5D=ery-query,admin-comments,jquery-ui-core,jquery-ui-mouse,jquery-ui-sortable,postbox,dashboard,underscore,customize-base,customize&load%5B%5D=-loader,thickbox,plugin-install,wp-util,wp-a11y,updates,shortcode,media-upload,svg-painter,jquery-ui-accordion&ver=3f9999390861a0133beda3ee8acf152e
+          log:
+            no_expect_ids:
+              - 920100
+              - 920273
+              - 921220
+              - 921180
+              - 932236
+              - 942360
+              - 942430
+              - 942431
+              - 942432

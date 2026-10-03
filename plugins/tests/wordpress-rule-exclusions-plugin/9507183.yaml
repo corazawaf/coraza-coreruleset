@@ -1,0 +1,51 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+rule_id: 9507183
+tests:
+  - test_id: 1
+    desc:
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-json/batch/v1?_locale=user
+          data: |
+            {"validation":"require-all-validate","requests":[{"path":"/wp/v2/widgets","body":{"id_base":"block","instance":{"raw":{"content":"<!-- wp:paragraph -->\n<p>test</p>\n<!--/wp:paragraph -->"}},"sidebar":"sidebar-1"},"method":"POST"},{"path":"/wp/v2/widgets","body":{"id_base":"block","instance":{"raw":{"content":"<!-- wp:search{\"label\":\"Search\",\"buttonText\":\"Search\"} /-->"}},
+            "sidebar":"sidebar-1"},"method":"POST"},{"path":"/wp/v2/widgets","body":{"id_base":"block","instance":{"raw":{"content":"<!-- wp:table-->\n<figure class=\"wp-block-table\"><table class=\"has-fixed-layout\"><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></figure>\n<!-- /wp:table-->"}},"sidebar":"sidebar-1"},"method":"POST"}]}
+        output:
+          log:
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 932200
+              - 932236
+              - 932240
+              - 932370
+              - 941150
+              - 941180
+              - 941181
+              - 941320
+              - 941330
+              - 942130
+              - 942131
+              - 942200
+              - 942210
+              - 942260
+              - 942330
+              - 942340
+              - 942370
+              - 942430
+              - 942431
+              - 942432
+              - 942440
+              - 942460
+              - 942520

@@ -2,26 +2,48 @@
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"customManagers": [
 		{
-		  "customType": "regex",
-		  "fileMatch": ["version.go"],
-		  "matchStrings": [
-			"crsVersion\\s+=\\s+\"(?<currentValue>v[^\"]+)\""
-		  ],
-		  "datasourceTemplate": "github-releases",
-		  "depNameTemplate": "coreruleset/coreruleset"
+			"customType": "regex",
+			"description": "Pin OWASP CRS upstream version for /crs/v4",
+			"fileMatch": ["^versions\\.go$"],
+			"matchStrings": [
+				"crsVersion\\s+=\\s+\"(?<currentValue>v[^\"]+)\""
+			],
+			"datasourceTemplate": "github-releases",
+			"depNameTemplate": "coreruleset/coreruleset"
 		},
 		{
 			"customType": "regex",
-			"fileMatch": ["version.go"],
+			"description": "Pin OWASP CRS LTS upstream version for /lts/v4 (v4.25.x patches only). Distinct depName keeps LTS bumps on their own branch/PR, separate from crsVersion; packageName still looks up coreruleset/coreruleset releases.",
+			"fileMatch": ["^versions\\.go$"],
 			"matchStrings": [
-			  "corazaVersion\\s+=\\s+\"(?<currentValue>v[^\"]+)\""
+				"ltsVersion\\s+=\\s+\"(?<currentValue>v[^\"]+)\""
+			],
+			"datasourceTemplate": "github-releases",
+			"depNameTemplate": "coreruleset/coreruleset-lts",
+			"packageNameTemplate": "coreruleset/coreruleset",
+			"versioningTemplate": "regex:^v(?<major>4)\\.(?<minor>25)\\.(?<patch>\\d+)$"
+		},
+		{
+			"customType": "regex",
+			"description": "Pin Coraza upstream version for /coraza/v3",
+			"fileMatch": ["^versions\\.go$"],
+			"matchStrings": [
+				"corazaVersion\\s+=\\s+\"(?<currentValue>v[^\"]+)\""
 			],
 			"datasourceTemplate": "github-releases",
 			"depNameTemplate": "corazawaf/coraza"
-		  }
-	  ],
+		},
+		{
+			"customType": "regex",
+			"description": "Pin individual CRS plugin versions for /plugins",
+			"fileMatch": ["^plugins/versions\\.json$"],
+			"matchStrings": [
+				"\"repo\":\\s*\"(?<depName>[^\"]+)\"[^}]*?\"version\":\\s*\"(?<currentValue>v[^\"]+)\""
+			],
+			"datasourceTemplate": "github-releases"
+		}
+	],
 	"postUpdateOptions": [
 		"gomodTidy"
 	]
 }
-

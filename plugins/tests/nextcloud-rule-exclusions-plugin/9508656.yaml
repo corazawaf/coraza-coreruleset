@@ -1,0 +1,28 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin: External Storage"
+rule_id: 9508656
+tests:
+  - test_id: 1
+    desc: Attaching an FTP server as extenal storage
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/files_external/globalstorages
+          data: |-
+            {"backendOptions":{"host":"ftp.example.com","port":"989","root":"/example/","secure":true,"user":"test","password":"<script>"},"mountOptions":{"encrypt":true,"previews":true,"enable_sharing":true,"filesystem_check_changes":2,"encoding_compatibility":false,"readonly":true},"type":"system","mountPoint":"test","backend":"ftp","authMechanism":"password::password"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920273
+              - 941100
+              - 942432

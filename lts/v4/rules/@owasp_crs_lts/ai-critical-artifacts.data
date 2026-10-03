@@ -1,0 +1,29 @@
+# AI coding assistant directories (issue #4474)
+# Block: high-confidence paths only. @pmFromFile substring match:
+# Directory entries (trailing slash) block that path and everything under it,
+# e.g. .claude/ blocks /.claude/* and any path containing .claude/
+.claude/
+.cursor/
+.continue/
+.aider/
+.roo/
+.zed/
+.cline/
+.kiro/
+.windsurf/
+.rovodev/
+.codex/
+.opencode/
+.a0proj/
+.plandex/
+.fabric/
+.n8n/
+.junie/
+.gemini/
+.openclaw/
+.clawdbot/
+.trustclaw/
+.zeroclaw/
+.warp/
+.qwen_code
+.crush

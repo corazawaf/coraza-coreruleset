@@ -1,0 +1,24 @@
+---
+meta:
+  author: "azurit"
+  description: "PhpMyAdmin Rule Exclusions Plugin"
+  rule_id: 9513840
+tests:
+  - test_id: 1
+    desc: FP with JOIN keyword inside item_definition parameter
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: phpMyAdmin=1
+          port: 80
+          method: POST
+          version: HTTP/1.1
+          uri: /post/index.php?route=/database/routines
+          data: item_definition=UPDATE%20odpocty_teplo%0Ajoin%20%28%0ASELECT%0A%20%20%20%20%2A%2C%0A%20%20%20%20spotreba%20-%20LAG%28spotreba%2C%201%29%20OVER%28%0A%20%20%20%20%20%20%20%20PARTITION%20BY%20cislo_rm%0A%20%20%20%20%20%20%20%20%20%20%20%20ORDER%20BY%20datum%20ASC%0A%20%20%20%20%29%20stavNew%0AFROM%0A%20%20%20%20%60odpocty_teplo%60%0AWHERE%0A%20%20%20%20%60cislo_rm%60%20LIKE%20%270101-%25%27%20%29%20t1%20on%20t1.id%20%3D%20odpocty_teplo.id%0A%20%0Aset%20odpocty_teplo.stav%20%3D%20stavNew%0A%20%20%20%20where%20t1.stavNew%20%21%3D%20t1.spotreba%20and%20t1.stavNew%20%3E%200
+        output:
+          log:
+            no_expect_ids: [932235]

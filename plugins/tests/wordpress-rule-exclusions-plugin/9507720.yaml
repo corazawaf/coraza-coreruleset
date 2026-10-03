@@ -1,0 +1,134 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Wordpress Rule Exclusions Plugin"
+rule_id: 9507720
+tests:
+  - test_id: 1
+    desc: Editing nav menus
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: multipart/form-data; boundary=----WebKitFormBoundarydt8oBU5AFeiNO3ip
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /post/wp-admin/nav-menus.php?action=edit&menu=88
+          data: |-
+            ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+            Content-Disposition: form-data; name="nav-menu-data"
+
+              [{"name":"nav-menu-data","value":""},{"name":"closedpostboxesnonce","value":"edcabbebb5"},{"name":"meta-box-order-nonce","value":"b12b971c86"},{"name":"update-nav-menu-nonce",
+              "value":"8e181e54f1"},{"name":"_wp_http_referer","value":"/wp-admin/nav-menus.php?action=edit&menu=88"},{"name":"action","value":"update"},{"name":"menu","value":"88"},
+              {"name":"menu-name","value":"test"},{"name":"menu-item-url[3379]","value":"https://example.com"},{"name":"menu-item-title[3379]","value":"test"},{"name":"menu-item-attr-title[3379]","value":""},
+              {"name":"menu-item-classes[3379]","value":""},{"name":"menu-item-xfn[3379]","value":""},{"name":"menu-item-description[3379]","value":""},{"name":"menu-item-db-id[3379]","value":"3379"},
+              {"name":"menu-item-object-id[3379]","value":"3379"},{"name":"menu-item-object[3379]","value":"custom"},{"name":"menu-item-parent-id[3379]","value":"0"},
+              {"name":"menu-item-position[3379]","value":"1"},{"name":"menu-item-type[3379]","value":"custom"}]
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="closedpostboxesnonce"
+
+              edcabbebb5
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="meta-box-order-nonce"
+
+              b12b971c86
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="update-nav-menu-nonce"
+
+              8e181e54f1
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="_wp_http_referer"
+
+              /wp-admin/nav-menus.php?action=edit&menu=88
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="action"
+
+              update
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu"
+
+              88
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu-name"
+
+              test
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu-item-url[3379]"
+
+              https://example.com
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu-item-title[3379]"
+
+              test
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu-item-attr-title[3379]"
+
+
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu-item-classes[3379]"
+
+
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu-item-xfn[3379]"
+
+
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu-item-description[3379]"
+
+
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu-item-db-id[3379]"
+
+              3379
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu-item-object-id[3379]"
+
+              3379
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu-item-object[3379]"
+
+              custom
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu-item-parent-id[3379]"
+
+              0
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu-item-position[3379]"
+
+              1
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="menu-item-type[3379]"
+
+              custom
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip
+              Content-Disposition: form-data; name="save_menu"
+
+              Save Menu
+              ------WebKitFormBoundarydt8oBU5AFeiNO3ip--
+          output:
+            log:
+              no_expect_ids:
+                - 920273
+                - 921220
+                - 921180
+                - 931130
+                - 932150
+                - 932200
+                - 932240
+                - 941330
+                - 941340
+                - 942200
+                - 942260
+                - 942330
+                - 942340
+                - 942370
+                - 942430
+                - 942431
+                - 942432
+                - 942460
+                - 942490
+                - 942520

@@ -1,0 +1,64 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+rule_id: 9508612
+tests:
+  - test_id: 1
+    desc: Adjusting availability hours
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/plain;charset=UTF-8
+          port: 80
+          method: PROPPATCH
+          uri: /remote.php/dav/calendars/username/inbox
+          data: |-
+            <?xml version="1.0"?>
+                      <x0:propertyupdate xmlns:x0="DAV:">
+                        <x0:set>
+                              <x0:prop>
+                                <x1:calendar-availability xmlns:x1="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+                                PRODID:Nextcloud DAV app
+                                BEGIN:VTIMEZONE
+                                TZID:Australia/Melbourne
+                                BEGIN:STANDARD
+                                TZNAME:AEST
+                                TZOFFSETFROM:+1100
+                                TZOFFSETTO:+1000
+                                DTSTART:19700405T030000
+                                RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU
+                                END:STANDARD
+                                BEGIN:DAYLIGHT
+                                TZNAME:AEDT
+                                TZOFFSETFROM:+1000
+                                TZOFFSETTO:+1100
+                                DTSTART:19701004T020000
+                                RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU
+                                END:DAYLIGHT
+                                END:VTIMEZONE
+                                BEGIN:VAVAILABILITY
+                                BEGIN:AVAILABLE
+                                DTSTART;TZID=Australia/Melbourne:20240307T090000
+                                DTEND;TZID=Australia/Melbourne:20240307T170000
+                                UID:randomuid
+                                RRULE:FREQ=WEEKLY;BYDAY=MO,TH
+                                END:AVAILABLE
+                                END:VAVAILABILITY
+                                END:VCALENDAR</x1:calendar-availability>
+                              </x0:prop>
+                        </x0:set>
+                      </x0:propertyupdate>
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 932236
+              - 942430
+              - 942431
+              - 942432

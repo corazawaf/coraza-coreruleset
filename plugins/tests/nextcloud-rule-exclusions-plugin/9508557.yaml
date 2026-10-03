@@ -1,0 +1,33 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Office: Removing a word from dictionary"
+rule_id: 9508557
+tests:
+  - test_id: 1
+    desc: Ensure rule-exclusion is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: COOLWSD HTTP Agent 25.04.11.3
+            Date: Sun, 28 Jun 2026 05:25:35
+            Authorization: Bearer aaaa123
+            Host: cloud.example.com
+            X-WOPI-TimeStamp: 639182211358086135
+            X-WOPI-Proof: a+a+a/ZrB5Xez/H/G8E/iArbKyO+a/a+a+Ufyg==
+            X-WOPI-ProofOld: a+a+a/a/H/G8E/a+a/a+a+Ufyg==
+            X-COOL-WOPI-ServerId: abcdef1234
+            Content-Type: text/html
+          port: 80
+          method: POST
+          uri: /apps/richdocuments/wopi/settings/upload?fileId=%2Fsettings%2Fuserconfig%2Fwordbook%2Fstandard.dic&access_token=aaaa
+          data: |-
+            OOoUserDict1
+            lang: <none>
+            type: positive
+            ---
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]

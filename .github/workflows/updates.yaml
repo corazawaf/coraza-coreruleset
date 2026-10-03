@@ -3,7 +3,8 @@ name: Updates automation
 on:
   pull_request:
     paths:
-      - "version.go"
+      - "versions.go"
+      - "plugins/versions.json"
 
 permissions: {}
 
@@ -35,13 +36,15 @@ jobs:
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
         with:
           go-version: 1.25.x
-      - name: Download CRS and Coraza config
-        run: go run mage.go downloadDeps
+      - name: Download all bundles
+        run: go run mage.go downloadAll
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # Ref: https://gist.github.com/somidad/3ce6e8a7b7d77ac8fa7fad583003d6f5
-      - name: Run Dependency Update
+      - name: Detect changes
         id: changes
         run: echo "changed=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
-      - name: create a commit with the changes
+      - name: Commit the downloaded changes
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         if: steps.changes.outputs.changed != 0
@@ -49,5 +52,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "chore: update dependencies after Renovate version bump"
+          git commit -m "chore: update bundles after Renovate version bump"
+          gh auth setup-git
           git push

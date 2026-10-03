@@ -1,0 +1,43 @@
+# This test is disabled because it needs changes in the plugin configuration, which is currently not supported by FTW.
+# ---
+# meta:
+#  author: "azurit"
+#  description: "PhpMyAdmin Rule Exclusions Plugin"
+#  rule_id: 9513260
+# tests:
+#  - test_id: 1
+#    desc: FP with typo in SQL query
+#    stages:
+#      - input:
+#          dest_addr: 127.0.0.1
+#          headers:
+#            Host: localhost
+#            User-Agent: "OWASP CRS test agent"
+#            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+#            Cookie: phpMyAdmin=1
+#          port: 80
+#          method: POST
+#          version: HTTP/1.1
+#          uri: /post/lint.php
+#          data: "sql_query=SELECT `k`.`ac FROM"
+#        output:
+#          log:
+#            no_expect_ids: [932125]
+#  - test_id: 2
+#    desc: FP with unicode escape sequence in sql_query parameter
+#    stages:
+#      - input:
+#          dest_addr: 127.0.0.1
+#          headers:
+#            Host: localhost
+#            User-Agent: "OWASP CRS test agent"
+#            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+#            Cookie: phpMyAdmin=1
+#          port: 80
+#          method: POST
+#          version: HTTP/1.1
+#          uri: /post/lint.php
+#          data: sql_query=INSERT%20INTO%20%60datadmin_media%60%20VALUES%28%27%7B%5Cn%20%20%20%20%5C%22name%5C%22%3A%20%5C%22digit%5C%22%2C%5Cn%20%20%20%20%5C%22extension%5C%22%3A%20%5C%22mp4%5C%22%2C%5Cn%20%20%20%20%5C%22size%5C%22%3A%20%5C%221262720%5C%22%2C%5Cn%20%20%20%20%5C%22directory%5C%22%3A%20%5C%22%5C%22%5Cn%7D%27%2C%20%27null%27%2C%20%27%7B%5Cn%20%20%20%20%5C%22path%5C%22%3A%20%5C%22graficke%5C%5Cu0301%20s%5C%5Cu030ctu%5C%5Cu0301dio%2C%20ktore%5C%5Cu0301%20si%20rozumie%20s%20umelou%20inteligenciou.html%5C%22%5Cn%7D%27%2C%20%27null%27%2C%20%27%5C%22%5C%22%27%2C%203%2C%201%29%3B
+#        output:
+#          log:
+#            no_expect_ids: [920540]

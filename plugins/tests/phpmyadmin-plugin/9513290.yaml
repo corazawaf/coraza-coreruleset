@@ -1,0 +1,49 @@
+# This test is disabled because it needs changes in the plugin configuration, which is currently not supported by FTW.
+# ---
+# meta:
+#  author: "azurit"
+#  description: "PhpMyAdmin Rule Exclusions Plugin"
+#  rule_id: 9513290
+# tests:
+#  - test_id: 1
+#    desc: FP related to data import (command sp)
+#    stages:
+#      - input:
+#          dest_addr: 127.0.0.1
+#          headers:
+#            Host: localhost
+#            User-Agent: "OWASP CRS test agent"
+#            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+#            Cookie: phpMyAdmin=1
+#          port: 80
+#          method: POST
+#          version: HTTP/1.1
+#          uri: /post/import.php
+#          data: sql_query=SELECT%0Asp.id_specific_price%20FROM
+#        output:
+#          log:
+#            no_expect_ids: [932125]
+#  - test_id: 2
+#    desc: FP related to data import from compressed file
+#    stages:
+#      - input:
+#          dest_addr: "127.0.0.1"
+#          headers:
+#            Host: "localhost"
+#            User-Agent: "OWASP CRS test agent"
+#            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+#            Content-Type: "multipart/form-data; boundary=--------397236876"
+#          port: 80
+#          method: POST
+#          version: HTTP/1.1
+#          uri: /post/import.php
+#          data: |
+#            ----------397236876
+#            Content-Disposition: form-data; name="import_file"; filename="dump.sql.zip"
+#            Content-Type: text/plain
+#
+#            test content
+#            ----------397236876--
+#        output:
+#          log:
+#            no_expect_ids: [932180]

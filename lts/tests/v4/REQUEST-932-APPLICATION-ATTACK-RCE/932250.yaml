@@ -1,0 +1,254 @@
+---
+meta:
+  author: "Paul Beckett, Franziska Bühler, karelorigin, azurit, Esad Cetiner"
+  description: |
+    Tests to trigger or not trigger rule 932250.
+    - commands used must be less than 4 chars
+    - Invalid command matches (i.e sudoaaaa) aren't allowed to prevent false positives
+rule_id: 932250
+tests:
+  - test_id: 1
+    desc: Negative test for excluded command `tar`
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: '932250-2=tar -xzf /var/www/exfiltrate.tar.gz /etc'
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
+  - test_id: 2
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: '932250-2=dont match commands that are not at start;tar -xzf /var/www/exfiltrate.tar.gz /etc'
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
+  - test_id: 3
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: 'foo=tar is a dark brown or black bituminous usually odorous viscous liquid'
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
+  - test_id: 4
+    desc: "Positive test: c99 command"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: 'x=c99%20-wrapper%20sh,-c,curl%20google.com%20.'
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 5
+    desc: "Positive test: Unix Command Injection - ksh test"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          # code=ksh -c "curl google."COM
+          uri: "/get?code=ksh%20-c%20\"curl%20google.\"COM"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 6
+    desc: Arithmetic expansion '$(())' WAF evasion (mid command)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?x=%24((7))z%20-wrapper%20sh,-c,curl%20google.com%20."
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 7
+    desc: "'ls' direct command injection"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?x=ls%20-l%20/etc/passwd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 8
+    desc: "'ls' direct command injection (no flags)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?x=ls%20/etc/passwd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 9
+    desc: "'ls' direct command injection (no slashes)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?x=ls%20foo%20bar"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 10
+    desc: "'ls' direct command injection FP test"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?x=kills%20foo%20bar"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
+  - test_id: 11
+    desc: "FP for 'sh' without word boundary"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?show_comments_cookies_opt_in=true"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
+  - test_id: 12
+    desc: "FP for 'ls' without word boundary in cookie header value"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: "ocvsgo2tnqtc=ls08e58tnf8b027oo1nr5sv3cc"
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
+  - test_id: 13
+    desc: "FP for '7z' without word boundary in cookie header value"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: "oc_sessionPassphrase=7ZSW6ZeHbe3SpaUje9ThKrPf86%2B6reu1QPtwIXFYhfGTtDUXa99eNn2P2Ve2SqeJAyq%2FXYPi1zuif%2FLRj3da0RUXYlTzizBACJ9HgiNQax72lEFNKajSuHuOeqYvVRgT"
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
+  - test_id: 14
+    desc: "FP for 'rc'"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?param=rc"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
+  - test_id: 15
+    desc: "True Positive: Block aa-disable"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?param=aa-disable%20php-fpm"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]

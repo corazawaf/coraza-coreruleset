@@ -1,0 +1,90 @@
+---
+meta:
+  author: "csanders-git, azurit"
+rule_id: 920271
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/?test=test1%127"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920271]
+  - test_id: 2
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/?test=test1%03"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920271]
+  - test_id: 3
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/?test%00=test1"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920271]
+  - test_id: 4
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/?test=test1"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Cookie: hi%13=bye
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920271]
+  - test_id: 5
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/%20index.html?test=test1"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920271]
+  - test_id: 6
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/%FFindex.html?test=test1"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920271]

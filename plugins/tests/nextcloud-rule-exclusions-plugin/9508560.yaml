@@ -1,0 +1,44 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Office: Creating a document from a template file"
+rule_id: 9508560
+tests:
+  - test_id: 1
+    desc: This rule should be disabled by default (expect detections)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            host: cloud.example.com
+            content-type: multipart/form-data; boundary=6b65063fa6040c0d730ad9ba5ff8e0481b895151
+            user-agent: Nextcloud-Server-Crawler/34.0.2
+            accept-encoding: br, gzip
+          port: 80
+          method: POST
+          uri: /cool/transform-document-structure
+          data: |-
+            Content-Type: multipart/form-data
+            Content-Disposition: form-data; name="data"; filename="Invoice.odt"
+            Content-Length: 21946
+            raw document goes here
+            --6b65063fa6040c0d730ad9ba5ff8e0481b895151
+            Content-Type: application/json
+            Content-Disposition: form-data; name="transform"
+            Content-Length: 18
+
+            {"Transforms": []}
+            --6b65063fa6040c0d730ad9ba5ff8e0481b895151
+            Content-Disposition: form-data; name="format"
+            Content-Length: 4
+
+            docx
+            --6b65063fa6040c0d730ad9ba5ff8e0481b895151--
+          version: HTTP/1.1 # Original Request HTTP/2.0
+        output:
+          log:
+            expect_ids:
+              - 920300
+              - 942431
+              - 942432
+              - 942460

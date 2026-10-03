@@ -1,0 +1,256 @@
+---
+meta:
+  author: "csanders-git, azurit, Esad Cetiner"
+rule_id: 930120
+tests:
+  - test_id: 1
+    desc: Remote File Access Attempt (930120) from old modsec regressions
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate
+            Accept-Language: zh-sg
+            Content-Type: application/x-www-form-urlencoded
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get/index.php?file=News&op=../../../../../boot.ini%00"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930120]
+  - test_id: 2
+    desc: Remote File Access Attempt (930120) from old modsec regressions
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate
+            Accept-Language: zh-sg
+            Content-Type: application/x-www-form-urlencoded
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get/index.php?file=News&op=/etc/passwd%00"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930120]
+  - test_id: 3
+    desc: Remote File Access Attempt (930120) from old modsec regressions
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate
+            Accept-Language: zh-sg
+            Content-Type: application/x-www-form-urlencoded
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get/index.php?file=News&op=../../../../../../../../../../usr/local/apps/apache2/conf/httpd.conf%00"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930120]
+  - test_id: 4
+    desc: "OS File Access"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=arg&path_comp=.ssh/id_rsa"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930120]
+  - test_id: 5
+    desc: "LFI via parameter name: /sys"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?/sys/class=test"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930120]
+  - test_id: 6
+    desc: "LFI via parameter value: /sys"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?test=/sys/class"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930120]
+  - test_id: 7
+    desc: "LFI via parameter value: /etc/subuid"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?code=cat+%2Fetc%2Fsubuid"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930120]
+  - test_id: 8
+    desc: "LFI via parameter value: /etc/subuid-"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?code=cat+%2Fetc%2Fsubuid-"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930120]
+  - test_id: 9
+    desc: |
+      YM9WT5NU
+      Disallow writing files to /tmp/
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?code=>/tmp/curl"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930120]
+  - test_id: 10
+    desc: |
+      YM9WT5NU
+      False positive test
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?code=>/tmp"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930120]
+  - test_id: 11
+    desc: |
+      False positive test.
+      Don't match `.env`
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?code=>/test.environment"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930120]
+  - test_id: 12
+    desc: |
+      False positive test.
+      Don't match .dockery in email address (matching .docker)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?code=firstname.dockery@host.tld"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930120]
+  - test_id: 13
+    desc: |
+      True positive test.
+      Accessing hidden folder .docker
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?code=/path/to/.docker/secrets"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930120]
+  - test_id: 14
+    desc: |
+      True positive test.
+      Accessing compressed database dump
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?code=backup.sql.zip"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930120]

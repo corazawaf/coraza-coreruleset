@@ -1,0 +1,36 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Administration Settings: Uploading example calendar events"
+tests:
+  - test_id: 1
+    desc: Uploading example calendar events
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /apps/dav/api/exampleEvent/event
+          data: >-
+            {"ics":"BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.5.6//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:LPUciYewehiAXx6KQTbfTzpPDgZ0sswx\r\nDTSTAMP:20251025T010228Z\r\nSUMMARY:Example event
+            - open me!\r\nDTSTART:20251101T100000Z\r\nDTEND:20251101T110000Z\r\nDESCRIPTION:Welcome to Nextcloud Calendar!\\n\\nThis is a sample event - expl\r\n ore the flexibility of planning
+            with Nextcloud Calendar by making any edit\r\n s you want!\\n\\nWith Nextcloud Calendar\\, you can:\\n- Create\\, edit\\, and m\r\n anage events effortlessly.\\n- Create
+            multiple calendars and share them wit\r\n h teammates\\, friends\\, or family.\\n- Check availability and display your \r\n busy times to others.\\n- Seamlessly integrate
+            with apps and devices via Ca\r\n lDAV.\\n- Customize your experience: schedule recurring events\\, adjust not\r\n ifications and other settings.\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"}
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+             - 920272
+             - 920273
+             - 932200
+             - 932240
+             - 942430
+             - 942431
+             - 942432
+             - 942460

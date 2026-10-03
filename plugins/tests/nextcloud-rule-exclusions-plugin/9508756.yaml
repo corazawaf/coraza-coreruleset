@@ -1,0 +1,26 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin: Nextcloud Talk"
+rule_id: 9508756
+tests:
+  - test_id: 1
+    desc: Creating a meeting for a room
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          port: 80
+          method: POST
+          uri: /ocs/v2.php/apps/spreed/api/v4/room/room123/meeting
+          data: '{"calendarUri":"personal-1","start":1748174400,"end":1748178000,"title":"test","description":"<script>","attendeeIds":null}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920273
+              - 941110

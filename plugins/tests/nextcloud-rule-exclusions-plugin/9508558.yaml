@@ -1,0 +1,36 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Office: Adding a word to dictionary"
+rule_id: 9508558
+tests:
+  - test_id: 1
+    desc: Ensure rule-exclusion is disabled by default
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: COOLWSD HTTP Agent 25.04.11.3
+            Date: Sun, 28 Jun 2026 05:25:35
+            Authorization: Bearer aaaa123
+            Host: cloud.example.com
+            X-WOPI-TimeStamp: 639182211358086135
+            Content-Length: 52
+            X-WOPI-Proof: a+a+a/ZrB5Xez/H/G8E/iArbKyO+a/a+a+Ufyg==
+            X-WOPI-ProofOld: a+a+a/a/H/G8E/a+a/a+a+Ufyg==
+            X-COOL-WOPI-ServerId: abcdef1234
+            Content-Type: application/octet-stream
+          port: 80
+          method: POST
+          uri: /index.php/apps/richdocuments/wopi/settings/upload?access_token=aaaa123&access_token_ttl=0&fileId=%2Fsettings%2Fuserconfig%2Fwordbook%2Fstandard.dic
+          data: |-
+            BEGINBODY
+            OOoUserDict1
+            lang: <none>
+            type: positive
+            ---
+            sdfsad
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]

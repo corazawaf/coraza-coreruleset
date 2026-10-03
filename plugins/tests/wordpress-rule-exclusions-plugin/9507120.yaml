@@ -1,0 +1,38 @@
+---
+meta:
+  author: "azurit, Andrea Menin"
+  description: "Wordpress Rule Exclusions Plugin"
+rule_id: 9507120
+tests:
+  - test_id: 1
+    desc: Block non-excluded ARGS
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /get/?url=ftp://foo.bar
+        output:
+          log:
+            expect_ids: [931130]
+  - test_id: 2
+    desc: Check FPs on comment
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          version: "HTTP/1.1"
+          uri: /get/wp-comments-post.php?url=ftp://foo.bar
+        output:
+          log:
+            no_expect_ids: [931130]

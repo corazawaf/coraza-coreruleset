@@ -1,0 +1,60 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin: Subscribing to webcalendar"
+rule_id: 9508331
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            accept-encoding: gzip, deflate, br, zstd
+            accept-language: en-US,en;q=0.7
+            accept: application/json, text/plain, */*
+            content-type: application/xml; charset=UTF-8
+            depth: 0
+            host: cloud.example.com
+            origin: https://cloud.example.com
+            priority: u=1, i
+            requesttoken: a+b+c/E=:f+d+ef=
+            sec-ch-ua-mobile: ?0
+            sec-ch-ua-platform: "Windows"
+            sec-ch-ua: '"Brave";v="149", "Chromium";v="149", "Not)A;Brand";v="24"'
+            sec-fetch-dest: empty
+            sec-fetch-mode: cors
+            sec-fetch-site: same-origin
+            sec-gpc: 1
+            user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+            # yamllint disable-line rule:truthy
+            x-nc-caldav-webcal-caching: On
+            x-requested-with: XMLHttpRequest, XMLHttpRequest
+          port: 80
+          method: MKCOL
+          uri: /remote.php/dav/calendars/esadc/calendargooglecom
+          data: |-
+            <x0:mkcol xmlns:x0="DAV:">
+              <x0:set>
+                <x0:prop>
+                <x0:resourcetype>
+                  <x0:collection/>
+                  <x5:subscribed xmlns:x5="http://calendarserver.org/ns/"/>
+                </x0:resourcetype>
+                <x0:displayname>calendar.google.com</x0:displayname>
+                <x6:calendar-color xmlns:x6="http://apple.com/ns/ical/">
+                  #6EA68F
+                </x6:calendar-color>
+                <x4:calendar-enabled xmlns:x4="http://owncloud.org/ns">
+                  1
+                </x4:calendar-enabled><x5:source xmlns:x5="http://calendarserver.org/ns/">
+                  <x0:href>https://calendar.google.com/calendar/ical/c_glsll5etlmcb3it0k433fcl5rc%40group.calendar.google.com/public/basic.ics</x0:href>
+                </x5:source>
+                </x0:prop>
+              </x0:set>
+            </x0:mkcol>
+          version: HTTP/1.1 # Original request was HTTP/2.0
+        output:
+          log:
+            no_expect_ids:
+              - 911100
+              - 941150

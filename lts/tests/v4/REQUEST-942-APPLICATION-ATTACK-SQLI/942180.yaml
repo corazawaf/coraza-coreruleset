@@ -1,0 +1,118 @@
+---
+meta:
+  author: "Christian S.J. Peron, azurit"
+rule_id: 942180
+tests:
+  - test_id: 1
+    desc: "basic SQL authentication bypass"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # something simple like 3' ' 1
+          uri: "/get?var=3%27%20%27%201"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942180]
+  - test_id: 2
+    desc: "basic SQL authentication bypass SQLite "
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=%27%3b"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942180]
+  - test_id: 3
+    desc: "basic SQL authentication bypass SQLite glob"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=%27glob%201%3b"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942180]
+  - test_id: 4
+    desc: "basic SQL authentication bypass SQLserver"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=%27%3bprint%27"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942180]
+  - test_id: 5
+    desc: "basic SQL authentication bypass Mysql 1"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=%27%3b%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942180]
+  - test_id: 6
+    desc: "basic SQL authentication bypass sqlite glob 2"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=%27or%28id%20glob%201%29--"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942180]
+  - test_id: 7
+    desc: "basic SQL authentication bypass sqlite glob 3"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=%27or%28glob%201%29--"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942180]

@@ -1,0 +1,24 @@
+---
+meta:
+  author: "Felipe Zipitria"
+  description: "xenforo Plugin"
+  enabled: true
+  name: 9511100.yaml
+tests:
+  - test_title: 9500100-1
+    desc: Check if you plugin works. Normally plugins are targeted at exclusion rules, but this might not be the case.
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP CRS
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            method: GET
+            uri: /proxy.php
+            data: |
+              referrer=something
+          output:
+            no_log_contains: id "931130"

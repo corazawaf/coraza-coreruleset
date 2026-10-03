@@ -1,0 +1,42 @@
+---
+meta:
+  author: "azurit"
+  description: "Test PhpMyAdmin Plugin"
+  rule_id: 9513800
+tests:
+  - test_id: 1
+    desc: Check FPs when changing table structure
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: phpMyAdmin=1
+          port: 80
+          method: POST
+          version: HTTP/1.1
+          uri: /post/index.php?route=/table/structure/save
+          data: field_expression_orig[2]=concat(`first_name`,' ',`last_name`)
+        output:
+          log:
+            no_expect_ids: [942100]
+  - test_id: 2
+    desc: Check FPs when changing table structure 2
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: phpMyAdmin=1
+          port: 80
+          method: POST
+          version: HTTP/1.1
+          uri: /post/index.php?route=/table/structure/save
+          data: field_expression[2]=concat(`first_name`,' ',`last_name`)
+        output:
+          log:
+            no_expect_ids: [942100]

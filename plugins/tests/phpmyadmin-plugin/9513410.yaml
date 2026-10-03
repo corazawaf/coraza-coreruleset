@@ -1,0 +1,24 @@
+# This test is disabled because it needs changes in the plugin configuration, which is currently not supported by FTW.
+# ---
+# meta:
+#  author: "azurit"
+#  description: "PhpMyAdmin Rule Exclusions Plugin"
+#  rule_id: 9513410
+# tests:
+#  - test_id: 1
+#    desc: FP while setting privileges for mysql database
+#    stages:
+#      - input:
+#          dest_addr: 127.0.0.1
+#          headers:
+#            Host: localhost
+#            User-Agent: "OWASP CRS test agent"
+#            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+#            Cookie: phpMyAdmin=1
+#          port: 80
+#          method: GET
+#          version: HTTP/1.1
+#          uri: /get/server_privileges.php?pred_dbname%5B%5D=mysql&dbname=mysql
+#        output:
+#          log:
+#            no_expect_ids: [932260]

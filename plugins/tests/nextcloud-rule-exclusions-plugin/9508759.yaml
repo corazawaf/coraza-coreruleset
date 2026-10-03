@@ -1,0 +1,32 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Talk: Sending room settings change to signalling server"
+rule_id: 9508759
+tests:
+  - test_id: 1
+    desc: This rule should be disabled by default (expect detections)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            host: cloud.example.com
+            content-type: application/json
+            spreed-signaling-random: eREc0vYNeLHQXJnxkAx2Cb+xtrWmtd2rj8mpKnvRxWcT0GaIViDhFwJ4zHUxJgTg
+            spreed-signaling-checksum: b384193b7ff00ccacef57eeb0c5682bcf4a34bdf7cc0a60f0c9d7e466b329d9f
+            spreed-signaling-backend: https://cloud.example.com/
+            user-agent: Nextcloud-Server-Crawler/34.0.2
+            accept-encoding: br, gzip
+          port: 80
+          method: POST
+          uri: /standalone-signaling/api/v1/room/7ut9dvgc
+          # yamllint disable-line rule:line-length
+          data: '{"type":"participants","participants":{"changed":[{"inCall":0,"lastPing":1785991906,"sessionId":"xKON7\/rDFHoPe\/Kwl0ZbXTz7OWsigH8jtyTZXbRiFB+w1vj6kJ9bRPLFy5xIh4V\/Dl6Cmo8xk1E3EZON3Lr4cyfGlERVzqzS3+KXKhQSMVcQWhblOYItUhxKf7vShE57fsOrfWryri9U6DnqqQ3JIuXEw1XPTis\/e1dWkFKVX\/ASlILWkNLjF2zP0pclK9K\/+1ufxiG\/eXhLJaR2NK7lJVJE2DBNUQYFpReN1OPWUnCryVhv2joipQM0mSKfGjc$jYKjFDox6Ok46xFeVJTxNnoVAArHB51pNWcP1Bzl2WGVGkS4nuOhFTFSWPSuuOEG","participantType":1,"participantPermissions":510,"displayName":"Esad Cetiner","actorType":"users","actorId":"esadc","userId":"esadc","permissions":["publish-audio","publish-video","publish-screen","control"]}],"users":[{"inCall":0,"lastPing":1785991906,"sessionId":"xKON7\/rDFHoPe\/Kwl0ZbXTz7OWsigH8jtyTZXbRiFB+w1vj6kJ9bRPLFy5xIh4V\/Dl6Cmo8xk1E3EZON3Lr4cyfGlERVzqzS3+KXKhQSMVcQWhblOYItUhxKf7vShE57fsOrfWryri9U6DnqqQ3JIuXEw1XPTis\/e1dWkFKVX\/ASlILWkNLjF2zP0pclK9K\/+1ufxiG\/eXhLJaR2NK7lJVJE2DBNUQYFpReN1OPWUnCryVhv2joipQM0mSKfGjc$jYKjFDox6Ok46xFeVJTxNnoVAArHB51pNWcP1Bzl2WGVGkS4nuOhFTFSWPSuuOEG","participantType":1,"participantPermissions":510,"displayName":"Esad Cetiner","actorType":"users","actorId":"esadc","userId":"esadc"}]}}'
+          version: HTTP/1.1 # Original Request HTTP/2.0
+        output:
+          log:
+            expect_ids:
+              - 920273
+              - 920300
+              - 932200
+              - 932240
