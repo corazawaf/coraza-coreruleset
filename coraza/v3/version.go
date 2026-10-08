@@ -3,4 +3,4 @@
 package coraza
 
 // Version is the Coraza upstream tag this module bundles.
-const Version = "v3.5.0"
+const Version = "v3.6.0"
