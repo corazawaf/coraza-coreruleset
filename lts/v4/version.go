@@ -3,4 +3,4 @@
 package lts
 
 // Version is the OWASP CRS LTS upstream tag this module bundles.
-const Version = "v4.25.0"
+const Version = "v4.25.1"
