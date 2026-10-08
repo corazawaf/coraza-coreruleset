@@ -6,6 +6,7 @@
 # cases where certain scanners / bots are welcome in certain
 # situations. We consider this a baseline of unwanted scanners.
 arachni
+Mozilla/6.0
 betabot
 bewica-security-scan
 BFAC
@@ -14,6 +15,7 @@ Detectify
 dirbuster
 fimap
 fuzz faster
+whatwaf
 gobuster
 havij
 hexometer
@@ -48,7 +50,7 @@ feroxbuster
 l9explore
 l9tcpid
 wapiti
-vega
+vega/
 appspider
 ironwasp
 skipfish
@@ -62,4 +64,23 @@ xsser
 joomscan
 droopescan
 zgrab
+Ghauri
 zmeu
+WPProbe
+SSTIMap
+Mozilla/4.0 (Hydra)
+tplmap
+DotDotPwn
+shortscan
+Kadimus
+LFISuite
+Mozilla/5.0 (compatible; Panoptic
+LFImap
+graphw00f
+graphql-cop
+jSQL
+noseyparker
+TruffleHog
+YesWeHack-Hunter
+TInjA
+Mozilla/5.0 (compatible; AppScan;
