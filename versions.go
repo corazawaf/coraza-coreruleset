@@ -20,5 +20,5 @@ const (
 	ltsVersion = "v4.25.2"
 	// corazaVersion is the Coraza upstream tag whose `coraza.conf-recommended`
 	// is bundled by /coraza/v3.
-	corazaVersion = "v3.6.0"
+	corazaVersion = "v3.7.0"
 )
