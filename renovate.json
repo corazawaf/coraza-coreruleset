@@ -43,6 +43,14 @@
 			"datasourceTemplate": "github-releases"
 		}
 	],
+	"packageRules": [
+		{
+			"description": "The examples resolve this repo's own modules through local replace directives, so the required versions are never used.",
+			"matchFileNames": ["example/**"],
+			"matchPackageNames": ["github.com/corazawaf/coraza-coreruleset/**"],
+			"enabled": false
+		}
+	],
 	"postUpdateOptions": [
 		"gomodTidy"
 	]
