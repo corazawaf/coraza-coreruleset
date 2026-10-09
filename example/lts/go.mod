@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/corazawaf/coraza-coreruleset/coraza/v3 v3.8.1
-	github.com/corazawaf/coraza-coreruleset/lts/v4 v4.25.1
+	github.com/corazawaf/coraza-coreruleset/lts/v4 v4.25.2
 	github.com/corazawaf/coraza/v3 v3.8.1
 	github.com/jcchavezs/mergefs v0.1.1
 )
