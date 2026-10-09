@@ -1,8 +1,7 @@
 name: Release module
 
-# Shown in the runs list instead of the workflow name, so each run says which
-# module it released. The version is not known at dispatch time (it is read
-# from <module>/version.go); the run's summary reports the tags pushed.
+# The version is read from version.go inside the job, so it cannot be part of
+# the run name; the run summary reports it.
 run-name: Release ${{ inputs.module }}${{ inputs.ref && format(' @ {0}', inputs.ref) || '' }}
 
 on:
@@ -51,34 +50,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           gh auth setup-git
-          set -o pipefail
-          go run mage.go tag "$MODULE" 2>&1 | tee "$RUNNER_TEMP/tag.log"
-
-      - name: Summarize release
-        if: always()
-        env:
-          MODULE: ${{ inputs.module }}
-          JOB_STATUS: ${{ job.status }}
-        run: |
-          sha=$(git rev-parse --short HEAD 2>/dev/null || echo unknown)
-          log="$RUNNER_TEMP/tag.log"
-          if [ "$JOB_STATUS" = "success" ]; then
-            tags=$(sed -n 's/^>>> tagging //p' "$log")
-            echo "::notice title=Released $MODULE::$(echo "$tags" | paste -sd ' ' -) at $sha"
-            {
-              echo "### Released \`$MODULE\` at \`$sha\`"
-              echo
-              for tag in $tags; do
-                echo "- [\`$tag\`]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$tag)"
-              done
-            } >> "$GITHUB_STEP_SUMMARY"
-          else
-            reason=$(grep -m1 '^Error: ' "$log" 2>/dev/null | sed 's/^Error: //')
-            reason=${reason:-see the job log}
-            echo "::error title=Release of $MODULE failed::$reason (commit $sha)"
-            {
-              echo "### Release of \`$MODULE\` at \`$sha\` failed"
-              echo
-              echo "$reason"
-            } >> "$GITHUB_STEP_SUMMARY"
-          fi
+          go run mage.go tag "$MODULE"
+          echo "Released \`$MODULE\` $(sed -n 's/^const Version = "\(.*\)"/\1/p' "$MODULE/version.go")" >> "$GITHUB_STEP_SUMMARY"
