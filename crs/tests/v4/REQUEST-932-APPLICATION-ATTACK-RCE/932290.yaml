@@ -1,10 +1,10 @@
 ---
 meta:
   author: "Xhoenix"
-rule_id: 932280
+rule_id: 932290
 tests:
   - test_id: 1
-    desc: "Bash Brace expansion - {l,-lh}s"
+    desc: "Bash Quote evasion - 'i'fconfig"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -14,13 +14,13 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/get?932280-1=%7b%6c%2c%2d%6c%68%7d%73"
+          uri: "/get?932290-1=%27i%27fconfig"
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [932280]
+            expect_ids: [932290]
   - test_id: 2
-    desc: "Bash Brace expansion - c{a,oun}t"
+    desc: "Bash Quote Evasion - 'wh'oami"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -30,13 +30,13 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/get?932280-2=%63%7b%61%2c%6f%75%6e%7d%74"
+          uri: "/get?932290-2=%27wh%27oami"
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [932280]
+            expect_ids: [932290]
   - test_id: 3
-    desc: "Bash Brace expansion - {,ip,a}"
+    desc: "Bash Quote Evasion - 'i'p a"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -46,13 +46,13 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/get?932280-3=%7b%2c%69%70%2c%61%7d"
+          uri: "/get?932290-3=%27i%27p%20a"
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [932280]
+            expect_ids: [932290]
   - test_id: 4
-    desc: "Bash Brace expansion - {,ifconfig}"
+    desc: "Bash Quote Evasion(single quotes) - 'c'url localhost"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -62,13 +62,13 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/get?932280-4=%7b%2c%69%66%63%6f%6e%66%69%67%7d"
+          uri: "/get?932290-4=%27c%27url%20localhost"
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [932280]
+            expect_ids: [932290]
   - test_id: 5
-    desc: "Bash Brace expansion - {,ifconfig,eth0}"
+    desc: 'Bash Quote Evasion(double quotes) - "w"get localhost'
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -78,13 +78,13 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/get?932280-5=%7b%2c%69%66%63%6f%6e%66%69%67%2c%65%74%68%30%7d"
+          uri: "/get?932290-5=%22w%22get%20localhost"
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [932280]
+            expect_ids: [932290]
   - test_id: 6
-    desc: "Bash Brace expansion - {id,}"
+    desc: "Known False Positive - ''that's the joke''.jpeg"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -94,25 +94,56 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/get?932280-6=%7Bid%2C%7D"
+          uri: "/get?test=%27%27that%27s%20the%20joke%27%27.jpeg"
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [932280]
+            expect_ids: [932290]
   - test_id: 7
-    desc: 'GHSA: 932280 payload via XML attribute injection (verifies XML://@* coverage)'
+    desc: "Known False Positive - O'keefe's"
     stages:
       - input:
-          dest_addr: 127.0.0.1
-          method: POST
+          dest_addr: "127.0.0.1"
+          method: "GET"
           port: 80
           headers:
-            User-Agent: 'OWASP CRS test agent'
-            Host: 'localhost'
-            Content-Type: 'application/xml'
-          uri: '/post'
-          data: '<?xml version="1.0"?><root><a probe="&#x7B;l,-lh&#x7D;s"></a></root>'
-          version: 'HTTP/1.1'
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?test=O%27keefe%27s"
+          version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [932280]
+            expect_ids: [932290]
+  - test_id: 8
+    desc: "Known False Positive - Size: 8\"x11\""
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?test=Size%3A%208%22x11%22"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932290]
+  - test_id: 9
+    desc: "Known False Positive - That's two \"O\"s in goose"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?test=That%27s%20two%20%22O%22s%20in%20goose"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932290]

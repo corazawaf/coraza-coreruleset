@@ -545,6 +545,8 @@ build.zig.zon
 .keras/
 .mypy_cache/
 .redhat/
+node_modules/.bin/
+node_modules/.cache/
 .bun/
 .bunfig.toml
 .irbrc/
