@@ -86,6 +86,7 @@ Each releasable module (`crs/v4`, `lts/v4`, `coraza/v3`, `plugins`) is tagged vi
 - **ref** *(optional)*: the commit SHA to tag; it must be on `main`. Leave empty to tag the tip of `main`. Useful to tag an earlier commit once `main` has moved on, e.g. when releasing several intermediate upstream versions merged one after another.
 - There is no version input, the version is extracted from `<module>/version.go`. Always merge the Renovate / version-bump PR first to bring `version.go` in sync, then dispatch this. The workflow pushes the annotated tag (e.g. `crs/v4.26.0`, as per [Go's tagging convention](https://go.dev/ref/mod#vcs-version)).
 - Releasing `crs/v4`, `lts/v4` or `plugins` also tags the matching tests module (`crs/tests/v4`, `lts/tests/v4`, `plugins/tests`) with the same version at the same commit, in a single atomic push. Tests modules are never released on their own.
+- Each run is listed as `Release <module>` (plus `@ <ref>` when one was given), and a successful release run's summary reports the released version.
 
 The same target also works locally: `go run mage.go tag crs/v4` from a developer machine validates and pushes the tag using the developer's own git identity. It uses the `origin` remote by default; from a fork clone, set `TAG_REMOTE` to the remote pointing at `corazawaf/coraza-coreruleset` (e.g. `TAG_REMOTE=upstream go run mage.go tag crs/v4`).
 
