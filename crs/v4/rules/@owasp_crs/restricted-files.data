@@ -16,6 +16,7 @@
 .cache/
 .cache/notify-osd.log
 .cargo/
+.claude
 .config.local.php
 .config/
 .coverage
@@ -624,3 +625,16 @@ login.sql
 .wp-cli/
 .bluemix/
 .ibmcloud/
+.pypirc
+.oscrc
+.osc_cookiejar
+bitbucket-pipelines.yml
+.pnpmrc
+.pnpm-store/
+dbconn.php
+.erlang.cookie
+kustomization.yml
+Chart.yaml
+vercel.json
+netlify.toml
+remix.config.js
