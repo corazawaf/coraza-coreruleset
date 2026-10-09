@@ -76,7 +76,7 @@ JSON::GeneratorError
 Oj::ParseError
 Oj::GeneratorError
 SocketError
-EOFError
+EOFError:
 OpenSSL::SSL::SSLError
 Timeout::Error
 Net::ReadTimeout
