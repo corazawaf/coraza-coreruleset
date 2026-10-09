@@ -14,7 +14,7 @@ package main
 // with what's embedded.
 const (
 	// crsVersion is the OWASP CRS upstream tag bundled by /crs/v4.
-	crsVersion = "v4.29.0"
+	crsVersion = "v4.30.0"
 	// ltsVersion is the OWASP CRS LTS upstream tag bundled by /lts/v4.
 	// LTS cadence: quarterly v4.25.x patches through Q3 2027.
 	ltsVersion = "v4.25.2"
