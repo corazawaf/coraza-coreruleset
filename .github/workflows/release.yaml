@@ -1,5 +1,9 @@
 name: Release module
 
+# The version is read from version.go inside the job, so it cannot be part of
+# the run name; the run summary reports it.
+run-name: Release ${{ inputs.module }}${{ inputs.ref && format(' @ {0}', inputs.ref) || '' }}
+
 on:
   workflow_dispatch:
     inputs:
@@ -47,3 +51,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           gh auth setup-git
           go run mage.go tag "$MODULE"
+          echo "Released \`$MODULE\` $(sed -n 's/^const Version = "\(.*\)"/\1/p' "$MODULE/version.go")" >> "$GITHUB_STEP_SUMMARY"
