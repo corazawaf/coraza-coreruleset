@@ -17,7 +17,7 @@ const (
 	crsVersion = "v4.25.0"
 	// ltsVersion is the OWASP CRS LTS upstream tag bundled by /lts/v4.
 	// LTS cadence: quarterly v4.25.x patches through Q3 2027.
-	ltsVersion = "v4.25.1"
+	ltsVersion = "v4.25.2"
 	// corazaVersion is the Coraza upstream tag whose `coraza.conf-recommended`
 	// is bundled by /coraza/v3.
 	corazaVersion = "v3.7.0"
