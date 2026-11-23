@@ -8,7 +8,7 @@
     {
       "name": "nextcloud-rule-exclusions",
       "repo": "coreruleset/nextcloud-rule-exclusions-plugin",
-      "version": "v1.7.1"
+      "version": "v1.8.0"
     },
     {
       "name": "dokuwiki-rule-exclusions",
