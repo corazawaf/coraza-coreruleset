@@ -10,7 +10,7 @@ tests:
       - input:
           dest_addr: 127.0.0.1
           headers:
-            host: cloud.example.com
+            host: localhost
             content-type: multipart/form-data; boundary=6b65063fa6040c0d730ad9ba5ff8e0481b895151
             user-agent: Nextcloud-Server-Crawler/34.0.2
             accept-encoding: br, gzip
@@ -34,7 +34,7 @@ tests:
 
             docx
             --6b65063fa6040c0d730ad9ba5ff8e0481b895151--
-          version: HTTP/1.1 # Original Request HTTP/2.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids:

@@ -254,3 +254,219 @@ tests:
         output:
           log:
             no_expect_ids: [920420]
+  - test_id: 3
+    desc: Saving changes to settings for admin settings
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: COOLWSD HTTP Agent 26.04.5.1
+            Date: Thu, 15 Oct 2026 07:57:39
+            Authorization: Bearer randomtoken
+            Host: cloud.ecetiner.com
+            X-WOPI-TimeStamp: 639276478593266315
+            Content-Length: 11791
+            X-WOPI-ProofOld: randomtoken
+            X-WOPI-Proof: randomtoken
+            Content-Type: application/octet-stream
+          port: 80
+          method: POST
+          uri: /apps/richdocuments/wopi/settings/upload?fileId=%2Fsettings%2Fsystemconfig%2Fxcu%2FdocumentView.xcu&access_token=randomtoken
+          data: |-
+            <?xml version="1.0" encoding="UTF-8"?>
+            <oor:items
+                xmlns:oor="http://openoffice.org/2001/registry"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+              <item oor:path="/org.openoffice.Office.Calc/Grid">
+              </item>
+              <item oor:path="/org.openoffice.Office.Calc/Grid/Option">
+                <prop oor:name="SnapToGrid" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="Synchronize" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="VisibleGrid" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Calc/Print/Page">
+                <prop oor:name="EmptyPages" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="ForceBreaks" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Calc/Print/Other">
+                <prop oor:name="AllSheets" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Draw/Grid">
+              </item>
+              <item oor:path="/org.openoffice.Office.Draw/Grid/Option">
+                <prop oor:name="SnapToGrid" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="Synchronize" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="VisibleGrid" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Draw/Print/Content">
+                <prop oor:name="Drawing" oor:op="fuse"><value>true</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Draw/Print/Page">
+                <prop oor:name="PageSize" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="PageTile" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="Booklet" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="BookletFront" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="BookletBack" oor:op="fuse"><value>true</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Draw/Print/Other">
+                <prop oor:name="PageName" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="Date" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="Time" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="HiddenPage" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="FromPrinterSetup" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Impress/Grid">
+              </item>
+              <item oor:path="/org.openoffice.Office.Impress/Grid/Option">
+                <prop oor:name="SnapToGrid" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="Synchronize" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="VisibleGrid" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Impress/Print/Content">
+                <prop oor:name="Presentation" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="Note" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="Handout" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="Outline" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Impress/Print/Page">
+                <prop oor:name="PageSize" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="PageTile" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="Booklet" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="BookletFront" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="BookletBack" oor:op="fuse"><value>true</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Impress/Print/Other">
+                <prop oor:name="PageName" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="Date" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="Time" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="HiddenPage" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="FromPrinterSetup" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="HandoutHorizontal" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Linguistic/GrammarChecking/SentenceChecking/en">
+                <prop oor:name="grammar" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="cap" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="dup" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="pair" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="spaces" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="mdash" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="quotation" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="times" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="spaces2" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="ndash" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="apostrophe" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="ellipsis" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="spaces3" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="minus" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="metric" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="numsep" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="nonmetric" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Linguistic/GrammarChecking/SentenceChecking/hu_HU">
+                <prop oor:name="cap" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="par" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="quot" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="wordpart" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="dash" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="comma" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="numpart" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="grammar" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="style" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="dup0" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="compound" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="dup" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="allcompound" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="dup2" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="money" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="dup3" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="SI" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="hyphen" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="apost" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="spaces" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="frac" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="ligature" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="elli" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="spaces2" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="thin" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="noligature" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="idx" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="minus" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Linguistic/GrammarChecking/SentenceChecking/pt_BR">
+                <prop oor:name="grammar" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="cap" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="dup" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="pair" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="spaces" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="mdash" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="quotation" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="times" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="spaces2" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="ndash" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="apostrophe" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="ellipsis" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="spaces3" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="minus" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="metric" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="gerund" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="nonmetric" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="paronimo" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="composto" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="malmau" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="aha" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="meiameio" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="verbo" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="pronominal" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="pronome" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="porque" oor:op="fuse"><value>true</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Linguistic/GrammarChecking/SentenceChecking/ru_RU">
+                <prop oor:name="hyphen" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="comma" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="multiword" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="together" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="common" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="space" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="abbreviation" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="dup" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="numsep" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="typographica" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="quotation" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Writer/Grid">
+              </item>
+              <item oor:path="/org.openoffice.Office.Writer/Grid/Option">
+                <prop oor:name="SnapToGrid" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="Synchronize" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="VisibleGrid" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Writer/Print">
+                <prop oor:name="EmptyPages" oor:op="fuse"><value>true</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Writer/Print/Content">
+                <prop oor:name="Graphic" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="Control" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="Background" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="PrintBlack" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="PrintHiddenText" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="PrintPlaceholders" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Writer/Print/Page">
+                <prop oor:name="LeftPage" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="RightPage" oor:op="fuse"><value>true</value></prop>
+                <prop oor:name="Brochure" oor:op="fuse"><value>false</value></prop>
+                <prop oor:name="BrochureRightToLeft" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Writer/Print/Papertray">
+                <prop oor:name="FromPrinterSetup" oor:op="fuse"><value>false</value></prop>
+              </item>
+              <item oor:path="/org.openoffice.Office.Writer/Content/Display">
+                <prop oor:name="ShowBoundaries" oor:op="fuse"><value>true</value></prop>
+              </item>
+            </oor:items>
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]

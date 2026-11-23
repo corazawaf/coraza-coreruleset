@@ -20,7 +20,14 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [920420]
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 920420
+              - 931130
+              - 932190
+              - 932236
+              - 942450
   - test_id: 2
     desc: Renaming a document within Nextcloud Office
     stages:
@@ -37,7 +44,13 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [920420]
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 920420
+              - 932190
+              - 932236
+              - 942450
   - test_id: 3
     desc: Sending access token to Nextcloud Office connector
     stages:
@@ -54,7 +67,14 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [932236]
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 920420
+              - 931130
+              - 932190
+              - 932236
+              - 942450
   - test_id: 4
     desc: Sending access token to Nextcloud Office connector
     stages:
@@ -71,7 +91,14 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [932236]
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 920420
+              - 931130
+              - 932190
+              - 932236
+              - 942450
   - test_id: 5
     desc: Sending access token to Nextcloud Office connector
     stages:
@@ -88,7 +115,14 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [942450]
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 920420
+              - 931130
+              - 932190
+              - 932236
+              - 942450
   - test_id: 6
     desc: Sending access token to Nextcloud Office connector
     stages:
@@ -105,4 +139,11 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [942450]
+            no_expect_ids:
+              - 920272
+              - 920273
+              - 920420
+              - 931130
+              - 932190
+              - 932236
+              - 942450

@@ -52,7 +52,7 @@ tests:
                 </x0:prop>
               </x0:set>
             </x0:mkcol>
-          version: HTTP/1.1 # Original request was HTTP/2.0
+          version: HTTP/2.0
         output:
           log:
             no_expect_ids:

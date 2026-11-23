@@ -1,0 +1,63 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin"
+rule_id: 9508193
+tests:
+  - test_id: 1
+    desc: Make sure body XML body processor is used for text/plain
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/plain;charset=UTF-8
+          port: 80
+          method: POST
+          uri: /remote.php/something
+          data: |-
+            <evil>/bin/bash</evil>
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 2
+    desc: Don't try to parse text/plain if it's a POST to an upload endpoint
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/plain;charset=UTF-8
+          port: 80
+          method: POST
+          uri: /remote.php/dav/files/username/test
+          data: |-
+            <evil>/bin/bash</evil>
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932160]
+  - test_id: 3
+    desc: Don't try to parse text/plain if it's a PUT to an upload endpoint
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: text/plain;charset=UTF-8
+          port: 80
+          method: PUT
+          uri: /remote.php/dav/files/username/test
+          data: |-
+            <evil>/bin/bash</evil>
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932160]

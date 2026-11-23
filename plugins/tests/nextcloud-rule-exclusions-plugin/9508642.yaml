@@ -63,7 +63,7 @@ tests:
           uri: /browser/2229109277/adminIntegratorSettings.html?lang=en
           # yamllint disable-line rule:line-length
           data: 'access_token=1234567890abcdef&access_token_ttl=1785790080&wopi_setting_base_url=https%3A%2F%2Fcollabora.example.com%2Fapps%2Frichdocuments%2Fwopi%2Fsettings&iframe_type=admin&css_variables=--co-primary-text%3D%23000000%3B--co-settings-btn-primary-text%3D%23000000%3B--co-primary-element%3D%230091f2%3B--co-text-accent%3D%230091f2%3B--co-settings-btn-primary%3D%230091f2%3B--co-primary-light%3D%2314232c%3B--co-primary-element-light%3D%2314232c%3B--co-settings-btn-light%3D%2314232c%3B--co-color-error%3D%23552121%3B--co-color-warning%3D%233D3010%3B--co-color-success%3D%2311321A%3B--co-border-radius%3D4px%3B--co-border-radius-large%3D8px%3B--co-loading-light%3D%23777%3B--co-loading-dark%3D%23CCC%3B--co-box-shadow%3D%23000000%3B--co-border%3D%23292929%3B--co-settings-border%3D%23292929%3B--co-border-dark%3D%233b3b3b%3B--co--settings-border-contrast%3D%233b3b3b%3B--co-border-radius-pill%3D100px%3B--co-settings-btn-light-text%3D%2399c2d8%3B--co-settings-text%3D%23EBEBEB%3B--co-settings-text-maxcontrast%3D%23999999%3B--co-settings-background%3D%23171717%3B--co-settings-background-hover%3D%23212121%3B&theme=nextcloud&ui_theme=dark'
-          version: HTTP/1.1 # Original request was HTTP/2.0
+          version: HTTP/2.0
         output:
           log:
             no_expect_ids:

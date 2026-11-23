@@ -22,7 +22,7 @@ tests:
           uri: /standalone-signaling/api/v1/room/7ut9dvgc
           # yamllint disable-line rule:line-length
           data: '{"type":"participants","participants":{"changed":[{"inCall":0,"lastPing":1785991906,"sessionId":"xKON7\/rDFHoPe\/Kwl0ZbXTz7OWsigH8jtyTZXbRiFB+w1vj6kJ9bRPLFy5xIh4V\/Dl6Cmo8xk1E3EZON3Lr4cyfGlERVzqzS3+KXKhQSMVcQWhblOYItUhxKf7vShE57fsOrfWryri9U6DnqqQ3JIuXEw1XPTis\/e1dWkFKVX\/ASlILWkNLjF2zP0pclK9K\/+1ufxiG\/eXhLJaR2NK7lJVJE2DBNUQYFpReN1OPWUnCryVhv2joipQM0mSKfGjc$jYKjFDox6Ok46xFeVJTxNnoVAArHB51pNWcP1Bzl2WGVGkS4nuOhFTFSWPSuuOEG","participantType":1,"participantPermissions":510,"displayName":"Esad Cetiner","actorType":"users","actorId":"esadc","userId":"esadc","permissions":["publish-audio","publish-video","publish-screen","control"]}],"users":[{"inCall":0,"lastPing":1785991906,"sessionId":"xKON7\/rDFHoPe\/Kwl0ZbXTz7OWsigH8jtyTZXbRiFB+w1vj6kJ9bRPLFy5xIh4V\/Dl6Cmo8xk1E3EZON3Lr4cyfGlERVzqzS3+KXKhQSMVcQWhblOYItUhxKf7vShE57fsOrfWryri9U6DnqqQ3JIuXEw1XPTis\/e1dWkFKVX\/ASlILWkNLjF2zP0pclK9K\/+1ufxiG\/eXhLJaR2NK7lJVJE2DBNUQYFpReN1OPWUnCryVhv2joipQM0mSKfGjc$jYKjFDox6Ok46xFeVJTxNnoVAArHB51pNWcP1Bzl2WGVGkS4nuOhFTFSWPSuuOEG","participantType":1,"participantPermissions":510,"displayName":"Esad Cetiner","actorType":"users","actorId":"esadc","userId":"esadc"}]}}'
-          version: HTTP/1.1 # Original Request HTTP/2.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids:

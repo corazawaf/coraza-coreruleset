@@ -1,0 +1,96 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Office: Editing user settings"
+rule_id: 9508561
+tests:
+  - test_id: 1
+    desc: This rule should be disabled by default (expect detections)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: COOLWSD HTTP Agent 26.04.6.1
+            Date: Tue, 10 Nov 2026 07:56:29
+            Authorization: Bearer random-secret
+            Host: localhost
+            X-WOPI-TimeStamp: 639298941899498367
+            Content-Length: 1660
+            X-WOPI-Proof: U3uadfBDVx/tnEPAOHA15HxQRtE2kZZoFXHuZcLrRus/BEgJ1DjzZUDdrRN41/UMw/B+vLYuSNuKB7vZ1m8p8pDLZ3jtitmgPUZeH1gQxDyeGXRTmUnGA/rGPUdBmnTEiYCbDGkwdgtqDeOAQ/Ut2l9niTxBvPrXPQkZsmZ9wPWRC+Tb0PtWJhwsoI3mWqaeHHH3tDdaS0PUhTnVZgfAr1NAB+rVlKE4Xnx2XXjIPH/vLu1ix5UNPYnISOwEFzAy7VU/mDIMFOgwUIuPiekb8ma/xqZPFxfeBNBXLHTc94aF9/Vi6k952ipCOWdxnd3CkArwZYvf129n2Z/ZI3zh6g==
+            X-WOPI-ProofOld: U3uadfBDVx/tnEPAOHA15HxQRtE2kZZoFXHuZcLrRus/BEgJ1DjzZUDdrRN41/UMw/B+vLYuSNuKB7vZ1m8p8pDLZ3jtitmgPUZeH1gQxDyeGXRTmUnGA/rGPUdBmnTEiYCbDGkwdgtqDeOAQ/Ut2l9niTxBvPrXPQkZsmZ9wPWRC+Tb0PtWJhwsoI3mWqaeHHH3tDdaS0PUhTnVZgfAr1NAB+rVlKE4Xnx2XXjIPH/vLu1ix5UNPYnISOwEFzAy7VU/mDIMFOgwUIuPiekb8ma/xqZPFxfeBNBXLHTc94aF9/Vi6k952ipCOWdxnd3CkArwZYvf129n2Z/ZI3zh6g==
+            X-COOL-WOPI-ServerId: 681EAFB8
+            Content-Type: application/json; charset=utf-8
+          port: 80
+          method: POST
+          uri: /index.php/apps/richdocuments/wopi/settings/upload?access_token=123456&access_token_ttl=0&fileId=%2Fsettings%2Fuserconfig%2Fbrowsersetting%2Fbrowsersetting.json
+          data: |-
+            {
+              "WSDFeedbackCount": "24",
+              "WSDFeedbackLaterDate": "1794105159552",
+              "WSDWelcomeVersion": "26.04.6.1",
+              "accessibilityState": false,
+              "compactMode": false,
+              "darkTheme": "true",
+              "defaultZoom": 9,
+              "drawing": {
+                "A11yCheckDeck": false,
+                "ShowAnnotations": true,
+                "ShowNavigator": false,
+                "ShowRuler": false,
+                "ShowSidebar": true,
+                "ShowStatusbar": false,
+                "spellOnline": true
+              },
+              "lockAccessibilityOn": false,
+              "presentation": {
+                "A11yCheckDeck": false,
+                "PropertyDeck": "false",
+                "SdCustomAnimationDeck": true,
+                "SdMasterPagesDeck": "false",
+                "ShowAnnotations": true,
+                "ShowNavigator": false,
+                "ShowNotesPanel": "true",
+                "ShowRuler": false,
+                "ShowSidebar": "false",
+                "ShowStatusbar": false,
+                "StyleListDeck": "false",
+                "spellOnline": true
+              },
+              "recentColor": "[\"F2F2F2\",\"F2F2F2\",\"F2F2F2\",\"F2F2F2\",\"F2F2F2\",\"F2F2F2\",\"F2F2F2\",\"F2F2F2\"]",
+              "smartZoom": true,
+              "smoothScroll": true,
+              "spreadsheet": {
+                "A11yCheckDeck": false,
+                "PropertyDeck": "true",
+                "SdCustomAnimationDeck": "false",
+                "SdMasterPagesDeck": "false",
+                "ShowNavigator": false,
+                "ShowSidebar": true,
+                "ShowStatusbar": false,
+                "StyleListDeck": "false",
+                "spellOnline": false
+              },
+              "text": {
+                "A11yCheckDeck": false,
+                "PropertyDeck": "true",
+                "SdCustomAnimationDeck": "false",
+                "SdMasterPagesDeck": "false",
+                "ShowAnnotations": true,
+                "ShowFormattingMarks": false,
+                "ShowNavigator": false,
+                "ShowRuler": false,
+                "ShowSidebar": false,
+                "ShowStatusbar": false,
+                "StyleListDeck": false,
+                "onboardingTourSeen": "true",
+                "spellOnline": true
+              }
+            }
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids:
+              - 942200
+              - 942430
+              - 942431
+              - 942432
