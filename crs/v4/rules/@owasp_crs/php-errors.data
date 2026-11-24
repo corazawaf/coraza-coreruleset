@@ -91,7 +91,6 @@ Attribute class "
 Automatic conversion of false to array is deprecated
 Backup failed: source database is busy
 Backup failed: source database is locked
-Bad GD2 header
 Bad scan conversion character "
 Bad unserialize data
 Bit field "
@@ -219,14 +218,10 @@ Comparison of incompatible C types
 Corrupt member variable name
 Could not copy from temporary stream - ini file truncated
 Could not create WBMP
-Could not create gdImage
 Could not fetch data, invalid data source
 Could not fetch file name, invalid data source, aborting included file listing
 Could not fetch included file count, invalid data source
 Could not find information about included file...
-Could not get x-size
-Could not get y-size
-Could not read color palette
 Could not save WBMP
 Couldn't fetch backtrace, invalid data source
 Couldn't switch frames, invalid data source
@@ -327,7 +322,6 @@ Generator currently running
 Generator passed to yield from was aborted without proper return and is unable to continue
 Get commit status
 Glob support is not available
-Got chunk
 HTTP request failed!
 HTTP wrapper does not support writeable connections
 Handler name must be a string
@@ -443,7 +437,6 @@ Node must be associated with a document
 Normalizer class not defined
 Not Executing!
 Not a full path given or extension_dir ini setting is not set
-Not a valid gd2 file
 Not enough data available to satisfy format
 Not enough free shared space to allocate
 Not executing, and execution context not set
@@ -563,7 +556,6 @@ Putting int...
 Putting word...
 Read Error: truncated data
 Read-only segment cannot be written
-Reading gd2 header info
 Recursion detected
 Redeclaration of "
 Redefinition of "
@@ -631,6 +623,7 @@ Security protocol must be one of "
 Seeking...
 Server doesn't support FTPS.
 Session id must be a string
+Session object destruction failed
 Set autocommit
 SetConnectOption
 SetStmtOption
@@ -721,7 +714,6 @@ User-supplied statement does not accept constructor arguments
 Using $this when not in object context
 Using ${expr} (variable variables) in strings is deprecated, use {${expr}} instead
 Using ${var} in strings is deprecated, use {$var} instead
-Using raw format data
 Value must be of type string when object ID is a string
 Variable is not assigned by any conversion specifiers
 Variadic function closures are not supported
@@ -730,7 +722,6 @@ VirtualFree() failed
 WeakMap key must be an object
 WebP decode: realloc failed
 Width must be an integer
-Writing index
 Wrong argument number
 Wrong field name
 Wrong type of bit field "
@@ -830,7 +821,6 @@ gd-tga: premature end of image data\n
 gd-webp cannot allocate temporary buffer
 gd-webp cannot get webp info
 gd-webp encoding failed
-gd2 header complete
 gd2: EOF while reading\n
 get_called_class() must be called from within a class
 get_class() without arguments must be called from within a class
@@ -1212,8 +1202,6 @@ zlib window size (logarithm) (
 (path:
 (tried to allocate
 - dynamic modules are not supported
-Chunks Wide
-Chunks vertically
 arguments for the fetch mode provided,
 as execution context, not a valid file or symlink
 bytes (Current memory usage is
@@ -1226,7 +1214,6 @@ cannot be instantiated
 cannot be of type array
 cannot be passed by reference
 cannot contain non abstract method
-chunk index entries
 command is disallowed during hard interrupt
 contains a null byte
 could not be converted to bool
@@ -1358,7 +1345,6 @@ with an empty name
 (): supplied argument is not a valid
 (): supplied resource is not a valid
 ) at index
-) from chunk
 ) is not user defined
 ) the file does not exist
 ), not a regular file or symlink
@@ -1409,7 +1395,6 @@ Access to undeclared static property
 Accessing static property
 Added key '
 Allowed memory size of
-Already Positioned in file to
 An infinite value cannot be converted to base
 Arginfo / zpp mismatch during call of
 Argument number specifier must be greater than zero and less than
@@ -1433,11 +1418,8 @@ Attribute constructor of class
 Attribute value must be of type bool for selected attribute,
 Attribute value must be of type int for selected attribute,
 Backup failed:
-Bad chunk size:
-Bad data format:
 Bad magic format `
 Bad scan conversion character "
-Bad version:
 Bit field "
 Blacklist JIT compilation failed,
 Breakpoint already exists for
@@ -1478,8 +1460,6 @@ Cannot use "
 Cannot use object of type
 Cannot write read-only property
 Checksum failed for '
-ChunkSize:
-Chunks:
 Command array element
 Conditional break
 Could not add variable: OID='
@@ -1490,7 +1470,6 @@ Could not open '
 Could not open file
 Couldn't fetch function
 Creation of dynamic property
-Data starts at
 Declaration does not declare anything at line
 Duplicate field name "
 Duplicate value in enum
@@ -1552,10 +1531,8 @@ Function registration failed - duplicate name -
 Function returning array is not allowed at line
 Function returning function is not allowed at line
 GetAdaptersAddresses failed:
-Got file code:
 Illegal length modifier specified '
 Illegal string offset "
-Image palette completed:
 Implicit conversion from float-string "
 Incompatible types when assigning to type '
 Incomplete C type
@@ -1566,7 +1543,6 @@ Incomplete union "
 Inconsistent entries in `
 Incorrect number of arguments for C function '
 Index must be between 0 and
-Index size is
 Indirect modification of overloaded element of
 Indirect modification of overloaded property
 Instantiation of
@@ -1583,7 +1559,6 @@ Invalid redirect URL!
 It's not possible to assign a complex type to
 KLockers:
 Killed locker
-Largest compressed chunk is
 Loading blacklist file:  '
 MAX_FILE_SIZE of %
 Missing arginfo for
@@ -1642,7 +1617,6 @@ Parsing WSDL: Unexpected extensibility element <
 Parsing WSDL: Unknown encodingStyle '
 Parsing WSDL: Unknown required WSDL extension '
 Passing incompatible argument
-Positioning in file to
 Possible integer overflow in zend_arena_calloc() (
 Precision -1 is only supported for %
 Precision must be between -1 and
@@ -1650,8 +1624,6 @@ Precision must be greater than zero and less than
 Preloading failed to initgroups(\
 Preloading failed to setgid(
 Preloading failed to setuid(
-Processing Chunk
-Processing Chunk (
 REQUEST_BODY_FILE: open('
 Redeclaration of "
 Redefinition of "
@@ -1848,7 +1820,6 @@ remap to huge page
 request_startup() for
 skip Can't bind to LDAP Server - [
 skip Can't connect to MySQL Server - [
-stack overflow (
 string too long: `
 strlen(): Argument #1 ($str) must be of type string,
 unreadable symlink `

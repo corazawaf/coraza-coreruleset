@@ -375,6 +375,7 @@ wp-config_
 /packages.json
 /.DS_Store
 /.ws_ftp.ini
+/WS_FTP.log
 .idea
 nbproject/
 bower.json
