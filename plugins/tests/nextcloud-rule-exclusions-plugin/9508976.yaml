@@ -1,0 +1,42 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Mail: Searching emails using advanced search"
+rule_id: 9508976
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36
+            sec-gpc: 1
+            sec-fetch-site: same-origin
+            content-type: application/json
+            x-requested-with: XMLHttpRequest, XMLHttpRequest
+            sec-ch-ua-mobile: ?0
+            origin: https://cloud.example.com
+            accept: application/json, text/plain, */*
+            sec-ch-ua: '"Chromium";v="152", "Not?A_Brand";v="24", "Brave";v="152"'
+            sec-ch-ua-platform: "Windows"
+            requesttoken: 6KctWH/XgcMFHw5JknHTLa8ShuYBcYWDBqM06fwEINA=:2JZXLzizwI1rKld5xR2pTuAg7L9UGtLtaJteja9iFbg=
+            priority: u=1, i
+            host: cloud.example.com
+            sec-fetch-mode: cors
+            sec-fetch-dest: empty
+            accept-encoding: gzip, deflate, br, zstd
+            accept-language: en-AU,en-US;q=0.9,en;q=0.8
+          port: 80
+          method: POST
+          uri: /apps/mail/api/mailboxes/152/sync
+          version: HTTP/2.0
+          data: '{"ids":[],"lastMessageTimestamp":null,"init":false,"sortOrder":"newest","query":"to:undefined from:no-reply@example.com body:Lost body:connection body:with body:manager. body:Setting body:lock mentions:false match:allof"}'
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 920272
+              - 920273
+              - 942430
+              - 942431
+              - 942432

@@ -1,11 +1,10 @@
 ---
 meta:
   author: "Esad Cetiner"
-  description: "Nextcloud Mail"
+  description: "Nextcloud Mail: Searching emails using basic search"
 rule_id: 9508974
 tests:
   - test_id: 1
-    desc: Searching for messages
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -23,5 +22,27 @@ tests:
               - 920230
               - 920272
               - 920273
+              - 942430
+              - 942431
+              - 942432
+  - test_id: 2
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          uri: /apps/mail/api/messages?mailboxId=152&filter=to:undefined+from:no-reply%40example.com+body:Lost+body:connection+body:with+body:manager.+body:Setting+body:lock+mentions:false+match:allof&limit=20&sort=newest&view=threaded
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920230
+              - 920272
+              - 920273
+              - 942430
               - 942431
               - 942432

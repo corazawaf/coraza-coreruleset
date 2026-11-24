@@ -1,0 +1,24 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Rule Exclusions Plugin: Loading related resources"
+rule_id: 9508517
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: GET
+          uri: /ocs/v2.php/apps/related_resources/related/account?itemId=sabre-vobject-123-456-1789-a-bcdef&resourceType=talk&limit=5&format=json
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids:
+              - 920273
+              - 942431
+              - 942432

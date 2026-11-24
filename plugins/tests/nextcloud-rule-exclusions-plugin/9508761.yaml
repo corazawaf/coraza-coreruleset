@@ -1,0 +1,34 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Nextcloud Talk: Uploading an attachment to a room."
+rule_id: 9508761
+tests:
+  - test_id: 1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            authorization: Basic 123
+            host: localhost
+            ngrok-skip-browser-warning: true
+            ocs-apirequest: true
+            content-length: 330
+            user-agent: Mozilla/5.0 (Android) Nextcloud-Talk v25.0.2
+            accept: application/json
+            content-type: application/json; charset=UTF-8
+            accept-encoding: gzip
+          port: 80
+          method: POST
+          uri: /ocs/v2.php/apps/spreed/api/v1/chat/b63osjgj/attachment
+          data: '{"allowUpdate":false,"fileName":"test","filePath":"/Talk/Note to self-b63osjgj/Draft/e2a90c75-f28e-46a4-8f20-1b97e48efba2-test","referenceId":"9b8e4681d15094438a837bb483fd4a0048969c6311ec15cb1bf55fd2d883-001","talkMetaData":"{\"caption\":\"test\",\"referenceId\":\"9b8e4681d15094438a837bb483fd4a0048969c6311ec15cb1bf55fd2d883-001\"}"}'
+          version: HTTP/2.0
+        output:
+          log:
+            no_expect_ids:
+              - 942200
+              - 942340
+              - 942430
+              - 942431
+              - 942432
+              - 942490
